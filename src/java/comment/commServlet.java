@@ -1,18 +1,19 @@
-package viewAcc;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import java.awt.print.Book;
+package comment;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -22,21 +23,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
-import model.Accessory;
 import model.Comment;
 
 /**
  *
  * @author Chronical
  */
-@WebServlet(urlPatterns = {"/viewAcc"})
-public class viewAcc extends HttpServlet {
+@WebServlet(name = "commServlet", urlPatterns = {"/commServlet"})
+public class commServlet extends HttpServlet {
 
     @Resource(name = "project")
     private DataSource project;
-    protected Connection conn;
+    private Connection conn;
 
     public void init() {
         try {
@@ -59,43 +58,46 @@ public class viewAcc extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-
-            String acc_num = request.getParameter("id");
+            String name = request.getParameter("name");
+            String review = request.getParameter("review");
+            String email = request.getParameter("email");
+            String acc_num = request.getParameter("acc_id");
+            String a = "/SellAcc/viewAcc?id=" + acc_num + "&value=1";
+            String a_f = "/SellAcc/viewAcc?id=" + acc_num + "&value=0";
             int acc_deci = Integer.parseInt(acc_num);
-            String find_acc = "SELECT * FROM accessories WHERE  acc_id = ?";
-            PreparedStatement acc_db = conn.prepareStatement(find_acc);
-            acc_db.setInt(1, acc_deci);
-            ResultSet rs = acc_db.executeQuery();
-            if (rs.next()) {
-                Accessory acc = new Accessory();
-                acc.setAcc_id(acc_deci);
-                acc.setName(rs.getString("name"));
-                acc.setDescription(rs.getString("description"));
-                acc.setPrice(rs.getFloat("price"));
-                acc.setImage(rs.getString("image"));
-                request.setAttribute("acc", acc);
-            }
-            //show comment
-            ArrayList<Comment> comm_list = new ArrayList<Comment>();
-            String find_com = "SELECT com_id,name,review,date FROM comment WHERE acc_acc_id = ?" ;
-            PreparedStatement f = conn.prepareStatement(find_com);
-            f.setInt(1, acc_deci);
-            ResultSet rs_f = f.executeQuery();
-            while (rs_f.next()) {
-                Comment comm = new Comment();
-                comm.setComm_id(rs_f.getInt("com_id"));
-                comm.setName(rs_f.getString("name"));
-                comm.setReview(rs_f.getString("review"));
-                comm.setDate(rs_f.getTimestamp("date"));
-                comm_list.add(comm);
-            }
-            request.setAttribute("comm_list", comm_list);
+            Timestamp date = new Timestamp(System.currentTimeMillis());
             
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/viewacc.jsp");
-            rd.forward(request, response);
+            //find cus_id in customer
+            String find_mem = "SELECT cus_id FROM customer WHERE  name = ? AND email = ?";
+            PreparedStatement f = conn.prepareStatement(find_mem);
+            f.setString(1, name);
+            f.setString(2, email);
+            ResultSet rs_f = f.executeQuery();
+            
+            if (rs_f.next() == false) {
+                response.sendRedirect(a_f);
+                return;
+            }
+            int cus_id = rs_f.getInt("cus_id");
+            
+            
+            //insert in comment table
+            String insert_comm = "INSERT INTO comment"
+                    + "(name, review, date, cus_cus_id , acc_acc_id) VALUES"
+                    + "(?, ?, ?, ?,?)";
+            PreparedStatement c = conn.prepareStatement(insert_comm);
+            c.setString(1, name);
+            c.setString(2, review);
+            c.setTimestamp(3, date);
+            c.setInt(4, cus_id);
+            c.setInt(5, acc_deci);
+            c.executeUpdate();
+            
+           response.sendRedirect(a);
+           
+
         } catch (SQLException ex) {
-            Logger.getLogger(viewAcc.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(commServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

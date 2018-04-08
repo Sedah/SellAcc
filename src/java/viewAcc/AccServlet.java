@@ -57,7 +57,7 @@ public class AccServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            ArrayList<Accessory> acc_list = new ArrayList<Accessory>();;
+            ArrayList<Accessory> acc_list = new ArrayList<Accessory>();
             String find_acc = "SELECT * FROM accessories";
             PreparedStatement acc_db = conn.prepareStatement(find_acc);
             ResultSet rs = acc_db.executeQuery();

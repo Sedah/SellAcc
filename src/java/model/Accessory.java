@@ -19,7 +19,7 @@ public class Accessory {
     private String description;
     private String image;
     private double price;
-    private double cate_cate_id;
+    private int cate_cate_id;
 
     /**
      * @return the acc_id
@@ -101,7 +101,7 @@ public class Accessory {
     /**
      * @param cate_cate_id the cate_cate_id to set
      */
-    public void setCate_cate_id(double cate_cate_id) {
+    public void setCate_cate_id(int cate_cate_id) {
         this.cate_cate_id = cate_cate_id;
     }
     }

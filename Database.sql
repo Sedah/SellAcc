@@ -102,6 +102,38 @@ LOCK TABLES `category` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `comment`
+--
+
+DROP TABLE IF EXISTS `comment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `comment` (
+  `com_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `review` longtext NOT NULL,
+  `date` datetime NOT NULL,
+  `cus_cus_id` int(11) NOT NULL,
+  `acc_acc_id` int(11) NOT NULL,
+  PRIMARY KEY (`com_id`),
+  KEY `cus_cus_id_idx` (`cus_cus_id`),
+  KEY `acc_acc_id_fk_idx` (`acc_acc_id`),
+  CONSTRAINT `acc_acc_id_fk` FOREIGN KEY (`acc_acc_id`) REFERENCES `accessories` (`acc_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `cus_cus_id_fk` FOREIGN KEY (`cus_cus_id`) REFERENCES `customer` (`cus_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comment`
+--
+
+LOCK TABLES `comment` WRITE;
+/*!40000 ALTER TABLE `comment` DISABLE KEYS */;
+INSERT INTO `comment` VALUES (9,'c','          xxx  ','2018-04-08 14:06:40',8,1),(10,'c','            ddd','2018-04-08 14:08:08',8,1),(11,'c','    ss        ','2018-04-08 14:24:07',8,1),(12,'c','            eeeee','2018-04-08 14:56:41',8,2);
+/*!40000 ALTER TABLE `comment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `customer`
 --
 
@@ -163,4 +195,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-06  8:31:16
+-- Dump completed on 2018-04-08 14:59:12
