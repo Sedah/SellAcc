@@ -9,7 +9,7 @@
     </head>
     <body>
         
-        <form action="/register/registerServlet" method="POST">
+        <form action="registerServlet" method="POST">
             register <br>
             username <input type="text" name="user" value="" /> <br>
             password <input type="text" name="pass" value="" /> <br>

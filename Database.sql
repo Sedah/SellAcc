@@ -29,8 +29,7 @@ CREATE TABLE `accessories` (
   `price` float NOT NULL,
   `image` varchar(100) DEFAULT NULL,
   `cate_cate_id` int(11) NOT NULL,
-  PRIMARY KEY (`acc_id`),
-  UNIQUE KEY `acc_id_UNIQUE` (`acc_id`)
+  PRIMARY KEY (`acc_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -185,6 +184,33 @@ LOCK TABLES `member` WRITE;
 INSERT INTO `member` VALUES (8,'a','b',0);
 /*!40000 ALTER TABLE `member` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `order_item`
+--
+
+DROP TABLE IF EXISTS `order_item`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `order_item` (
+  `price` double NOT NULL,
+  `quentity` int(11) NOT NULL,
+  `acc_acc_id` int(11) NOT NULL,
+  `item_num` int(11) NOT NULL,
+  `order_order_id` int(11) NOT NULL,
+  PRIMARY KEY (`acc_acc_id`,`item_num`,`order_order_id`),
+  CONSTRAINT `odi_acc_acc_id_fk` FOREIGN KEY (`acc_acc_id`) REFERENCES `accessories` (`acc_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `order_item`
+--
+
+LOCK TABLES `order_item` WRITE;
+/*!40000 ALTER TABLE `order_item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `order_item` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -195,4 +221,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-08 14:59:12
+-- Dump completed on 2018-04-10 20:13:00

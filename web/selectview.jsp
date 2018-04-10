@@ -14,13 +14,22 @@
         <title>JSP Page</title>
     </head>
     <body>
-    <c:forEach var="acc" items="${acc_list}">
-        <a href="/SellAcc/viewAcc?id=${acc.acc_id}">Acc1</a>
-        ${acc.name} <br>  
-        ${acc.description} <br>   
-        ${acc.price} <br>   
-        ${acc.image} <br>   
-    </c:forEach> 
+        
+            <c:forEach var="acc" items="${acc_list}">
+                <form action="ProcessSelection">
+                <a href="/SellAcc/viewAcc?id=${acc.acc_id}">Acc1</a>
+                ${acc.name} <br>  
+                ${acc.description} <br>   
+                ${acc.price} <br>   
+                ${acc.image} <br>   
+                quentity <input type="text" name="quentity" value="" /> <br>
+                <input type="submit" name ="add" value="Add" /> <br>
+                <input type="hidden" name="acc_id" value=${acc.acc_id} />
+                </form>
+            </c:forEach> 
+                
+        
 
-</body>
+
+    </body>
 </html>
