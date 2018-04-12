@@ -19,12 +19,15 @@
         <% 
             Cart cart = (Cart) session.getAttribute("cart");
         %>
+        <form action="OrderServlet">
         <c:forEach var="acc" items="${cart.accs}">
              ${acc.accessory.name} <br>   
              ${acc.price} <br>  
              ${acc.quentity} <br>  ${acc.amount}
         </c:forEach> <br>
         <h1> Total ${cart.total} Bath </h1>
+        <input type="submit" value="Buy" />
+        </form>
              
     </body>
 </html>

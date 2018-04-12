@@ -5,7 +5,6 @@ package register;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -73,7 +72,7 @@ public class registerServlet extends HttpServlet {
 
             //find same username,email
             String find_sameuser = "SELECT username FROM member WHERE  username = ?";
-            String find_sameemail = "SELECT email FROM customer WHERE  email = ?";
+            String find_sameemail = "SELECT * FROM customer WHERE  email = ? and user_type like 'mem'";
             PreparedStatement sameuser = conn.prepareStatement(find_sameuser);
             sameuser.setString(1, user);
             PreparedStatement sameemail = conn.prepareStatement(find_sameemail);
@@ -84,10 +83,9 @@ public class registerServlet extends HttpServlet {
                 int fail = 1;
                 request.setAttribute("flag", fail);
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/register.jsp");
-                rd.forward(request, response);   
+                rd.forward(request, response);
                 return;
-            }
-            else if (email_rs.next() == true) {
+            } else if (email_rs.next()) {
                 int fail = 1;
                 request.setAttribute("flag", fail);
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/register.jsp");
@@ -102,6 +100,7 @@ public class registerServlet extends HttpServlet {
             PreparedStatement c = conn.prepareStatement(insert_cus);
             c.setString(1, name);
             c.setString(2, email);
+            c.executeUpdate();
 
             //find cus_id in customer
             String find_mem = "SELECT cus_id FROM customer WHERE  name = ? AND email = ?";
@@ -120,7 +119,7 @@ public class registerServlet extends HttpServlet {
             m.setInt(1, cus_id);
             m.setString(2, user);
             m.setString(3, password);
-
+            m.executeUpdate();
             //insert in add
             String insert_add = "INSERT INTO address"
                     + "(province, district, house_num, street, area, postcode, member_cus_id) VALUES"
@@ -133,14 +132,9 @@ public class registerServlet extends HttpServlet {
             a.setString(5, area);
             a.setString(6, postcode);
             a.setInt(7, cus_id);
-
- 
-                c.executeUpdate();
-                m.executeUpdate();
-                a.executeUpdate();
-            
-            out.print("end");
-
+            a.executeUpdate();
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/regis_comp.html");
+            rd.forward(request, response);
         }
     }
 

@@ -58,11 +58,10 @@ CREATE TABLE `address` (
   `street` varchar(100) NOT NULL,
   `area` varchar(100) NOT NULL,
   `postcode` char(5) NOT NULL,
-  `status` enum('valid','invalid') NOT NULL,
+  `status` enum('valid','invalid') NOT NULL DEFAULT 'valid',
   `member_cus_id` int(11) NOT NULL,
   PRIMARY KEY (`add_id`,`member_cus_id`),
-  KEY `member_cus_id_idx` (`member_cus_id`),
-  CONSTRAINT `member_cus_id` FOREIGN KEY (`member_cus_id`) REFERENCES `customer` (`cus_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `member_cus_id_idx` (`member_cus_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -72,7 +71,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (1,'e','f','g','h','i','10125','valid',8);
+INSERT INTO `address` VALUES (1,'','','','','','','valid',24);
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,7 +118,7 @@ CREATE TABLE `comment` (
   KEY `acc_acc_id_fk_idx` (`acc_acc_id`),
   CONSTRAINT `acc_acc_id_fk` FOREIGN KEY (`acc_acc_id`) REFERENCES `accessories` (`acc_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `cus_cus_id_fk` FOREIGN KEY (`cus_cus_id`) REFERENCES `customer` (`cus_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,7 +127,6 @@ CREATE TABLE `comment` (
 
 LOCK TABLES `comment` WRITE;
 /*!40000 ALTER TABLE `comment` DISABLE KEYS */;
-INSERT INTO `comment` VALUES (9,'c','          xxx  ','2018-04-08 14:06:40',8,1),(10,'c','            ddd','2018-04-08 14:08:08',8,1),(11,'c','    ss        ','2018-04-08 14:24:07',8,1),(12,'c','            eeeee','2018-04-08 14:56:41',8,2);
 /*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -145,7 +143,7 @@ CREATE TABLE `customer` (
   `name` varchar(45) NOT NULL,
   `user_type` enum('mem','non') NOT NULL,
   PRIMARY KEY (`cus_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -154,7 +152,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (8,'d','c','mem');
+INSERT INTO `customer` VALUES (24,'ss','ss','mem'),(25,'ss','ss','non');
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -181,8 +179,39 @@ CREATE TABLE `member` (
 
 LOCK TABLES `member` WRITE;
 /*!40000 ALTER TABLE `member` DISABLE KEYS */;
-INSERT INTO `member` VALUES (8,'a','b',0);
+INSERT INTO `member` VALUES (24,'ss','ss',0);
 /*!40000 ALTER TABLE `member` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `order`
+--
+
+DROP TABLE IF EXISTS `order`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `order` (
+  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `buy_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `status_order` enum('wait_verify','verify_pass','verify_not_pass','send','cancle') NOT NULL DEFAULT 'wait_verify',
+  `use_point` int(11) DEFAULT NULL,
+  `recieve point` int(11) DEFAULT NULL,
+  `total_price` float(8,2) NOT NULL,
+  `address` text NOT NULL,
+  `cus_cus_id` int(11) NOT NULL,
+  PRIMARY KEY (`order_id`),
+  KEY `order_cus_cus_id_idx` (`cus_cus_id`),
+  CONSTRAINT `order_cus_cus_id` FOREIGN KEY (`cus_cus_id`) REFERENCES `customer` (`cus_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `order`
+--
+
+LOCK TABLES `order` WRITE;
+/*!40000 ALTER TABLE `order` DISABLE KEYS */;
+/*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -221,4 +250,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-10 20:13:00
+-- Dump completed on 2018-04-12 21:40:19
