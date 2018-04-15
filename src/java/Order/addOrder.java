@@ -160,6 +160,55 @@ public class addOrder extends HttpServlet {
                     ResultSet rs = fc.executeQuery();
                     rs.next();
                     int cus_id = rs.getInt("cus_id");
+                    //get address
+                    String province = request.getParameter("province");
+                    String district = request.getParameter("district");
+                    String house_n = request.getParameter("h_num");
+                    String street = request.getParameter("street");
+                    String area = request.getParameter("area");
+                    String postcode = request.getParameter("postcode");
+                    String address = house_n + street + area + district + province + postcode;
+
+                    //insert order
+                    String insert_order = "INSERT INTO `order`"
+                            + "(buy_date, total_price, cus_cus_id, address) VALUES"
+                            + "(?, ?, ?, ?)";
+
+                    PreparedStatement i = conn.prepareStatement(insert_order);
+                    Timestamp date = new Timestamp(System.currentTimeMillis());
+                    i.setTimestamp(1, date);
+                    i.setDouble(2, total);
+                    i.setInt(3, cus_id);
+                    i.setString(4, address);
+                    i.executeUpdate();
+
+                    //find order_id
+                    String find_order = "SELECT MAX(order_id) as 'order_id' FROM `order` WHERE  cus_cus_id = ?";
+                    PreparedStatement fo = conn.prepareStatement(find_order);
+                    fo.setInt(1, cus_id);
+                    ResultSet rs_i = fo.executeQuery();
+                    rs_i.next();
+                    int order_id = rs_i.getInt("order_id");
+
+                    //insert order_item
+                    List<OrderItem> accs = cart.getAccs();
+                    int item_num = 1;
+                    for (int x = 0; x < accs.size(); x++) {
+                        OrderItem item = accs.get(x);
+                        int acc_id = item.getAcc_id();
+                        double price = item.getPrice();
+                        int quentity = item.getQuentity();
+                        String insert_item = "INSERT INTO order_item"
+                                + " VALUES"
+                                + "(?, ?, ?, ?, ?)";
+                        PreparedStatement i_item = conn.prepareStatement(insert_item);
+                        i_item.setDouble(1, price);
+                        i_item.setInt(2, quentity);
+                        i_item.setInt(3, acc_id);
+                        i_item.setInt(4, item_num);
+                        i_item.setInt(5, order_id);
+                        i_item.executeUpdate();
+                    }
                 } else {
                     //already have
                     int cus_id = rs_f.getInt("cus_id");
