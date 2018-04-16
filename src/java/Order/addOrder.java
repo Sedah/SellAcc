@@ -65,6 +65,7 @@ public class addOrder extends HttpServlet {
             HttpSession session = request.getSession();
             Cart cart = (Cart) session.getAttribute("cart");
             double total = cart.getTotal();
+            int point = (int) cart.getPoint();
 
             //get cus_id for mem and non and insert in order
             String username = (String) session.getAttribute("username");
@@ -91,17 +92,69 @@ public class addOrder extends HttpServlet {
                 String address = rs_a.getString("house_num") + rs_a.getString("street") + rs_a.getString("area")
                         + rs_a.getString("district") + rs_a.getString("province") + rs_a.getString("postcode");
 
+                //select point
+                String find_point = "SELECT point FROM member WHERE cus_cus_id = ?";
+                PreparedStatement fp = conn.prepareStatement(find_point);
+                fp.setInt(1, cus_id);
+                ResultSet rs_fp = fp.executeQuery();
+                rs_fp.next();
+                int c_point = rs_fp.getInt("point");
+                //insert point
+                String insert_point = "UPDATE member"
+                        + " SET point = ?"
+                        + " WHERE cus_cus_id = ?";
+                PreparedStatement p = conn.prepareStatement(insert_point);
+                p.setInt(1, point + c_point);
+                p.setInt(2, cus_id);
+                p.executeUpdate();
+
+                //use point
+                int use_point = (int) session.getAttribute("use_point");
+                //if point not enough
+                if (c_point < use_point) {
+                    int fail = 1;
+                    request.setAttribute("e_point", fail);
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/viewCart.jsp");
+                    rd.forward(request, response);
+                    return;
+                } //if point is Negative number
+                else if (use_point < 0) {
+                    int fail = 2;
+                    request.setAttribute("e_point", fail);
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/viewCart.jsp");
+                    rd.forward(request, response);
+                    return;
+                } // if total is negative number
+                else if ((total - use_point) < 0) {
+                    int fail = 3;
+                    request.setAttribute("e_point", fail);
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/viewCart.jsp");
+                    rd.forward(request, response);
+                    return;
+                } else {
+                    total = total - use_point;
+                    String minus_point = "UPDATE member"
+                            + " SET point = ?"
+                            + " WHERE cus_cus_id = ?";
+                    PreparedStatement mp = conn.prepareStatement(minus_point);
+                    mp.setInt(1, c_point - use_point);
+                    mp.setInt(2, cus_id);
+                    mp.executeUpdate();
+                }
+
                 //insert order
                 String insert_order = "INSERT INTO `order`"
-                        + "(buy_date, total_price, cus_cus_id, address) VALUES"
-                        + "(?, ?, ?, ?)";
+                        + "(buy_date, use_point,recieve_point, total_price, cus_cus_id, address) VALUES"
+                        + "(?, ?, ?, ?, ?,?)";
 
                 PreparedStatement c = conn.prepareStatement(insert_order);
                 Timestamp date = new Timestamp(System.currentTimeMillis());
                 c.setTimestamp(1, date);
-                c.setDouble(2, total);
-                c.setInt(3, cus_id);
-                c.setString(4, address);
+                c.setInt(2, use_point);
+                c.setInt(3, point);
+                c.setDouble(4, total);
+                c.setInt(5, cus_id);
+                c.setString(6, address);
                 c.executeUpdate();
 
                 //find order_id

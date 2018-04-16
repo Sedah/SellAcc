@@ -61,9 +61,6 @@ public class Cart {
         accs = new LinkedList<OrderItem>();
     }
 
-    public void removeItem(String isbn) {
-        getAccs().remove(isbn);
-    }
 
     public double getTotal() {
         double total = 0;
@@ -73,6 +70,13 @@ public class Cart {
             total += amount;
         }
         return total;
+    }
+    public double getPoint() {
+        int point = 0;
+        double totala = 0;
+        totala = this.getTotal();
+        point = (int) (totala/10);
+        return point;
     }
 
 }

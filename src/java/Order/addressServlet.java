@@ -30,7 +30,7 @@ import model.Address;
  *
  * @author Chronical
  */
-@WebServlet(name = "OrderServlet", urlPatterns = {"/OrderServlet"})
+@WebServlet(name = "addressServlet", urlPatterns = {"/addressServlet"})
 public class addressServlet extends HttpServlet {
 
     @Resource(name = "project")
@@ -59,6 +59,13 @@ public class addressServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
+            //get point
+            String up = request.getParameter("use_point");
+                int use_point = 0;
+                try{
+                use_point = Integer.parseInt(up);
+                }catch(NumberFormatException e){}
+
             //get cus_id from member
             String username = (String) session.getAttribute("username");
             String find_mem = "SELECT * FROM member WHERE username = ?";
@@ -91,14 +98,12 @@ public class addressServlet extends HttpServlet {
 
                 }
                 request.setAttribute("add_list", add_list);
+                session.setAttribute("use_point", use_point);
                 //forward to select add
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/mem_order.jsp");
                 rd.forward(request, response);
-                
-            
-           
-            }
-            else {
+
+            } else {
                 //forward to type add
                 RequestDispatcher fd = getServletContext().getRequestDispatcher("/non_order.jsp");
                 fd.forward(request, response);
