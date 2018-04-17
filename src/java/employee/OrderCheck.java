@@ -33,12 +33,14 @@ public class OrderCheck extends HttpServlet {
     @Resource(name = "project")
     private DataSource project;
 
+    @Resource(name = "test")
+    private DataSource test;
     private Connection conn;
     
     public void init()
     {
         try {
-            conn = project.getConnection();
+            conn = test.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger(OrderCheck.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -59,7 +61,7 @@ public class OrderCheck extends HttpServlet {
         
         HttpSession session = request.getSession();
         String employee_name = (String) session.getAttribute("name");
-        String sql = "select * from `order`";
+        String sql = "select * from orders";
         PreparedStatement stmt = conn.prepareStatement(sql);
         ResultSet rs = stmt.executeQuery();
         ResultSetMetaData rsmd = rs.getMetaData();
@@ -68,10 +70,10 @@ public class OrderCheck extends HttpServlet {
         {
             out.print("<a href='Accessory'>In-stock</a> | ");
             out.print("<a href='CategoryCheck'> Category</a> | ");
-            out.print("<a href='PaymentCheck'> Payment</a> | ");
+            out.print("<a href='UpdateStock'> Update </a> | ");
             out.print("<a href='EmLogoutServlet'> Logout</a><br>");
-        out.print("<h1> Order List </h1>");
-        out.print("<table border='1'");
+            out.print("<h1> Order List </h1>");
+            out.print("<table border='1'");
         while (rs.next())
         {
             if (count == 0)
@@ -86,9 +88,28 @@ public class OrderCheck extends HttpServlet {
             out.print("<tr>");
             for (int i=0;i<rsmd.getColumnCount();i++)
             {
-                out.print("<td>"+rs.getString(i+1)+"</td>");
+                if (i == 0)
+                {
+                    out.print("<td>"+rs.getString(i+1)+"</td>");
+                }
+                    
+                else
+                {
+                    out.print("<td>"+rs.getString(i+1)+"</td>");
+                }
+                
                         
             }
+            out.print("<td>");
+                out.print("<form action='OrderDetail'>");
+                for (int i=0;i<rsmd.getColumnCount();i++)
+                {
+                    if (rsmd.getColumnName(i+1).equals("order_id"));
+                        out.print("<button type='submit' label='view' name='view' value='"+rs.getString(1)+"'>view</button><br>");
+                        break;
+                }
+                out.print("</form>");
+                out.print("</td>");
             out.print("</tr>");
             count += 1;
         }

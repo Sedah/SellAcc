@@ -32,12 +32,13 @@ public class UpdateServlet extends HttpServlet {
     @Resource(name = "project")
     private DataSource project;
 
-
+    @Resource(name = "test")
+    private DataSource test;
     private Connection conn;
     
     public void init(){
         try {
-            conn = project.getConnection();
+            conn = test.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger(UpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -62,13 +63,13 @@ public class UpdateServlet extends HttpServlet {
             String description = request.getParameter("description");
             float price = Float.parseFloat(request.getParameter("price"));
             String image = request.getParameter("image");
-            String sql = "insert into accessories value (?,?,?,?,?)";
+            String sql = "insert into accessories (name, description, price, image)  value (?,?,?,?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, acc_id);
-            stmt.setString(2, name);
-            stmt.setString(3, description);
-            stmt.setFloat(4, price);
-            stmt.setString(5, image);
+            //stmt.setString(1, acc_id);
+            stmt.setString(1, name);
+            stmt.setString(2, description);
+            stmt.setFloat(3, price);
+            stmt.setString(4, image);
             stmt.executeUpdate();
             
             response.sendRedirect("Accessory");

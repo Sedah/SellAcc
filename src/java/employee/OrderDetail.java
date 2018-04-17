@@ -9,12 +9,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,18 +27,22 @@ import javax.sql.DataSource;
  *
  * @author Administrator
  */
-@WebServlet(name = "EditServlet", urlPatterns = {"/EditServlet"})
-public class EditServlet extends HttpServlet {
+@WebServlet(name = "OrderDetail", urlPatterns = {"/admin/OrderDetail"})
+public class OrderDetail extends HttpServlet {
+
+    @Resource(name = "project")
+    private DataSource project;
 
     @Resource(name = "test")
     private DataSource test;
-    private Connection con;
+    private Connection conn;
     
-    public void init(){
+    public void init()
+    {
         try {
-            con = test.getConnection();
+            conn = test.getConnection();
         } catch (SQLException ex) {
-            Logger.getLogger(EditServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderDetail.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     /**
@@ -54,24 +58,47 @@ public class EditServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
-            
             HttpSession session = request.getSession();
-            String employee_name = (String) session.getAttribute("name");
-            String acc_id = request.getParameter("acc_id");
-            RequestDispatcher obj = request.getRequestDispatcher("Accessory");
-            String action = request.getParameter("edit");
-            int num =  Integer.parseInt(request.getParameter("num"));
-            if (request.getParameter("num").equals(null))
-                out.print("Please enter valid number");
-            String sql = "update accessories set quantity = quantity"+action+num+" where acc_id = "+acc_id;
-            Statement stmt = con.createStatement();
-            if (employee_name != null)
-                stmt.executeUpdate(sql);
-           
-            response.sendRedirect("Accessory");
+            String order_id = request.getParameter("view");
+            
+            String sql = "select * from orders, payment where orders.order_id = "+order_id+" and payment.order_order_id = "+order_id;
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+            
+            while (rs.next())
+            {
+                
+                for(int i=0;i<rsmd.getColumnCount();i++)
+                {
+                    if (rsmd.getColumnName(i+1).equals("order_id"))
+                        session.setAttribute("order_id", rs.getString(i+1));
+                    if (rsmd.getColumnName(i+1).equals("status_order"))
+                        session.setAttribute("old_status", rs.getString(i+1));
+                    if (i==0)
+                    {
+                        out.println("<h1>"+rsmd.getColumnName(i+1)+"  "+rs.getString(i+1)+"</h1>");
+                        
+                    }
+                    else
+                        out.println(rsmd.getColumnName(i+1)+" : "+rs.getString(i+1)+"<br>");
+                }
+                
+            }
+            out.print("<h1> Change Order Status</h1>");
+            out.print("<form method='POST' action='OrderChange'><select name=\"status_order\">\n" +
+                "<option>wait_verify</option>\n" +
+                "<option>verify_pass</option>\n" +
+                "<option>verify_not_pass\n</option>" +
+                "<option>send\n</option>" +
+                "<option>cancle\n</option>"+
+                "</select><br>"
+                    //+"<input type='hidden' value='"+rs.getString(1)+"'>"
+                    + "<input type='submit' value='update'></form>");
+            
+            
         } catch (SQLException ex) {
-            Logger.getLogger(EditServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderDetail.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

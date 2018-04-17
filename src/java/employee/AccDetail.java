@@ -8,37 +8,34 @@ package employee;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 /**
  *
  * @author Administrator
  */
-@WebServlet(name = "EditServlet", urlPatterns = {"/EditServlet"})
-public class EditServlet extends HttpServlet {
+@WebServlet(name = "AccDetail", urlPatterns = {"/admin/AccDetail"})
+public class AccDetail extends HttpServlet {
 
     @Resource(name = "test")
     private DataSource test;
-    private Connection con;
+    private Connection conn;
     
-    public void init(){
+    public void init()
+    {
         try {
-            con = test.getConnection();
+            conn = test.getConnection();
         } catch (SQLException ex) {
-            Logger.getLogger(EditServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AccDetail.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     /**
@@ -55,23 +52,7 @@ public class EditServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             
-            
-            HttpSession session = request.getSession();
-            String employee_name = (String) session.getAttribute("name");
-            String acc_id = request.getParameter("acc_id");
-            RequestDispatcher obj = request.getRequestDispatcher("Accessory");
-            String action = request.getParameter("edit");
-            int num =  Integer.parseInt(request.getParameter("num"));
-            if (request.getParameter("num").equals(null))
-                out.print("Please enter valid number");
-            String sql = "update accessories set quantity = quantity"+action+num+" where acc_id = "+acc_id;
-            Statement stmt = con.createStatement();
-            if (employee_name != null)
-                stmt.executeUpdate(sql);
            
-            response.sendRedirect("Accessory");
-        } catch (SQLException ex) {
-            Logger.getLogger(EditServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -9,12 +9,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import javax.annotation.Resource;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,18 +30,22 @@ import javax.sql.DataSource;
  *
  * @author Administrator
  */
-@WebServlet(name = "EditServlet", urlPatterns = {"/EditServlet"})
-public class EditServlet extends HttpServlet {
+@WebServlet(name = "LogServlet", urlPatterns = {"/admin/LogServlet"})
+public class LogServlet extends HttpServlet {
+
+    @Resource(name = "project")
+    private DataSource project;
 
     @Resource(name = "test")
     private DataSource test;
-    private Connection con;
+    private Connection conn;
     
-    public void init(){
+    public void init()
+    {
         try {
-            con = test.getConnection();
+            conn = test.getConnection();
         } catch (SQLException ex) {
-            Logger.getLogger(EditServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LogServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     /**
@@ -54,24 +61,46 @@ public class EditServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
-            
             HttpSession session = request.getSession();
-            String employee_name = (String) session.getAttribute("name");
-            String acc_id = request.getParameter("acc_id");
-            RequestDispatcher obj = request.getRequestDispatcher("Accessory");
-            String action = request.getParameter("edit");
-            int num =  Integer.parseInt(request.getParameter("num"));
-            if (request.getParameter("num").equals(null))
-                out.print("Please enter valid number");
-            String sql = "update accessories set quantity = quantity"+action+num+" where acc_id = "+acc_id;
-            Statement stmt = con.createStatement();
-            if (employee_name != null)
-                stmt.executeUpdate(sql);
-           
-            response.sendRedirect("Accessory");
+            String employee_id = (String) session.getAttribute("employee_id");
+            String order_id = (String) session.getAttribute("order_id");
+            String old_status = (String) session.getAttribute("old_status");
+            String new_status = (String) session.getAttribute("new_status");
+            String action = (String) session.getAttribute("action");
+            String sql = "select * from orders where order_id = ?";
+            
+            if (action.equals("status_change"))
+            {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, order_id);
+            ResultSet rs = stmt.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+            rs.next();
+            for (int i=0;i<rsmd.getColumnCount();i++)
+            {
+                
+            }
+            java.sql.Date d = null;
+            Date date = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String date2 = formatter.format(date);
+            
+            
+        
+            //out.print(date2+": Change order "+order_id+"status from "+old_status+" to "+new_status);
+            
+            sql = "insert into employee_order values (?,?,?,?)";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, date2);
+            stmt.setString(2, "Change order "+order_id+" status from "+old_status+" to "+new_status);
+            stmt.setString(3, employee_id);
+            stmt.setString(4, order_id);
+            stmt.executeUpdate();
+            
+            response.sendRedirect("OrderCheck");
+            }
         } catch (SQLException ex) {
-            Logger.getLogger(EditServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LogServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

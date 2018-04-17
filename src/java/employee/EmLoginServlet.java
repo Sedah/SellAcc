@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,11 +32,14 @@ public class EmLoginServlet extends HttpServlet {
 
     @Resource(name = "project")
     private DataSource project;
-    protected Connection conn;
+
+    @Resource(name = "test")
+    private DataSource test;
+    private Connection conn;
     
     public void init(){
         try {
-            conn = project.getConnection();
+            conn = test.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger(EmLoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -61,11 +65,18 @@ public class EmLoginServlet extends HttpServlet {
             stmt.setString(1, username);
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
             HttpSession session = request.getSession(rs.next());
             if (session != null)
             {
-                session.setAttribute("name", rs.getString(2));
                 
+                for(int i=0;i<rsmd.getColumnCount();i++)
+                {
+                    if (rsmd.getColumnName(i+1).equals("name"))
+                        session.setAttribute("name", rs.getString(i+1));
+                    if (rsmd.getColumnName(i+1).equals("employee_id"))
+                        session.setAttribute("employee_id", rs.getString(i+1));
+                }
                 response.sendRedirect("admin/Accessory");
             }
             else

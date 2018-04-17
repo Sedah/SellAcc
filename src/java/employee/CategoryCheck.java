@@ -33,13 +33,14 @@ public class CategoryCheck extends HttpServlet {
     @Resource(name = "project")
     private DataSource project;
 
-
+    @Resource(name = "test")
+    private DataSource test;
     private Connection conn;
     
     public void init()
     {
         try {
-            conn = project.getConnection();
+            conn = test.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger(CategoryCheck.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -69,7 +70,7 @@ public class CategoryCheck extends HttpServlet {
         {
             out.print("<a href='Accessory'>In-stock</a> | ");
             out.print("<a href='OrderCheck'> Order</a> | ");
-            out.print("<a href='PaymentCheck'> Payment</a> |"  );
+            out.print("<a href='UpdateStock'> Update </a> | ");
             out.print("<a href='EmLogoutServlet'> Logout</a><br>");
             out.print("<h1> Category </h1>");
             out.print("<table border='1'>");
