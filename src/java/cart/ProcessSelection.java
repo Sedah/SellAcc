@@ -8,6 +8,9 @@ package cart;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -29,14 +32,7 @@ public class ProcessSelection extends HttpServlet {
 
     @Resource(name = "project")
     private DataSource project;
-    private Connection conn;
-public void init() {
-        try {
-            conn = project.getConnection();
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-    }
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -48,6 +44,12 @@ public void init() {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Connection conn = null;
+               try {
+            conn = project.getConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger("connection-error").log(Level.SEVERE, null, ex);
+        }
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession(true);

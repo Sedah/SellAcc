@@ -29,16 +29,6 @@ public class AccDetail extends HttpServlet {
    @Resource(name = "project")
     private DataSource project;
     
-    private Connection conn;
-    
-    public void init()
-    {
-        try {
-            conn = project.getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(AccDetail.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.

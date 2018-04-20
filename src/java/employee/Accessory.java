@@ -48,7 +48,7 @@ public class Accessory extends HttpServlet {
                try {
             conn = project.getConnection();
         } catch (SQLException ex) {
-            Logger.getLogger(OrderDetail.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger("connection-error").log(Level.SEVERE, null, ex);
         }
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
@@ -114,7 +114,7 @@ public class Accessory extends HttpServlet {
             try {
                 conn.close();
             } catch (SQLException ex) {
-                Logger.getLogger(OrderDetail.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger("connection-close").log(Level.SEVERE, null, ex);
             }
         }
     }
