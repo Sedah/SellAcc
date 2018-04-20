@@ -62,9 +62,10 @@ public class UpdateServlet extends HttpServlet {
             HttpSession session = request.getSession();
             String employee_name = (String) session.getAttribute("name");
             String name = request.getParameter("name");
-            String description = request.getParameter("desp");
+            String description = request.getParameter("description");
             float price = Float.parseFloat(request.getParameter("price"));
             String image = request.getParameter("image");
+            String cate_name = request.getParameter("cate_name");
             
             ArrayList<Category> cat_list = new ArrayList<Category>();
             String find_cat = "SELECT * FROM category";
@@ -78,14 +79,23 @@ public class UpdateServlet extends HttpServlet {
 
             }
             request.setAttribute("cat_list", cat_list);
-
-            String sql = "insert into accessories (name, description, price, image)  value (?,?,?,?)";
+            
+            
+            
+            String find_cat_id = "SELECT * FROM category WHERE name = ?";
+            PreparedStatement i = conn.prepareStatement(find_cat_id);
+            i.setString(1, cate_name);
+            ResultSet cat_detail = c.executeQuery();
+            cat_detail.next();
+            int cat_id = cat_detail.getInt("cate_id");
+            String sql = "insert into accessories (name, description, price, image, cate_cate_id)  value (?,?,?,?,?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             //stmt.setString(1, acc_id);
             stmt.setString(1, name);
             stmt.setString(2, description);
             stmt.setFloat(3, price);
             stmt.setString(4, image);
+            stmt.setInt(5, cat_id);
             stmt.executeUpdate();
             
             response.sendRedirect("Accessory");
