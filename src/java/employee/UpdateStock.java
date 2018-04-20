@@ -32,14 +32,12 @@ public class UpdateStock extends HttpServlet {
     @Resource(name = "project")
     private DataSource project;
 
-    @Resource(name = "test")
-    private DataSource test;
     private Connection conn;
     
     public void init()
     {
         try {   
-            conn = test.getConnection();
+            conn = project.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger(UpdateStock.class.getName()).log(Level.SEVERE, null, ex);
         }

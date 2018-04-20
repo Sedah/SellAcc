@@ -30,13 +30,15 @@ import javax.sql.DataSource;
 @WebServlet(name = "EditServlet", urlPatterns = {"/EditServlet"})
 public class EditServlet extends HttpServlet {
 
-    @Resource(name = "test")
-    private DataSource test;
+@Resource(name = "project")
+    private DataSource project;
+    
+    private Connection conn;
     private Connection con;
     
     public void init(){
         try {
-            con = test.getConnection();
+            con = project.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger(EditServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

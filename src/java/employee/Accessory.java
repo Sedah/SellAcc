@@ -57,7 +57,6 @@ public class Accessory extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
             String employee_name = (String) session.getAttribute("name");
-            String employee_id = (String) session.getAttribute("employee_id");
             String sql = "select * from accessories";
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
@@ -69,11 +68,10 @@ public class Accessory extends HttpServlet {
             
             out.print("<a href='OrderCheck'>Order </a> |");
             out.print("<a href='CategoryCheck'> Category</a> | ");
-            out.print("<a href='UpdateStock'> Update </a> | ");
+            out.print("<a href='UpdateStock'> Add Product </a> | ");
             out.print("<a href='EmLogoutServlet'> Logout</a><br>");
             
             out.print("<h2> Hello "+employee_name+"</h2>");
-            out.print("<h2> Employee ID: "+employee_id+"</h2>");
             
             out.print("<h1> In Stock </h1>");
             out.print("<table border = '1'>");
@@ -106,7 +104,6 @@ public class Accessory extends HttpServlet {
                 count += 1;
             }
             out.print("</table>");
-            out.print("<a href='/SellAcc/admin/AddProduct.jsp'>Add Product </a> |");
             
             }
             else

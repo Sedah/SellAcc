@@ -26,14 +26,15 @@ import javax.sql.DataSource;
 @WebServlet(name = "AccDetail", urlPatterns = {"/admin/AccDetail"})
 public class AccDetail extends HttpServlet {
 
-    @Resource(name = "test")
-    private DataSource test;
+   @Resource(name = "project")
+    private DataSource project;
+    
     private Connection conn;
     
     public void init()
     {
         try {
-            conn = test.getConnection();
+            conn = project.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger(AccDetail.class.getName()).log(Level.SEVERE, null, ex);
         }
