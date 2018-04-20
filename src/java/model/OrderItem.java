@@ -5,6 +5,7 @@
  */
 package model;
 
+import employee.OrderDetail;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,12 +14,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Resource;
+import javax.servlet.ServletContext;
+import javax.sql.DataSource;
 
 /**
  *
  * @author Chronical
  */
 public class OrderItem {
+        
+    private ServletContext context;
 
     private double price;
     private int quentity;
@@ -26,10 +32,9 @@ public class OrderItem {
     private int acc_id;
     private int item_num;
     private double amount;
-    private Connection conn;
 
-    public OrderItem(Connection conn) {
-        this.conn = conn;
+    public OrderItem(ServletContext context) {
+        this.context = context;
     }
 
     /**
@@ -110,6 +115,9 @@ public class OrderItem {
     }
 
     public Accessory getAccessory() throws SQLException {
+              DataSource ds = (DataSource) context.getAttribute("dataSource");
+            Connection conn = ds.getConnection();
+            
         String sql = "SELECT * FROM accessories WHERE  acc_id = ?";
         PreparedStatement s_acc = conn.prepareStatement(sql);
         s_acc.setInt(1, acc_id);
@@ -122,6 +130,14 @@ public class OrderItem {
         acc.setImage(rs.getString("image"));
         acc.setCate_cate_id(rs.getInt("cate_cate_id"));
         acc.setName(rs.getString("name"));
+        
+        if(conn !=null){
+            try{
+                conn.close();
+            }catch(SQLException e){
+                
+            }
+        }
         return acc;
 
     }

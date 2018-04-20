@@ -53,7 +53,7 @@ public void init() {
             HttpSession session = request.getSession(true);
             Cart cart = (Cart) session.getAttribute("cart");
             if (cart == null) {
-                cart = new Cart(conn);
+                cart = new Cart(request.getServletContext());
                 session.setAttribute("cart", cart);
             }
             String accid = request.getParameter("acc_id");

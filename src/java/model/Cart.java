@@ -5,10 +5,14 @@
  */
 package model;
 
+import employee.OrderDetail;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Resource;
+import javax.servlet.ServletContext;
+import javax.sql.DataSource;
 
 /**
  *
@@ -16,11 +20,14 @@ import java.util.logging.Logger;
  */
 public class Cart {
 
+    private ServletContext context;
     private List<OrderItem> accs;
-    Connection conn;
 
     public void addItem(int acc_id, int quentity) {
         try {
+            DataSource ds = (DataSource) context.getAttribute("dataSource");
+            Connection conn = ds.getConnection();
+
             OrderItem item = null;
             for (int i = 0; i < accs.size(); i++) {
                 OrderItem check = accs.get(i);
@@ -36,7 +43,7 @@ public class Cart {
                 s_acc.setInt(1, acc_id);
                 ResultSet rs = s_acc.executeQuery();
                 while (rs.next()) {
-                    OrderItem acc = new OrderItem(conn);
+                    OrderItem acc = new OrderItem(context);
                     acc.setAcc_id(acc_id);
                     acc.setQuentity(quentity);
                     acc.setPrice(rs.getDouble("price"));
@@ -47,6 +54,8 @@ public class Cart {
                 quentity = item.getQuentity() + quentity;
                 item.setQuentity(quentity);
             }
+            
+            conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(Cart.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -56,8 +65,8 @@ public class Cart {
         return accs;
     }
 
-    public Cart(Connection conn) {
-        this.conn = conn;
+    public Cart(ServletContext context) {
+        this.context = context;
         accs = new LinkedList<OrderItem>();
     }
 

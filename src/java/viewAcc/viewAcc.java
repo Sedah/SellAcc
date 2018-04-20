@@ -36,15 +36,7 @@ public class viewAcc extends HttpServlet {
 
     @Resource(name = "project")
     private DataSource project;
-    protected Connection conn;
-
-    public void init() {
-        try {
-            conn = project.getConnection();
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-    }
+  
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -57,6 +49,12 @@ public class viewAcc extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Connection conn = null;
+               try {
+            conn = project.getConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger("connection-error").log(Level.SEVERE, null, ex);
+        }
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -96,6 +94,13 @@ public class viewAcc extends HttpServlet {
             rd.forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(viewAcc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(conn != null){
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger("connection-close").log(Level.SEVERE, null, ex);
+            }
         }
     }
 

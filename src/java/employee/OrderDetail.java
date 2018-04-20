@@ -33,16 +33,7 @@ public class OrderDetail extends HttpServlet {
     @Resource(name = "project")
     private DataSource project;
 
-    private Connection conn;
     
-    public void init()
-    {
-        try {
-            conn = project.getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(OrderDetail.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -54,12 +45,18 @@ public class OrderDetail extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Connection conn = null;
+               try {
+            conn = project.getConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDetail.class.getName()).log(Level.SEVERE, null, ex);
+        }
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
             String order_id = request.getParameter("view");
             
-            String sql = "select * from orders, payment where orders.order_id = "+order_id+" and payment.order_order_id = "+order_id;
+            String sql = "select * from `order`, payment where orders.order_id = "+order_id+" and payment.order_order_id = "+order_id;
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             ResultSetMetaData rsmd = rs.getMetaData();
@@ -97,6 +94,14 @@ public class OrderDetail extends HttpServlet {
             
         } catch (SQLException ex) {
             Logger.getLogger(OrderDetail.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(conn != null){
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(OrderDetail.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

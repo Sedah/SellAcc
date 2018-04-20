@@ -381,7 +381,7 @@
                     <input class="form-control" id="name" type="text" name="name" placeholder="Full name"/>
                   </div>
                   <div class="form-group">
-                    <input class="form-control" id="E-mail" type="text" name="mail" placeholder="Email"/>
+                    <input class="form-control" id="E-mail" type="text" name="email" placeholder="Email"/>
                   </div>
                   <div class="form-group">
                     <input class="form-control" id="address" type="text" name="province" placeholder="Province"/>

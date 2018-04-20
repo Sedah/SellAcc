@@ -32,16 +32,6 @@ public class OrderChange extends HttpServlet {
     @Resource(name = "project")
     private DataSource project;
 
-
-    private Connection conn;
-    
-    public void init(){
-        try {
-            conn = project.getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(OrderChange.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -53,6 +43,12 @@ public class OrderChange extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+                Connection conn = null;
+               try {
+            conn = project.getConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger("connection-error").log(Level.SEVERE, null, ex);
+        }
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
@@ -69,6 +65,13 @@ public class OrderChange extends HttpServlet {
             response.sendRedirect("LogServlet");
         } catch (SQLException ex) {
             Logger.getLogger(OrderChange.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(conn != null){
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger("connection-close").log(Level.SEVERE, null, ex);
+            }
         }
     }
 

@@ -34,15 +34,6 @@ public class registerServlet extends HttpServlet {
     @Resource(name = "project")
     private DataSource project;
 
-    private Connection conn;
-
-    public void init() {
-        try {
-            conn = project.getConnection();
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -56,6 +47,12 @@ public class registerServlet extends HttpServlet {
     //ถ้า customer เคยซื้อแล้วอยากสมัครสมาชิกจะทำการสร้ง cus_id ใหม่ เพื่อไม่ให้มีประวัติการสั่งซื้อเก่าไว้ เนื่องจากลูกค้าพึ่งสมัครสมาชิกไม่ควรมีประวัติการสั่งซื้อเก่า
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
+        Connection conn = null;
+               try {
+            conn = project.getConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger("connection-error").log(Level.SEVERE, null, ex);
+        }
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -135,6 +132,13 @@ public class registerServlet extends HttpServlet {
             a.executeUpdate();
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/regis_comp.html");
             rd.forward(request, response);
+        }
+        if(conn != null){
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger("connection-close").log(Level.SEVERE, null, ex);
+            }
         }
     }
 

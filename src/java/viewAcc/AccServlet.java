@@ -34,15 +34,7 @@ public class AccServlet extends HttpServlet {
 
     @Resource(name = "project")
     private DataSource project;
-    protected Connection conn;
 
-    public void init() {
-        try {
-            conn = project.getConnection();
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -55,6 +47,12 @@ public class AccServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Connection conn = null;
+               try {
+            conn = project.getConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger("connection-error").log(Level.SEVERE, null, ex);
+        }
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             ArrayList<Accessory> acc_list = new ArrayList<Accessory>();
@@ -75,6 +73,13 @@ public class AccServlet extends HttpServlet {
             rd.forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(AccServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(conn != null){
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger("connection-close").log(Level.SEVERE, null, ex);
+            }
         }
     }
 
