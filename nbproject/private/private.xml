@@ -4,42 +4,19 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/WebPro/SellAcc/src/java/viewAcc/viewAcc.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/register/registerServlet.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/Login/LoginFilter.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/employee/Login.java</file>
+            <file>file:/D:/WebPro/SellAcc/src/java/payment/paymentServlet.java</file>
+            <file>file:/D:/WebPro/SellAcc/src/java/Order/addOrder.java</file>
             <file>file:/D:/WebPro/SellAcc/src/java/viewAcc/AccServlet.java</file>
             <file>file:/D:/WebPro/SellAcc/src/java/employee/PaymentCheck.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/employee/EmLoginServlet.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/cart/ProcessSelection.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/employee/LogServlet.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/AddDataSourceListener.java</file>
-            <file>file:/D:/WebPro/SellAcc/web/WEB-INF/web.xml</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/model/Cart.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/Order/addressServlet.java</file>
-            <file>file:/D:/WebPro/SellAcc/web/payment.jsp</file>
-            <file>file:/D:/WebPro/SellAcc/web/viewCart.jsp</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/employee/OrderChange.java</file>
-            <file>file:/D:/WebPro/SellAcc/web/META-INF/context.xml</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/model/Comment.java</file>
-            <file>file:/D:/WebPro/SellAcc/web/non_order.jsp</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/Order/addOrder.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/model/OrderItem.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/employee/AddCateServlet.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/employee/CategoryCheck.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/employee/OrderCheck.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/model/Address.java</file>
-            <file>file:/D:/WebPro/SellAcc/web/admin/Addcate.jsp</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/employee/Accessory.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/employee/UpdateStock.java</file>
+            <file>file:/D:/WebPro/SellAcc/web/pay_comp.jsp</file>
             <file>file:/D:/WebPro/SellAcc/src/java/employee/EditServlet.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/employee/UpdateServlet.java</file>
             <file>file:/D:/WebPro/SellAcc/src/java/employee/OrderDetail.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/model/Accessory.java</file>
+            <file>file:/D:/WebPro/SellAcc/src/java/employee/LogServlet.java</file>
             <file>file:/D:/WebPro/SellAcc/src/java/Login/loginServlet.java</file>
             <file>file:/D:/WebPro/SellAcc/src/java/employee/EmLogoutServlet.java</file>
-            <file>file:/D:/WebPro/SellAcc/web/selectview.jsp</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/employee/AccDetail.java</file>
             <file>file:/D:/WebPro/SellAcc/src/java/comment/commServlet.java</file>
+            <file>file:/D:/WebPro/SellAcc/web/payment.jsp</file>
+            <file>file:/D:/WebPro/SellAcc/web/viewCart.jsp</file>
         </group>
     </open-files>
 </project-private>

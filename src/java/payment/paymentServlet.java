@@ -3,37 +3,39 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package employee;
+package payment;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 /**
  *
- * @author Administrator
+ * @author Chronical
  */
-@WebServlet(name = "OrderDetail", urlPatterns = {"/admin/OrderDetail"})
-public class OrderDetail extends HttpServlet {
+@WebServlet(name = "paymentServlet", urlPatterns = {"/paymentServlet"})
+public class paymentServlet extends HttpServlet {
 
     @Resource(name = "project")
     private DataSource project;
 
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -46,63 +48,69 @@ public class OrderDetail extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Connection conn = null;
-               try {
+        try {
             conn = project.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger("connection-error").log(Level.SEVERE, null, ex);
         }
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            String order_id = request.getParameter("view");
-            
-            String sql = "select * from `order` o left join payment p on o.order_id = p.order_order_id where order_id = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, order_id);
-            ResultSet rs = stmt.executeQuery();
-            ResultSetMetaData rsmd = rs.getMetaData();
-            
-            while (rs.next())
-            {
-                
-                for(int i=0;i<rsmd.getColumnCount();i++)
-                {
-                    if (rsmd.getColumnName(i+1).equals("order_id"))
-                        session.setAttribute("order_id", rs.getString(i+1));
-                    if (rsmd.getColumnName(i+1).equals("status_order"))
-                        session.setAttribute("old_status", rs.getString(i+1));
-                    if (i==0)
-                    {
-                        out.println("<h1>"+rsmd.getColumnName(i+1)+"  "+rs.getString(i+1)+"</h1>");
-                        
-                    }
-                    else
-                        out.println(rsmd.getColumnName(i+1)+" : "+rs.getString(i+1)+"<br>");
-                }
-                
-            }
-            out.print("<h1> Change Order Status</h1>");
-            out.print("<form method='POST' action='OrderChange'><select name=\"status_order\">\n" +
-                "<option>wait_verify</option>\n" +
-                "<option>verify_pass</option>\n" +
-                "<option>verify_not_pass\n</option>" +
-                "<option>send\n</option>" +
-                "<option>cancle\n</option>"+
-                "</select><br>"
-                    //+"<input type='hidden' value='"+rs.getString(1)+"'>"
-                    + "<input type='submit' value='update'></form>");
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(OrderDetail.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        if(conn != null){
+            String oid = request.getParameter("order_id");
+            String s_date = request.getParameter("date");
+            String s_time = request.getParameter("time");
+            String s_amount = request.getParameter("amount");
+            String url = request.getParameter("image");
+            String timestamp = s_date.concat(' ' + s_time);
+
+            int order_id = Integer.parseInt(oid);
+            double amount = Double.parseDouble(s_amount);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+            Date date = null;
             try {
-                conn.close();
-            } catch (SQLException ex) {
-                Logger.getLogger("connection-close").log(Level.SEVERE, null, ex);
+                date = simpleDateFormat.parse(timestamp);
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
+            if (date == null){
+                int fail = 2;
+                request.setAttribute("payment", fail);
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/payment.jsp");
+                rd.forward(request, response);
+                return;
+            }
+            Timestamp time = new Timestamp(date.getTime());
+            System.out.println(time);
+
+            //check order_id
+            String find_id = "SELECT order_id FROM `order` WHERE order_id = ?";
+            PreparedStatement fo = conn.prepareStatement(find_id);
+            fo.setInt(1, order_id);
+            ResultSet rs_fo = fo.executeQuery();
+            if (!rs_fo.next()) {
+                int fail = 1;
+                request.setAttribute("payment", fail);
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/payment.jsp");
+                rd.forward(request, response);
+                return;
+            }
+            
+            //insert payment
+            String insert_payment = "INSERT INTO payment"
+                    + "(date, amount,type, image, order_order_id) VALUES"
+                    + "(?, ?, ?, ?, ?)";
+
+            PreparedStatement c = conn.prepareStatement(insert_payment);
+            c.setTimestamp(1, time);
+            c.setDouble(2, amount);
+            c.setString(3, "money-trans");
+            c.setString(4, url);
+            c.setInt(5, order_id);
+            c.executeUpdate();
+            //forward to order comp
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/pay_comp.jsp");
+            rd.forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(paymentServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
