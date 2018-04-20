@@ -27,8 +27,8 @@ import javax.sql.DataSource;
  *
  * @author Administrator
  */
-@WebServlet(name = "CategoryCheck", urlPatterns = {"/admin/CategoryCheck"})
-public class CategoryCheck extends HttpServlet {
+@WebServlet(name = "OrderDetail", urlPatterns = {"/admin/OrderDetail"})
+public class OrderDetail extends HttpServlet {
 
     @Resource(name = "project")
     private DataSource project;
@@ -42,7 +42,7 @@ public class CategoryCheck extends HttpServlet {
         try {
             conn = test.getConnection();
         } catch (SQLException ex) {
-            Logger.getLogger(CategoryCheck.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderDetail.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     /**
@@ -58,50 +58,47 @@ public class CategoryCheck extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-        HttpSession session = request.getSession();
-        String employee_name = (String) session.getAttribute("name");
-        PreparedStatement stmt = conn.prepareStatement("select * from category");
-        ResultSet rs = stmt.executeQuery();
-        ResultSetMetaData rsmd = rs.getMetaData();
-        int count = 0;
-        
-        
-        if (employee_name != null)
-        {
-            out.print("<a href='Accessory'>In-stock</a> | ");
-            out.print("<a href='OrderCheck'> Order</a> | ");
-            out.print("<a href='UpdateStock'> Update </a> | ");
-            out.print("<a href='EmLogoutServlet'> Logout</a><br>");
-            out.print("<h1> Category </h1>");
-            out.print("<form action='AddCateServlet'>");
-            out.print("add category: <input type='text' name='cate'>");
-            out.print("<input type='submit' value='Add'</form><br><br>");
-            out.print("<table border='1'>");
-        while (rs.next())
-        {
-            if (count == 0)
+            HttpSession session = request.getSession();
+            String order_id = request.getParameter("view");
+            
+            String sql = "select * from orders, payment where orders.order_id = "+order_id+" and payment.order_order_id = "+order_id;
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+            
+            while (rs.next())
             {
-                out.print("<tr>");
-                for (int i=0;i<rsmd.getColumnCount();i++)
+                
+                for(int i=0;i<rsmd.getColumnCount();i++)
                 {
-                    out.print("<td>"+ rsmd.getColumnName(i+1)+"</td>");
+                    if (rsmd.getColumnName(i+1).equals("order_id"))
+                        session.setAttribute("order_id", rs.getString(i+1));
+                    if (rsmd.getColumnName(i+1).equals("status_order"))
+                        session.setAttribute("old_status", rs.getString(i+1));
+                    if (i==0)
+                    {
+                        out.println("<h1>"+rsmd.getColumnName(i+1)+"  "+rs.getString(i+1)+"</h1>");
+                        
+                    }
+                    else
+                        out.println(rsmd.getColumnName(i+1)+" : "+rs.getString(i+1)+"<br>");
                 }
-                out.print("</tr>");
+                
             }
-            out.print("<tr>");
-            for (int i=0;i<rsmd.getColumnCount();i++)
-            {
-                out.print("<td>"+rs.getString(i+1)+"</td>");    
-            }
-            out.print("</tr>");
-            count += 1;
-        }
-        out.print("</table>");
-        }
-        else
-            response.sendRedirect("Accessory");
+            out.print("<h1> Change Order Status</h1>");
+            out.print("<form method='POST' action='OrderChange'><select name=\"status_order\">\n" +
+                "<option>wait_verify</option>\n" +
+                "<option>verify_pass</option>\n" +
+                "<option>verify_not_pass\n</option>" +
+                "<option>send\n</option>" +
+                "<option>cancle\n</option>"+
+                "</select><br>"
+                    //+"<input type='hidden' value='"+rs.getString(1)+"'>"
+                    + "<input type='submit' value='update'></form>");
+            
+            
         } catch (SQLException ex) {
-            Logger.getLogger(CategoryCheck.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderDetail.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -65,6 +65,7 @@ public class UpdateServlet extends HttpServlet {
             String description = request.getParameter("desp");
             float price = Float.parseFloat(request.getParameter("price"));
             String image = request.getParameter("image");
+            
             ArrayList<Category> cat_list = new ArrayList<Category>();
             String find_cat = "SELECT * FROM category";
             PreparedStatement c = conn.prepareStatement(find_cat);
@@ -77,10 +78,17 @@ public class UpdateServlet extends HttpServlet {
 
             }
             request.setAttribute("cat_list", cat_list);
-            
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/admin/Addcate.jsp");
-            rd.forward(request, response);
 
+            String sql = "insert into accessories (name, description, price, image)  value (?,?,?,?)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            //stmt.setString(1, acc_id);
+            stmt.setString(1, name);
+            stmt.setString(2, description);
+            stmt.setFloat(3, price);
+            stmt.setString(4, image);
+            stmt.executeUpdate();
+            
+            response.sendRedirect("Accessory");
         } catch (SQLException ex) {
             Logger.getLogger(UpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
         } 

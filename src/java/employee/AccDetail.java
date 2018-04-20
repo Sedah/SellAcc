@@ -8,9 +8,6 @@ package employee;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,18 +17,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 /**
  *
  * @author Administrator
  */
-@WebServlet(name = "CategoryCheck", urlPatterns = {"/admin/CategoryCheck"})
-public class CategoryCheck extends HttpServlet {
-
-    @Resource(name = "project")
-    private DataSource project;
+@WebServlet(name = "AccDetail", urlPatterns = {"/admin/AccDetail"})
+public class AccDetail extends HttpServlet {
 
     @Resource(name = "test")
     private DataSource test;
@@ -42,7 +35,7 @@ public class CategoryCheck extends HttpServlet {
         try {
             conn = test.getConnection();
         } catch (SQLException ex) {
-            Logger.getLogger(CategoryCheck.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AccDetail.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     /**
@@ -58,50 +51,8 @@ public class CategoryCheck extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-        HttpSession session = request.getSession();
-        String employee_name = (String) session.getAttribute("name");
-        PreparedStatement stmt = conn.prepareStatement("select * from category");
-        ResultSet rs = stmt.executeQuery();
-        ResultSetMetaData rsmd = rs.getMetaData();
-        int count = 0;
-        
-        
-        if (employee_name != null)
-        {
-            out.print("<a href='Accessory'>In-stock</a> | ");
-            out.print("<a href='OrderCheck'> Order</a> | ");
-            out.print("<a href='UpdateStock'> Update </a> | ");
-            out.print("<a href='EmLogoutServlet'> Logout</a><br>");
-            out.print("<h1> Category </h1>");
-            out.print("<form action='AddCateServlet'>");
-            out.print("add category: <input type='text' name='cate'>");
-            out.print("<input type='submit' value='Add'</form><br><br>");
-            out.print("<table border='1'>");
-        while (rs.next())
-        {
-            if (count == 0)
-            {
-                out.print("<tr>");
-                for (int i=0;i<rsmd.getColumnCount();i++)
-                {
-                    out.print("<td>"+ rsmd.getColumnName(i+1)+"</td>");
-                }
-                out.print("</tr>");
-            }
-            out.print("<tr>");
-            for (int i=0;i<rsmd.getColumnCount();i++)
-            {
-                out.print("<td>"+rs.getString(i+1)+"</td>");    
-            }
-            out.print("</tr>");
-            count += 1;
-        }
-        out.print("</table>");
-        }
-        else
-            response.sendRedirect("Accessory");
-        } catch (SQLException ex) {
-            Logger.getLogger(CategoryCheck.class.getName()).log(Level.SEVERE, null, ex);
+            
+           
         }
     }
 

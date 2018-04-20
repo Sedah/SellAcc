@@ -30,9 +30,6 @@ import javax.sql.DataSource;
 @WebServlet(name = "Accessory", urlPatterns = {"/admin/Accessory"})
 public class Accessory extends HttpServlet {
 
-    @Resource(name = "test")
-    private DataSource test;
-
     @Resource(name = "project")
     private DataSource project;
     
@@ -60,6 +57,7 @@ public class Accessory extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
             String employee_name = (String) session.getAttribute("name");
+            String employee_id = (String) session.getAttribute("employee_id");
             String sql = "select * from accessories";
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
@@ -71,10 +69,11 @@ public class Accessory extends HttpServlet {
             
             out.print("<a href='OrderCheck'>Order </a> |");
             out.print("<a href='CategoryCheck'> Category</a> | ");
-            out.print("<a href='PaymentCheck'> Payment </a> | ");
+            out.print("<a href='UpdateStock'> Update </a> | ");
             out.print("<a href='EmLogoutServlet'> Logout</a><br>");
             
             out.print("<h2> Hello "+employee_name+"</h2>");
+            out.print("<h2> Employee ID: "+employee_id+"</h2>");
             
             out.print("<h1> In Stock </h1>");
             out.print("<table border = '1'>");
@@ -86,24 +85,24 @@ public class Accessory extends HttpServlet {
                     out.print("<tr>");
                     for (int i=0;i<rsmd.getColumnCount();i++)
                     {
-                        out.print("<td>"+ rsmd.getColumnName(i+1)+"</td>");
+                        if (rsmd.getColumnName(i+1).equals("cate_cate_id"))
+                            out.print("<td>cate_name</td>");
+                        else
+                            out.print("<td>"+rsmd.getColumnName(i+1)+"</td>");
                     }
                     
                     out.print("</tr>");
-                    
                 }
 
                 out.print("<tr>");
                 for (int i=0;i<rsmd.getColumnCount();i++)
                 {
-                    
-                    out.print("<td>"+rs.getString(i+1)+"</td>");
-                    
+                    out.print("<td>"+rs.getString(i+1)+"</td>");          
                 }
-                
-                
+                out.print("<form action='AccDetail'>");
+                out.print("<td><button type='submit' name='view' value=''>view</button></td>");
+                out.print("</form>");
                 out.print("</tr>");
-                
                 count += 1;
             }
             out.print("</table>");

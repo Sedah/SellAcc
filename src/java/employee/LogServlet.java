@@ -12,8 +12,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,8 +30,8 @@ import javax.sql.DataSource;
  *
  * @author Administrator
  */
-@WebServlet(name = "CategoryCheck", urlPatterns = {"/admin/CategoryCheck"})
-public class CategoryCheck extends HttpServlet {
+@WebServlet(name = "LogServlet", urlPatterns = {"/admin/LogServlet"})
+public class LogServlet extends HttpServlet {
 
     @Resource(name = "project")
     private DataSource project;
@@ -42,7 +45,7 @@ public class CategoryCheck extends HttpServlet {
         try {
             conn = test.getConnection();
         } catch (SQLException ex) {
-            Logger.getLogger(CategoryCheck.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LogServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     /**
@@ -58,50 +61,46 @@ public class CategoryCheck extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-        HttpSession session = request.getSession();
-        String employee_name = (String) session.getAttribute("name");
-        PreparedStatement stmt = conn.prepareStatement("select * from category");
-        ResultSet rs = stmt.executeQuery();
-        ResultSetMetaData rsmd = rs.getMetaData();
-        int count = 0;
-        
-        
-        if (employee_name != null)
-        {
-            out.print("<a href='Accessory'>In-stock</a> | ");
-            out.print("<a href='OrderCheck'> Order</a> | ");
-            out.print("<a href='UpdateStock'> Update </a> | ");
-            out.print("<a href='EmLogoutServlet'> Logout</a><br>");
-            out.print("<h1> Category </h1>");
-            out.print("<form action='AddCateServlet'>");
-            out.print("add category: <input type='text' name='cate'>");
-            out.print("<input type='submit' value='Add'</form><br><br>");
-            out.print("<table border='1'>");
-        while (rs.next())
-        {
-            if (count == 0)
+            HttpSession session = request.getSession();
+            String employee_id = (String) session.getAttribute("employee_id");
+            String order_id = (String) session.getAttribute("order_id");
+            String old_status = (String) session.getAttribute("old_status");
+            String new_status = (String) session.getAttribute("new_status");
+            String action = (String) session.getAttribute("action");
+            String sql = "select * from orders where order_id = ?";
+            
+            if (action.equals("status_change"))
             {
-                out.print("<tr>");
-                for (int i=0;i<rsmd.getColumnCount();i++)
-                {
-                    out.print("<td>"+ rsmd.getColumnName(i+1)+"</td>");
-                }
-                out.print("</tr>");
-            }
-            out.print("<tr>");
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, order_id);
+            ResultSet rs = stmt.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+            rs.next();
             for (int i=0;i<rsmd.getColumnCount();i++)
             {
-                out.print("<td>"+rs.getString(i+1)+"</td>");    
+                
             }
-            out.print("</tr>");
-            count += 1;
-        }
-        out.print("</table>");
-        }
-        else
-            response.sendRedirect("Accessory");
+            java.sql.Date d = null;
+            Date date = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String date2 = formatter.format(date);
+            
+            
+        
+            //out.print(date2+": Change order "+order_id+"status from "+old_status+" to "+new_status);
+            
+            sql = "insert into employee_order values (?,?,?,?)";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, date2);
+            stmt.setString(2, "Change order "+order_id+" status from "+old_status+" to "+new_status);
+            stmt.setString(3, employee_id);
+            stmt.setString(4, order_id);
+            stmt.executeUpdate();
+            
+            response.sendRedirect("OrderCheck");
+            }
         } catch (SQLException ex) {
-            Logger.getLogger(CategoryCheck.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LogServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

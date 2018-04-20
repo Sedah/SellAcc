@@ -33,13 +33,14 @@ public class PaymentCheck extends HttpServlet {
     @Resource(name = "project")
     private DataSource project;
 
-
+    @Resource(name = "test")
+    private DataSource test;
     private Connection conn;
     
     public void init()
     {
         try {
-            conn = project.getConnection();
+            conn = test.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger(PaymentCheck.class.getName()).log(Level.SEVERE, null, ex);
         }

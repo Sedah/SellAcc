@@ -10,7 +10,6 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,8 +26,8 @@ import javax.sql.DataSource;
  *
  * @author Administrator
  */
-@WebServlet(name = "CategoryCheck", urlPatterns = {"/admin/CategoryCheck"})
-public class CategoryCheck extends HttpServlet {
+@WebServlet(name = "UpdateStock", urlPatterns = {"/admin/UpdateStock"})
+public class UpdateStock extends HttpServlet {
 
     @Resource(name = "project")
     private DataSource project;
@@ -39,10 +38,10 @@ public class CategoryCheck extends HttpServlet {
     
     public void init()
     {
-        try {
+        try {   
             conn = test.getConnection();
         } catch (SQLException ex) {
-            Logger.getLogger(CategoryCheck.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UpdateStock.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     /**
@@ -58,51 +57,30 @@ public class CategoryCheck extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-        HttpSession session = request.getSession();
-        String employee_name = (String) session.getAttribute("name");
-        PreparedStatement stmt = conn.prepareStatement("select * from category");
-        ResultSet rs = stmt.executeQuery();
-        ResultSetMetaData rsmd = rs.getMetaData();
-        int count = 0;
-        
-        
-        if (employee_name != null)
-        {
-            out.print("<a href='Accessory'>In-stock</a> | ");
-            out.print("<a href='OrderCheck'> Order</a> | ");
-            out.print("<a href='UpdateStock'> Update </a> | ");
-            out.print("<a href='EmLogoutServlet'> Logout</a><br>");
-            out.print("<h1> Category </h1>");
-            out.print("<form action='AddCateServlet'>");
-            out.print("add category: <input type='text' name='cate'>");
-            out.print("<input type='submit' value='Add'</form><br><br>");
-            out.print("<table border='1'>");
-        while (rs.next())
-        {
-            if (count == 0)
+            HttpSession session = request.getSession();
+            String sql = "select name from category";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            
+            
+            out.print("<h1>Update สินค้า</h1>");
+            out.print("<form action='UpdateServlet'>");
+            //out.print("acc_id: <input type='text' name='acc_id'><br>");
+            out.print("name: <input type='text' name='name'><br>");
+            out.print("description: <input type='text' name='description'><br>");
+            out.print("price: <input type='text' name='price'><br>");
+            out.print("image: <input type='text' name='image'><br>");
+            out.print("category: <select name=\"cate_name\">\n");
+            while (rs.next())
             {
-                out.print("<tr>");
-                for (int i=0;i<rsmd.getColumnCount();i++)
-                {
-                    out.print("<td>"+ rsmd.getColumnName(i+1)+"</td>");
-                }
-                out.print("</tr>");
+                out.print("<option>"+rs.getString(1)+"</option>\n");         
             }
-            out.print("<tr>");
-            for (int i=0;i<rsmd.getColumnCount();i++)
-            {
-                out.print("<td>"+rs.getString(i+1)+"</td>");    
-            }
-            out.print("</tr>");
-            count += 1;
-        }
-        out.print("</table>");
-        }
-        else
-            response.sendRedirect("Accessory");
+            out.print("</select><br>");
+            out.print("<input type='submit' value='update'>");
+            out.print("</form>");
         } catch (SQLException ex) {
-            Logger.getLogger(CategoryCheck.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            Logger.getLogger(UpdateStock.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
