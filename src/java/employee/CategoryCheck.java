@@ -72,6 +72,9 @@ public class CategoryCheck extends HttpServlet {
             out.print("<a href='PaymentCheck'> Payment</a> |"  );
             out.print("<a href='EmLogoutServlet'> Logout</a><br>");
             out.print("<h1> Category </h1>");
+            out.print("<form action='AddCateServlet'>");
+            out.print("add category: <input type='text' name='cate'>");
+            out.print("<input type='submit' value='Add'</form><br><br>");
             out.print("<table border='1'>");
         while (rs.next())
         {

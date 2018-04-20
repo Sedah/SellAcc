@@ -107,22 +107,12 @@ public class Accessory extends HttpServlet {
                 count += 1;
             }
             out.print("</table>");
-            out.print("test");
+            out.print("<a href='/SellAcc/admin/AddProduct.jsp'>Add Product </a> |");
             
-            out.print("<h1>Update สินค้า</h1>");
-            out.print("<form action='UpdateServlet'>");
-            out.print("acc_id: <input type='text' name='acc_id'><br>");
-            out.print("name: <input type='text' name='name'><br>");
-            out.print("description: <input type='text' name='description'><br>");
-            out.print("price: <input type='text' name='price'><br>");
-            out.print("image: <input type='text' name='image'><br>");
-            
-            out.print("<input type='submit' value='update'>");
-            out.print("</form>");
             }
             else
             {
-                out.print("<a href='/SellAcc/EmployeeLogin.html'> Please Login </a>");
+                out.print("<a href='/EmployeeLogin.html'> Please Login </a>");
             }
         } catch (SQLException ex) {
             Logger.getLogger(Accessory.class.getName()).log(Level.SEVERE, null, ex);
