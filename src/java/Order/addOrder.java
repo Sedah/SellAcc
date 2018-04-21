@@ -87,8 +87,8 @@ public class addOrder extends HttpServlet {
                 a.setInt(1, add_id);
                 ResultSet rs_a = a.executeQuery();
                 rs_a.next();
-                String address = rs_a.getString("house_num") + rs_a.getString("street") + rs_a.getString("area")
-                        + rs_a.getString("district") + rs_a.getString("province") + rs_a.getString("postcode");
+                String address = rs_a.getString("house_num") +" "+ rs_a.getString("street")+" " + rs_a.getString("area")
+                        + " "+rs_a.getString("district") + " "+rs_a.getString("province") + " "+rs_a.getString("postcode");
 
                 //select point
                 String find_point = "SELECT point FROM member WHERE cus_cus_id = ?";
@@ -97,7 +97,7 @@ public class addOrder extends HttpServlet {
                 ResultSet rs_fp = fp.executeQuery();
                 rs_fp.next();
                 int c_point = rs_fp.getInt("point");
-                //insert point
+                //update point
                 String insert_point = "UPDATE member"
                         + " SET point = ?"
                         + " WHERE cus_cus_id = ?";
@@ -218,7 +218,7 @@ public class addOrder extends HttpServlet {
                     String street = request.getParameter("street");
                     String area = request.getParameter("area");
                     String postcode = request.getParameter("postcode");
-                    String address = house_n + street + area + district + province + postcode;
+                    String address = house_n +" " +street+" " + area+" " + district+ " " + province + " "+postcode;
 
                     //insert order
                     String insert_order = "INSERT INTO `order`"
@@ -270,7 +270,7 @@ public class addOrder extends HttpServlet {
                     String street = request.getParameter("street");
                     String area = request.getParameter("area");
                     String postcode = request.getParameter("postcode");
-                    String address = house_n + street + area + district + province + postcode;
+                    String address = house_n +' ' +street+' ' + area+' ' + district+ ' ' + province + ' '+postcode;
 
                     //insert order
                     String insert_order = "INSERT INTO `order`"

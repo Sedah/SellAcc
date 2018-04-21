@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: localhost    Database: practice
+-- Host: localhost    Database: project
 -- ------------------------------------------------------
 -- Server version	5.7.21-log
 
@@ -30,7 +30,7 @@ CREATE TABLE `accessories` (
   `image` varchar(100) DEFAULT NULL,
   `cate_cate_id` int(11) NOT NULL,
   PRIMARY KEY (`acc_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `accessories` (
 
 LOCK TABLES `accessories` WRITE;
 /*!40000 ALTER TABLE `accessories` DISABLE KEYS */;
-INSERT INTO `accessories` VALUES (1,'abcd','efg',150,'xxx',1),(2,'bnk','cmd',48,'zzz',2),(3,'ttt','yyy',145,'rrr',1);
+INSERT INTO `accessories` VALUES (1,'abcd','efg',150,'xxx',1),(2,'bnk','cmd',48,'zzz',2);
 /*!40000 ALTER TABLE `accessories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -58,10 +58,11 @@ CREATE TABLE `address` (
   `street` varchar(100) NOT NULL,
   `area` varchar(100) NOT NULL,
   `postcode` char(5) NOT NULL,
-  `status` enum('valid','invalid') NOT NULL DEFAULT 'valid',
+  `status` enum('valid','invalid') NOT NULL,
   `member_cus_id` int(11) NOT NULL,
   PRIMARY KEY (`add_id`,`member_cus_id`),
-  KEY `member_cus_id_idx` (`member_cus_id`)
+  KEY `member_cus_id_idx` (`member_cus_id`),
+  CONSTRAINT `member_cus_id` FOREIGN KEY (`member_cus_id`) REFERENCES `customer` (`cus_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -71,7 +72,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (1,'','','','','','','valid',24);
+INSERT INTO `address` VALUES (1,'e','f','g','h','i','10125','valid',8);
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,7 +88,7 @@ CREATE TABLE `category` (
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`cate_id`),
   UNIQUE KEY `cate_id_UNIQUE` (`cate_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +97,6 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'as'),(2,'aaa'),(3,'ttt');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,7 +119,7 @@ CREATE TABLE `comment` (
   KEY `acc_acc_id_fk_idx` (`acc_acc_id`),
   CONSTRAINT `acc_acc_id_fk` FOREIGN KEY (`acc_acc_id`) REFERENCES `accessories` (`acc_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `cus_cus_id_fk` FOREIGN KEY (`cus_cus_id`) REFERENCES `customer` (`cus_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,6 +128,7 @@ CREATE TABLE `comment` (
 
 LOCK TABLES `comment` WRITE;
 /*!40000 ALTER TABLE `comment` DISABLE KEYS */;
+INSERT INTO `comment` VALUES (9,'c','          xxx  ','2018-04-08 14:06:40',8,1),(10,'c','            ddd','2018-04-08 14:08:08',8,1),(11,'c','    ss        ','2018-04-08 14:24:07',8,1),(12,'c','            eeeee','2018-04-08 14:56:41',8,2);
 /*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -144,7 +145,7 @@ CREATE TABLE `customer` (
   `name` varchar(45) NOT NULL,
   `user_type` enum('mem','non') NOT NULL,
   PRIMARY KEY (`cus_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -153,7 +154,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (24,'ss','ss','mem'),(25,'ss','ss','non'),(26,'-','-','non'),(27,'-','--','non'),(28,'dddd','qwerty','non'),(29,'xxxx','xx','non');
+INSERT INTO `customer` VALUES (8,'d','c','mem');
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,11 +166,11 @@ DROP TABLE IF EXISTS `employee`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `employee` (
-  `emp_id` int(11) NOT NULL,
-  `name` varchar(45) DEFAULT NULL,
-  `username` varchar(45) DEFAULT NULL,
-  `password` varchar(45) DEFAULT NULL,
-  `position` enum('send','order') DEFAULT NULL,
+  `emp_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `position` enum('order','send') DEFAULT NULL,
   PRIMARY KEY (`emp_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -180,7 +181,6 @@ CREATE TABLE `employee` (
 
 LOCK TABLES `employee` WRITE;
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
-INSERT INTO `employee` VALUES (1,'ad','ad','min','order');
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -207,40 +207,8 @@ CREATE TABLE `member` (
 
 LOCK TABLES `member` WRITE;
 /*!40000 ALTER TABLE `member` DISABLE KEYS */;
-INSERT INTO `member` VALUES (24,'ss','ss',131);
+INSERT INTO `member` VALUES (8,'a','b',0);
 /*!40000 ALTER TABLE `member` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `order`
---
-
-DROP TABLE IF EXISTS `order`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `order` (
-  `order_id` int(11) NOT NULL AUTO_INCREMENT,
-  `buy_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `status_order` enum('wait_verify','verify_pass','verify_not_pass','send','cancle') NOT NULL DEFAULT 'wait_verify',
-  `use_point` int(11) DEFAULT NULL,
-  `recieve_point` int(11) DEFAULT NULL,
-  `total_price` float(8,2) NOT NULL,
-  `address` text NOT NULL,
-  `cus_cus_id` int(11) NOT NULL,
-  PRIMARY KEY (`order_id`),
-  KEY `order_cus_cus_id_idx` (`cus_cus_id`),
-  CONSTRAINT `order_cus_cus_id` FOREIGN KEY (`cus_cus_id`) REFERENCES `customer` (`cus_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `order`
---
-
-LOCK TABLES `order` WRITE;
-/*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (1,'2018-04-15 22:35:30','wait_verify',NULL,NULL,150.00,'----',26),(2,'2018-04-16 11:30:09','wait_verify',NULL,4,450.00,'',24),(3,'2018-04-16 11:34:07','wait_verify',NULL,6,600.00,'',24),(4,'2018-04-16 11:35:04','wait_verify',NULL,1,150.00,'',24),(5,'2018-04-16 11:36:41','wait_verify',NULL,7,750.00,'',24),(6,'2018-04-16 11:40:19','wait_verify',NULL,3,300.00,'',24),(7,'2018-04-16 11:41:27','wait_verify',NULL,6,600.00,'',24),(8,'2018-04-16 11:43:22','wait_verify',NULL,1,150.00,'',24),(9,'2018-04-16 11:43:51','wait_verify',NULL,6,600.00,'',24),(10,'2018-04-16 11:44:17','wait_verify',NULL,4,450.00,'',24),(11,'2018-04-16 11:45:34','wait_verify',NULL,1,150.00,'',24),(12,'2018-04-16 11:47:25','wait_verify',NULL,7,750.00,'',24),(13,'2018-04-16 11:48:36','wait_verify',NULL,NULL,300.00,'------',26),(14,'2018-04-16 12:14:01','wait_verify',NULL,15,149.00,'',24),(15,'2018-04-16 12:16:17','wait_verify',10,15,140.00,'',24),(16,'2018-04-16 12:23:01','wait_verify',0,15,150.00,'',24),(17,'2018-04-16 12:45:37','wait_verify',10,15,140.00,'',24),(18,'2018-04-16 12:48:16','wait_verify',0,15,150.00,'',24),(19,'2018-04-16 12:56:14','wait_verify',0,4,48.00,'',24),(20,'2018-04-20 13:05:58','wait_verify',NULL,NULL,3750.00,'yyyyiiiillllhhhhgggg45678',28),(21,'2018-04-20 13:50:18','wait_verify',NULL,NULL,1500.00,'xxxxxxxxxxxxxxx',29);
-/*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -267,38 +235,7 @@ CREATE TABLE `order_item` (
 
 LOCK TABLES `order_item` WRITE;
 /*!40000 ALTER TABLE `order_item` DISABLE KEYS */;
-INSERT INTO `order_item` VALUES (150,1,1,1,1),(150,3,1,1,2),(150,4,1,1,3),(150,1,1,1,4),(150,5,1,1,5),(150,2,1,1,6),(150,4,1,1,7),(150,1,1,1,8),(150,4,1,1,9),(150,3,1,1,10),(150,1,1,1,11),(150,5,1,1,12),(150,2,1,1,13),(150,1,1,1,14),(150,1,1,1,15),(150,1,1,1,16),(150,1,1,1,17),(150,1,1,1,18),(150,25,1,1,20),(150,10,1,1,21),(48,1,2,1,19);
 /*!40000 ALTER TABLE `order_item` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `payment`
---
-
-DROP TABLE IF EXISTS `payment`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `payment` (
-  `payment_id` int(11) NOT NULL AUTO_INCREMENT,
-  `date` datetime NOT NULL,
-  `amount` float NOT NULL,
-  `type` enum('credit','money-trans') NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `order_order_id` int(11) NOT NULL,
-  PRIMARY KEY (`payment_id`),
-  KEY `payment_order_order_id_idx` (`order_order_id`),
-  CONSTRAINT `payment_order_order_id` FOREIGN KEY (`order_order_id`) REFERENCES `order` (`order_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `payment`
---
-
-LOCK TABLES `payment` WRITE;
-/*!40000 ALTER TABLE `payment` DISABLE KEYS */;
-INSERT INTO `payment` VALUES (1,'2017-12-31 15:18:00',120,'money-trans','qw',1);
-/*!40000 ALTER TABLE `payment` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -310,4 +247,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-20 19:51:38
+-- Dump completed on 2018-04-21 19:33:41

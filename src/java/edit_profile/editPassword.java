@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package employee;
+package edit_profile;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,10 +25,10 @@ import javax.sql.DataSource;
 
 /**
  *
- * @author Administrator
+ * @author Chronical
  */
-@WebServlet(name = "UpdateStock", urlPatterns = {"/admin/UpdateStock"})
-public class UpdateStock extends HttpServlet {
+@WebServlet(name = "editPassword", urlPatterns = {"/editPassword"})
+public class editPassword extends HttpServlet {
 
     @Resource(name = "project")
     private DataSource project;
@@ -44,39 +45,56 @@ public class UpdateStock extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Connection conn = null;
-               try {
+        try {
             conn = project.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger("connection-error").log(Level.SEVERE, null, ex);
         }
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            String new_pass = request.getParameter("new_pass");
+            String old_pass = request.getParameter("old_pass");
+            
+            //find cus_id
             HttpSession session = request.getSession();
-            String sql = "select name from category";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            
-            
-            out.print("<h1>Update สินค้า</h1>");
-            out.print("<form action='UpdateServlet'>");
-            //out.print("acc_id: <input type='text' name='acc_id'><br>");
-            out.print("name: <input type='text' name='name'><br>");
-            out.print("description: <textarea name='description' rows='4' cols='20'>" +
-            "</textarea><br>");
-            out.print("price: <input type='text' name='price'><br>");
-            out.print("image: <input type='text' name='image'><br>");
-            out.print("category: <select name=\"cate_name\">\n");
-            while (rs.next())
-            {
-                out.print("<option>"+rs.getString(1)+"</option>\n");         
+            String username = (String) session.getAttribute("username");
+            String mem = "SELECT * FROM member WHERE username = ?";
+            PreparedStatement c = conn.prepareStatement(mem);
+            c.setString(1, username);
+            ResultSet rs = c.executeQuery();
+            rs.next();
+            int cus_id = rs.getInt("cus_cus_id");
+            //check old pass
+            String check = "SELECT * FROM member WHERE password = ?";
+            PreparedStatement o = conn.prepareStatement(check);
+            o.setString(1, old_pass);
+            ResultSet o_pass = o.executeQuery();
+            o_pass.next();
+
+            //update password
+            String edit_pass = "UPDATE member"
+                    + " SET password = ? WHERE cus_cus_id = ?";
+            PreparedStatement p = conn.prepareStatement(edit_pass);
+            p.setString(1, new_pass);
+            p.setInt(2, cus_id);
+            if (rs.getString("password").equals(old_pass)){
+                p.executeUpdate();
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/edit_comp.jsp");
+                rd.forward(request, response);
+                return;
             }
-            out.print("</select><br>");
-            out.print("<input type='submit' value='update'>");
-            out.print("</form>");
+            else {
+                int fail = 1;
+                request.setAttribute("password", fail);
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/edit_profile.jsp");
+                rd.forward(request, response);
+                return;
+            }
+
         } catch (SQLException ex) {
-            Logger.getLogger(UpdateStock.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        if(conn != null){
+            Logger.getLogger(editPassword.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (conn != null) {
             try {
                 conn.close();
             } catch (SQLException ex) {

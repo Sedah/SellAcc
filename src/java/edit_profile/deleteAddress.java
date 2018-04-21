@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package employee;
+package edit_profile;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,20 +14,20 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 /**
  *
- * @author Administrator
+ * @author Chronical
  */
-@WebServlet(name = "UpdateStock", urlPatterns = {"/admin/UpdateStock"})
-public class UpdateStock extends HttpServlet {
+@WebServlet(name = "deleteAddress", urlPatterns = {"/deleteAddress"})
+public class deleteAddress extends HttpServlet {
 
     @Resource(name = "project")
     private DataSource project;
@@ -44,39 +44,27 @@ public class UpdateStock extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Connection conn = null;
-               try {
+        try {
             conn = project.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger("connection-error").log(Level.SEVERE, null, ex);
         }
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            String sql = "select name from category";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            
-            
-            out.print("<h1>Update สินค้า</h1>");
-            out.print("<form action='UpdateServlet'>");
-            //out.print("acc_id: <input type='text' name='acc_id'><br>");
-            out.print("name: <input type='text' name='name'><br>");
-            out.print("description: <textarea name='description' rows='4' cols='20'>" +
-            "</textarea><br>");
-            out.print("price: <input type='text' name='price'><br>");
-            out.print("image: <input type='text' name='image'><br>");
-            out.print("category: <select name=\"cate_name\">\n");
-            while (rs.next())
-            {
-                out.print("<option>"+rs.getString(1)+"</option>\n");         
-            }
-            out.print("</select><br>");
-            out.print("<input type='submit' value='update'>");
-            out.print("</form>");
+            String add = request.getParameter("add_id");
+            int add_id = Integer.parseInt(add);
+            //check old pass
+            String check = "DELETE FROM address"
+                    + " WHERE add_id = ?;";
+            PreparedStatement c = conn.prepareStatement(check);
+            c.setInt(1, add_id);
+            c.executeUpdate();
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/edit_comp.jsp");
+            rd.forward(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(UpdateStock.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        if(conn != null){
+            Logger.getLogger(deleteAddress.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (conn != null) {
             try {
                 conn.close();
             } catch (SQLException ex) {

@@ -90,7 +90,6 @@ public class addressServlet extends HttpServlet {
                     add.setStreet(rs_add.getString("street"));
                     add.setArea(rs_add.getString("area"));
                     add.setPostcode(rs_add.getString("postcode"));
-                    add.setStatus(rs_add.getString("status"));
                     add.setMember_cus_id(rs_add.getInt("member_cus_id"));
                     add_list.add(add);
 

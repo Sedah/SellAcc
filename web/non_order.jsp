@@ -376,7 +376,7 @@
             <hr class="divider-w pt-20">
             <div class="row">
               <div class="col-sm-5">
-                   <form class="form" action="addOrder" method="POST">
+                   <form class="form" action="addOrder" method="POST" accept-charset="UTF-8">
                   <div class="form-group">
                     <input class="form-control" id="name" type="text" name="name" placeholder="Full name"/>
                   </div>

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package employee;
+package edit_profile;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,10 +25,10 @@ import javax.sql.DataSource;
 
 /**
  *
- * @author Administrator
+ * @author Chronical
  */
-@WebServlet(name = "UpdateStock", urlPatterns = {"/admin/UpdateStock"})
-public class UpdateStock extends HttpServlet {
+@WebServlet(name = "addAddress", urlPatterns = {"/addAddress"})
+public class addAddress extends HttpServlet {
 
     @Resource(name = "project")
     private DataSource project;
@@ -44,39 +45,51 @@ public class UpdateStock extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Connection conn = null;
-               try {
+        try {
             conn = project.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger("connection-error").log(Level.SEVERE, null, ex);
         }
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+
+            String province = request.getParameter("province");
+            String district = request.getParameter("district");
+            String house_n = request.getParameter("h_num");
+            String street = request.getParameter("street");
+            String area = request.getParameter("area");
+            String postcode = request.getParameter("postcode");
+            
+            //find cus_id
             HttpSession session = request.getSession();
-            String sql = "select name from category";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            
-            
-            out.print("<h1>Update สินค้า</h1>");
-            out.print("<form action='UpdateServlet'>");
-            //out.print("acc_id: <input type='text' name='acc_id'><br>");
-            out.print("name: <input type='text' name='name'><br>");
-            out.print("description: <textarea name='description' rows='4' cols='20'>" +
-            "</textarea><br>");
-            out.print("price: <input type='text' name='price'><br>");
-            out.print("image: <input type='text' name='image'><br>");
-            out.print("category: <select name=\"cate_name\">\n");
-            while (rs.next())
-            {
-                out.print("<option>"+rs.getString(1)+"</option>\n");         
-            }
-            out.print("</select><br>");
-            out.print("<input type='submit' value='update'>");
-            out.print("</form>");
+            String username = (String) session.getAttribute("username");
+            String mem = "SELECT * FROM member WHERE username = ?";
+            PreparedStatement c = conn.prepareStatement(mem);
+            c.setString(1, username);
+            ResultSet rs = c.executeQuery();
+            rs.next();
+            int cus_id = rs.getInt("cus_cus_id");
+
+            //insert address
+            String insert_add = "INSERT INTO address"
+                    + "(province, district,house_num, street, area, postcode, member_cus_id) VALUES"
+                    + "(?, ?, ?, ?, ?,?,?)";
+
+            PreparedStatement a = conn.prepareStatement(insert_add);
+            a.setString(1, province);
+            a.setString(2, district);
+            a.setString(3, house_n);
+            a.setString(4, street);
+            a.setString(5, area);
+            a.setString(6, postcode);
+            a.setInt(7, cus_id);
+            a.executeUpdate();
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/edit_comp.jsp");
+            rd.forward(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(UpdateStock.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        if(conn != null){
+            Logger.getLogger(addAddress.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (conn != null) {
             try {
                 conn.close();
             } catch (SQLException ex) {

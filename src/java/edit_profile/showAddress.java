@@ -3,17 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package employee;
+package edit_profile;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,13 +24,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
+import model.Address;
 
 /**
  *
- * @author Administrator
+ * @author Chronical
  */
-@WebServlet(name = "UpdateStock", urlPatterns = {"/admin/UpdateStock"})
-public class UpdateStock extends HttpServlet {
+@WebServlet(name = "showAddress", urlPatterns = {"/showAddress"})
+public class showAddress extends HttpServlet {
 
     @Resource(name = "project")
     private DataSource project;
@@ -44,7 +48,7 @@ public class UpdateStock extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Connection conn = null;
-               try {
+        try {
             conn = project.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger("connection-error").log(Level.SEVERE, null, ex);
@@ -52,30 +56,40 @@ public class UpdateStock extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
-            String sql = "select name from category";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            
-            
-            out.print("<h1>Update สินค้า</h1>");
-            out.print("<form action='UpdateServlet'>");
-            //out.print("acc_id: <input type='text' name='acc_id'><br>");
-            out.print("name: <input type='text' name='name'><br>");
-            out.print("description: <textarea name='description' rows='4' cols='20'>" +
-            "</textarea><br>");
-            out.print("price: <input type='text' name='price'><br>");
-            out.print("image: <input type='text' name='image'><br>");
-            out.print("category: <select name=\"cate_name\">\n");
-            while (rs.next())
-            {
-                out.print("<option>"+rs.getString(1)+"</option>\n");         
+            String username = (String) session.getAttribute("username");
+            String mem = "SELECT * FROM member WHERE username = ?";
+            PreparedStatement c = conn.prepareStatement(mem);
+            c.setString(1, username);
+            ResultSet rs = c.executeQuery();
+            rs.next();
+            int cus_id = rs.getInt("cus_cus_id");
+            ArrayList<Address> addlist = new ArrayList<Address>();
+            String sql = "SELECT * FROM address WHERE member_cus_id = ?";
+            PreparedStatement a = conn.prepareStatement(sql);
+            a.setInt(1, cus_id);
+            ResultSet rs_a = a.executeQuery();
+            ResultSetMetaData rsmd = rs_a.getMetaData();
+
+            if (username != null) {
+
+                while (rs_a.next()) {
+                Address add = new Address();
+                add.setAdd_id(rs_a.getInt("add_id"));
+                add.setProvince(rs_a.getString("province"));
+                add.setDistrict(rs_a.getString("district"));
+                add.setHouse_num(rs_a.getString("house_num"));
+                add.setStreet(rs_a.getString("street"));
+                add.setArea(rs_a.getString("area"));
+                add.setPostcode(rs_a.getString("postcode"));
+                addlist.add(add);
+                }
             }
-            out.print("</select><br>");
-            out.print("<input type='submit' value='update'>");
-            out.print("</form>");
+            request.setAttribute("addlist", addlist);
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/edit_profile.jsp");
+            rd.forward(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(UpdateStock.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+            Logger.getLogger(showAddress.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if(conn != null){
             try {
                 conn.close();
