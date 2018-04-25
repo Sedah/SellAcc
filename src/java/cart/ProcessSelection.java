@@ -65,7 +65,7 @@ public class ProcessSelection extends HttpServlet {
             
             cart.addItem(acc_id,quentity);
             
-            response.sendRedirect("/SellAcc/viewCart.jsp");
+            response.sendRedirect("/SellAcc/AccServlet");
         
         }
     }
