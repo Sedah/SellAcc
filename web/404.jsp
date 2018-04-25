@@ -58,56 +58,16 @@
       <div class="page-loader">
         <div class="loader">Loading...</div>
       </div>
- 
-                <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
-                    <div class="container">
-                        <div class="navbar-header">
-                            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="index.html">Sehda</a>
-                        </div>
-                        <div class="collapse navbar-collapse" id="custom-collapse">
-                            <ul class="nav navbar-nav navbar-right">
-
-
-                                <li class="active"><a href="AccServlet">Shop</a></li>
-                                <li class="active"><a href="viewCart.jsp"><i class="fa fa-fw"></i>&emsp;Cart</a></li>
-                                <li class="active"><a href="payment.jsp"><span class="icon-wallet" aria-hidden="true"></span>Payment</a></li>
-                                <li class="active"><a href="login_register.jsp">Login</a></li>
-                                
-
-
-
-
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-           
-            
-      <section class="home-section home-fade home-full-height" id="home">
-        <div class="hero-slider">
-          <ul class="slides">
-            <li class="bg-dark-30 bg-dark shop-page-header" style="background-image:url(&quot;assets/images/shop/slider1.png&quot;);">
-              <div class="titan-caption">
-                <div class="caption-content">
-                  <div class="font-alt mb-30 titan-title-size-1">SEHDA Acceesories</div>
-                  <div class="font-alt mb-30 titan-title-size-4"> New Arrival</div>
-                  <div class="font-alt mb-40 titan-title-size-1">Your online fashion destination</div><a class="section-scroll btn btn-border-w btn-round" href="AccServlet">Learn More</a> &emsp; or &emsp; <a class="section-scroll btn btn-border-w btn-round" href="login_register.jsp">Register</a>
-                </div>
-              </div>
-            </li>
-            <li class="bg-dark-30 bg-dark shop-page-header" style="background-image:url(&quot;assets/images/shop/slider3.png&quot;);">
-              <div class="titan-caption">
-                <div class="caption-content">
-                  <div class="font-alt mb-30 titan-title-size-1"> SEHDA Acceesories</div>
-                  <div class="font-alt mb-40 titan-title-size-4">Exclusive products</div><a class="section-scroll btn btn-border-w btn-round" href="AccServlet">Learn More</a>
-                </div>
-              </div>
-            </li>
-          </ul>
+      <section class="home-section home-parallax home-fade home-full-height bg-dark bg-dark-30" id="home" data-background="assets/images/section-4.jpg">
+        <div class="titan-caption">
+          <div class="caption-content">
+            <div class="font-alt mb-30 titan-title-size-4">Error 404</div>
+            <div class="font-alt">The requested URL was not found on this server.<br/>That is all we know.
+            </div>
+            <div class="font-alt mt-30"><a class="btn btn-border-w btn-round" href="AccServlet">Back to home page</a></div>
+          </div>
         </div>
       </section>
-      
-      <div class="scroll-up"><a href="#totop"><i class="fa fa-angle-double-up"></i></a></div>
     </main>
     <!--  
     JavaScripts

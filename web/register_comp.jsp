@@ -1,10 +1,11 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%-- 
     Document   : login_comp
     Created on : Mar 27, 2018, 5:36:18 PM
     Author     : Chronical
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
   <head>
@@ -65,7 +66,7 @@
       <div class="page-loader">
         <div class="loader">Loading...</div>
       </div>
-     <c:if test="${sessionScope.username == null}">
+
                 <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
                     <div class="container">
                         <div class="navbar-header">
@@ -89,42 +90,14 @@
                         </div>
                     </div>
                 </nav>
-            </c:if>
-            <c:if test="${sessionScope.username != null}">
-                <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
-                    <div class="container">
-                        <div class="navbar-header">
-                            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="index.html">Sehda</a>
-                        </div>
-                        <div class="collapse navbar-collapse" id="custom-collapse">
-                            <ul class="nav navbar-nav navbar-right">
-
-
-
-                                <li class="active"><a href="AccServlet">Shop</a></li>
-                                <li class="active"><a href="viewCart.jsp"><i class="fa fa-fw"></i>&emsp;Cart</a></li>
-
-                                <li class="active"><a href="payment.jsp"><span class="icon-wallet" aria-hidden="true"></span>&emsp;Payment</a></li>
-
-
-
-                                <li class="dropdown"><a class="dropdown-toggle" href="" data-toggle="dropdown">Hi! <%=session.getAttribute("username")%></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="edit_profile.jsp">Profile</a></li>
-                                        <li><a href="logout.jsp">Logout</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-            </c:if>
+          
+            
       <div class="main">
         <section class="module bg-dark-30" data-background="assets/images/section-4.jpg">
           <div class="container">
             <div class="row">
               <div class="col-sm-6 col-sm-offset-3">
-                <h1 class="module-title font-alt mb-0">Payment</h1>
+                <h1 class="module-title font-alt mb-0">Login-Register</h1>
               </div>
             </div>
           </div>
@@ -132,16 +105,17 @@
         <section class="module">
           <div class="container">
             <div class="row">
-              <div class="col-sm-5 col-sm-offset-1 mb-sm-40">
-                <h4 class="font-alt">Payment</h4>
+              <div class="col-sm-7 col-sm-offset-1 mb-sm-40">
+                <h4 class="font-alt">Register</h4>
                 <hr class="divider-w mb-10">
-                <form class="form" action="/SellAcc/AccServlet" method="POST">
-                <H1>Payment Success</H1>
-                We will contact to your email for EMS number<br><br>
-                 <div class="form-group">
-                    <input class="btn btn-block btn-round btn-b" type="submit" value="<BACK"/> 
+                <form class="form" action="AccServlet" method="POST">
+                <H1>Register Complete</H1>
+                Register success. Please do not tell the password to anyone else. For account security!<br><br>
+                <form action="AccServlet">
+                    <div class="form-group">
+                    <button class="btn btn-block btn-round btn-b" type="submit" value="regis">Next</button>
                   </div>
-
+                </form>
               </div>
               <div class="col-sm-5">
                
