@@ -136,7 +136,7 @@
               <div class="col-sm-12">
                   <form action="addOrder">
                        <h4>My address is </h4>
-                      <select name="add_id">
+                      <select name="add_id" class="form-control">
                           <c:forEach var="add" items="${add_list}">
                    <option value=${add.add_id}>${add.province} ${add.district} ${add.house_num}
                         ${add.street} ${add.area} ${add.postcode}</option>
