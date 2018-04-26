@@ -5,7 +5,6 @@ package Login;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -33,7 +32,6 @@ public class loginServlet extends HttpServlet {
     @Resource(name = "project")
     private DataSource project;
 
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -46,7 +44,7 @@ public class loginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Connection conn = null;
-               try {
+        try {
             conn = project.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger("connection-error").log(Level.SEVERE, null, ex);
@@ -61,21 +59,26 @@ public class loginServlet extends HttpServlet {
             PreparedStatement user_db = conn.prepareStatement(find_user);
             user_db.setString(1, username);
             user_db.setString(2, password);
-            ResultSet user_rs = user_db.executeQuery();           
+            ResultSet user_rs = user_db.executeQuery();
 
-            if (user_rs.next() == true){
+            if (user_rs.next() == true) {
                 loginflag = true;
-    
+
             }
             HttpSession session = request.getSession();
             session.setAttribute("loginflag", loginflag);
-            session.setAttribute("username", username);
-            response.sendRedirect("login_comp.jsp");
+            
+            if (loginflag == true) {
+                session.setAttribute("username", username);
+                response.sendRedirect("login_comp.jsp");
+            } else {
+                response.sendRedirect("login_register.jsp");
+            }
 
         } catch (SQLException ex) {
             Logger.getLogger(loginServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if(conn != null){
+        if (conn != null) {
             try {
                 conn.close();
             } catch (SQLException ex) {
