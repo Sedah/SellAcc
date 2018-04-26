@@ -44,7 +44,7 @@ public class UpdateStock extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Connection conn = null;
-               try {
+        try {
             conn = project.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger("connection-error").log(Level.SEVERE, null, ex);
@@ -52,31 +52,145 @@ public class UpdateStock extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
+            String employee_name = (String) session.getAttribute("name");
             String sql = "select name from category";
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
-            
-            
-            out.print("<h1>Update สินค้า</h1>");
+            out.print("<html lang=\"en-US\" dir=\"ltr\">\n"
+                    + "  <head>\n"
+                    + "    <meta charset=\"utf-8\">\n"
+                    + "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n"
+                    + "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
+                    + "    <!--  \n"
+                    + "    Document Title\n"
+                    + "    =============================================\n"
+                    + "    -->\n"
+                    + "    <title>Sehda | Multipurpose HTML5 Template</title>\n"
+                    + "    <!--  \n"
+                    + "    Favicons\n"
+                    + "    =============================================\n"
+                    + "    -->\n"
+                    + "    <link rel=\"apple-touch-icon\" sizes=\"57x57\" href=\"assets/images/favicons/apple-icon-57x57.png\">\n"
+                    + "    <link rel=\"apple-touch-icon\" sizes=\"60x60\" href=\"assets/images/favicons/apple-icon-60x60.png\">\n"
+                    + "    <link rel=\"apple-touch-icon\" sizes=\"72x72\" href=\"assets/images/favicons/apple-icon-72x72.png\">\n"
+                    + "    <link rel=\"apple-touch-icon\" sizes=\"76x76\" href=\"assets/images/favicons/apple-icon-76x76.png\">\n"
+                    + "    <link rel=\"apple-touch-icon\" sizes=\"114x114\" href=\"assets/images/favicons/apple-icon-114x114.png\">\n"
+                    + "    <link rel=\"apple-touch-icon\" sizes=\"120x120\" href=\"assets/images/favicons/apple-icon-120x120.png\">\n"
+                    + "    <link rel=\"apple-touch-icon\" sizes=\"144x144\" href=\"assets/images/favicons/apple-icon-144x144.png\">\n"
+                    + "    <link rel=\"apple-touch-icon\" sizes=\"152x152\" href=\"assets/images/favicons/apple-icon-152x152.png\">\n"
+                    + "    <link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"assets/images/favicons/apple-icon-180x180.png\">\n"
+                    + "    <link rel=\"icon\" type=\"image/png\" sizes=\"192x192\" href=\"assets/images/favicons/android-icon-192x192.png\">\n"
+                    + "    <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"assets/images/favicons/favicon-32x32.png\">\n"
+                    + "    <link rel=\"icon\" type=\"image/png\" sizes=\"96x96\" href=\"assets/images/favicons/favicon-96x96.png\">\n"
+                    + "    <link rel=\"icon\" type=\"image/png\" sizes=\"16x16\" href=\"assets/images/favicons/favicon-16x16.png\">\n"
+                    + "    <link rel=\"manifest\" href=\"/manifest.json\">\n"
+                    + "    <meta name=\"msapplication-TileColor\" content=\"#ffffff\">\n"
+                    + "    <meta name=\"msapplication-TileImage\" content=\"assets/images/favicons/ms-icon-144x144.png\">\n"
+                    + "    <meta name=\"theme-color\" content=\"#ffffff\">\n"
+                    + "    <!--  \n"
+                    + "    Stylesheets\n"
+                    + "    =============================================\n"
+                    + "    \n"
+                    + "    -->\n"
+                    + "    <!-- Default stylesheets-->\n"
+                    + "    <link href=\"assets/lib/bootstrap/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\n"
+                    + "    <!-- Template specific stylesheets-->\n"
+                    + "    <link href=\"https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700\" rel=\"stylesheet\">\n"
+                    + "    <link href=\"https://fonts.googleapis.com/css?family=Volkhov:400i\" rel=\"stylesheet\">\n"
+                    + "    <link href=\"https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800\" rel=\"stylesheet\">\n"
+                    + "    <link href=\"assets/lib/animate.css/animate.css\" rel=\"stylesheet\">\n"
+                    + "    <link href=\"assets/lib/components-font-awesome/css/font-awesome.min.css\" rel=\"stylesheet\">\n"
+                    + "    <link href=\"assets/lib/et-line-font/et-line-font.css\" rel=\"stylesheet\">\n"
+                    + "    <link href=\"assets/lib/flexslider/flexslider.css\" rel=\"stylesheet\">\n"
+                    + "    <link href=\"assets/lib/owl.carousel/dist/assets/owl.carousel.min.css\" rel=\"stylesheet\">\n"
+                    + "    <link href=\"assets/lib/owl.carousel/dist/assets/owl.theme.default.min.css\" rel=\"stylesheet\">\n"
+                    + "    <link href=\"assets/lib/magnific-popup/dist/magnific-popup.css\" rel=\"stylesheet\">\n"
+                    + "    <link href=\"assets/lib/simple-text-rotator/simpletextrotator.css\" rel=\"stylesheet\">\n"
+                    + "    <!-- Main stylesheet and color file-->\n"
+                    + "    <link href=\"assets/css/style.css\" rel=\"stylesheet\">\n"
+                    + "    <link id=\"color-scheme\" href=\"assets/css/colors/default.css\" rel=\"stylesheet\">\n"
+                    + "  </head>\n"
+                    + "  <body data-spy=\"scroll\" data-target=\".onpage-navigation\" data-offset=\"60\">\n"
+                    + "    <main>\n"
+                    + "      <div class=\"page-loader\">\n"
+                    + "        <div class=\"loader\">Loading...</div>\n"
+                    + "      </div>\n"
+                    + "                <nav class=\"navbar navbar-custom navbar-fixed-top\" role=\"navigation\">\n"
+                    + "                    <div class=\"container\">\n"
+                    + "                        <div class=\"navbar-header\">\n"
+                    + "                            <button class=\"navbar-toggle\" type=\"button\" data-toggle=\"collapse\" data-target=\"#custom-collapse\"><span class=\"sr-only\">Toggle navigation</span><span class=\"icon-bar\"></span><span class=\"icon-bar\"></span><span class=\"icon-bar\"></span></button><a class=\"navbar-brand\" href=\"index.html\">Sehda</a>\n"
+                    + "                        </div>\n"
+                    + "                        <div class=\"collapse navbar-collapse\" id=\"custom-collapse\">\n"
+                    + "                            <ul class=\"nav navbar-nav navbar-right\">\n"
+                    + "\n"
+                    + "\n"
+                    + "\n"
+                    + "                                <li class=\"active\"><a href=\"Accessory\">In-stock</a></li>\n"
+                    + "                                <li class=\"active\"><a href=\"OrderCheck\">Order</a></li>\n"
+                    + "                                <li class=\"active\"><a href=\"CategoryCheck\">Category</a></li>\n"
+                    + "\n"
+                    + "                                <li class=\"active\"><a href=\"UpdateStock\">Add Product</a></li>\n"
+                    + "                                <li class=\"active\"><a href=\"EmLogoutServlet\">Logout</a></li>"
+                    + "                                <li class=\"active\"><a href=\"Accessory\">Hi! " + employee_name + "</a></li>"
+            );
+            out.print("</ul>\n"
+                    + "                        </div>\n"
+                    + "                    </div>\n"
+                    + "                </nav>");
+            out.print("<div class=\"main\">");
+            out.print("<main>");
+            out.print("<section class=\"module\">\n");
+            out.print("<div class=\"container\">\n"
+                    + "            <div class=\"row\">\n"
+                    + "              <div class=\"col-xs-6\">\n"
+                    + "                <h4 class=\"font-alt\">Add new Product</h4>\n"
+                    + "                <hr class=\"divider-w mb-10\">\n");
             out.print("<form action='UpdateServlet'>");
             //out.print("acc_id: <input type='text' name='acc_id'><br>");
-            out.print("name: <input type='text' name='name'><br>");
-            out.print("description: <textarea name='description' rows='4' cols='20'>" +
-            "</textarea><br>");
-            out.print("price: <input type='text' name='price'><br>");
-            out.print("image: <input type='text' name='image'><br>");
-            out.print("category: <select name=\"cate_name\">\n");
-            while (rs.next())
-            {
-                out.print("<option>"+rs.getString(1)+"</option>\n");         
+            out.print("name: <input class=\"form-control\" type='text' name='name' placeholder=\"name\"><br>");
+            out.print("description: <textarea class=\"form-control\" rows=\"7\" name=\"description\" placeholder=\"Textarea\"></textarea><br>");
+            out.print("price: <input class=\"form-control\" type='text' name='price' placeholder=\"price (ex. 9.25 , 1540.0)\"><br>");
+            out.print("image: <input class=\"form-control\" type='text' name='image' placeholder=\"IMG URL\"><br>");
+            out.print("category: <select class=\"form-control\" name=\"cate_name\">\n");
+
+            out.print("</div>\n"
+                    + "            </div>\n"
+                    + "          </div>\n"
+                    + "        </section>");
+            out.print("</div>");
+            out.print("</main>");
+            out.print("</table>");
+            out.print(" <script src=\"assets/lib/jquery/dist/jquery.js\"></script>\n"
+                    + "    <script src=\"assets/lib/bootstrap/dist/js/bootstrap.min.js\"></script>\n"
+                    + "    <script src=\"assets/lib/wow/dist/wow.js\"></script>\n"
+                    + "    <script src=\"assets/lib/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.js\"></script>\n"
+                    + "    <script src=\"assets/lib/isotope/dist/isotope.pkgd.js\"></script>\n"
+                    + "    <script src=\"assets/lib/imagesloaded/imagesloaded.pkgd.js\"></script>\n"
+                    + "    <script src=\"assets/lib/flexslider/jquery.flexslider.js\"></script>\n"
+                    + "    <script src=\"assets/lib/owl.carousel/dist/owl.carousel.min.js\"></script>\n"
+                    + "    <script src=\"assets/lib/smoothscroll.js\"></script>\n"
+                    + "    <script src=\"assets/lib/magnific-popup/dist/jquery.magnific-popup.js\"></script>\n"
+                    + "    <script src=\"assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js\"></script>\n"
+                    + "    <script src=\"assets/js/plugins.js\"></script>\n"
+                    + "    <script src=\"assets/js/main.js\"></script>\n"
+                    + "  </body>\n"
+                    + "</html>");
+            while (rs.next()) {
+                out.print("<option>" + rs.getString(1) + "</option>\n");
             }
             out.print("</select><br>");
-            out.print("<input type='submit' value='update'>");
+            out.print("<input class=\"btn btn-b btn-round\" type='submit' onclick=\"myFunction()\" value='update'>");
+
+            out.print("<script>\n"
+                    + "function myFunction() {\n"
+                    + "    alert(\"New product has been added!\");\n"
+                    + "}\n"
+                    + "</script>");
             out.print("</form>");
         } catch (SQLException ex) {
             Logger.getLogger(UpdateStock.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        if(conn != null){
+        }
+        if (conn != null) {
             try {
                 conn.close();
             } catch (SQLException ex) {
