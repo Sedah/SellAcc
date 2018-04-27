@@ -9,8 +9,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,15 +24,15 @@ import javax.sql.DataSource;
  *
  * @author Administrator
  */
-@WebServlet(name = "AccDetail", urlPatterns = {"/admin/AccDetail"})
-public class AccDetail extends HttpServlet {
+@WebServlet(name = "AddTracking", urlPatterns = {"/admin/AddTracking"})
+public class AddTracking extends HttpServlet {
 
     @Resource(name = "test2")
     private DataSource test2;
 
-   @Resource(name = "project")
+    @Resource(name = "project")
     private DataSource project;
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -47,58 +45,35 @@ public class AccDetail extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        Connection conn = null;
-               try {
-            conn = project.getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger("connection-error").log(Level.SEVERE, null, ex);
-        }
-        response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            int acc_id = Integer.parseInt(request.getParameter("view"));
-            out.print(acc_id);
-            String sql = "select * from accessories where acc_id = ?";
+            Connection conn = null;
+            try{
+                conn = project.getConnection();
+            } catch (SQLException ex) {
+                Logger.getLogger(AddTracking.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            String number = request.getParameter("number");
+            String order_id = request.getParameter("order_id");
+            String sql = "update deliverie set tracking_number = ? where order_order_id = ?";
+            out.print(number);
+            out.print(order_id);
+            
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, acc_id);
-            ResultSet detail = stmt.executeQuery();
-            ResultSetMetaData rsmd = detail.getMetaData();
-            out.print("<form method='GET' action='AccEditServlet'>");
-            while (detail.next())
+            stmt.setString(1, number);
+            stmt.setString(2, order_id);
+            stmt.executeUpdate();
+            response.sendRedirect("OrderCheck");
+            
+            if (conn!= null)
             {
-                for (int i=0;i<rsmd.getColumnCount();i++)
-                {
-                    out.print("<input type='hidden' name = 'acc_id' value='"+detail.getString(1)+"'/><br>");
-                    if (rsmd.getColumnName(i+1).equals("description"))
-                    {
-                        out.print("<br>"+rsmd.getColumnName(i+1)+" <br>");
-                        out.print("<textarea name='description' rows='4' cols='20'>"+detail.getString(i+1)+"</textarea>");
-                    }
-                    else if (i!=0)
-                    {
-                    out.print(rsmd.getColumnName(i+1)+": ");
-                    out.print("<input type='text' name='"+rsmd.getColumnName(i+1)+"' value='"+detail.getString(i+1)+"'/>");
-                    }
-                    
-                    
-                    out.print("<br>");
+                try{
+                    conn.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(AddTracking.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            
-            out.print("<button type='submit' name='action' value='update'>update</button>");
-            //out.print("<input type='submit' name = 'action' value='update'>");
-            //out.print("<input type='submit' name = 'action' value='delete'>");
-            out.print("</form>");
-            
-           
         } catch (SQLException ex) {
-            Logger.getLogger(AccDetail.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if(conn != null){
-            try {
-                conn.close();
-            } catch (SQLException ex) {
-                Logger.getLogger("connection-close").log(Level.SEVERE, null, ex);
-            }
+            Logger.getLogger(AddTracking.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

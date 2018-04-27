@@ -1,4 +1,4 @@
-/*
+﻿/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -29,6 +29,9 @@ import javax.sql.DataSource;
  */
 @WebServlet(name = "OrderDetail", urlPatterns = {"/admin/OrderDetail"})
 public class OrderDetail extends HttpServlet {
+
+    @Resource(name = "test2")
+    private DataSource test2;
 
     @Resource(name = "project")
     private DataSource project;
@@ -92,7 +95,14 @@ public class OrderDetail extends HttpServlet {
                 out.println("รหัสสินค้า: "+ rs_ot.getString("acc_acc_id") + " ");
                 out.println("ชื่อสินค้า: "+ rs_name.getString("name") + " ");
                 out.println("จำนวน: "+ rs_ot.getString("quentity") + "<br>");
+                out.print(order_id);
+                
             }
+            out.println("<form action='AddTracking'>");
+                out.println("Tracking number: <input type='text' name='number'/>");
+                out.println("<input type='hidden' value='"+order_id+"' name='order_id'>");
+                out.println("<input type='submit' value='add' name='number'");
+                out.println("</form>");
         } catch (SQLException ex) {
             Logger.getLogger(OrderDetail.class.getName()).log(Level.SEVERE, null, ex);
         }
