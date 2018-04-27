@@ -260,7 +260,7 @@ CREATE TABLE `member` (
 
 LOCK TABLES `member` WRITE;
 /*!40000 ALTER TABLE `member` DISABLE KEYS */;
-INSERT INTO `member` VALUES (1,'Alicia','alice123',0),(2,'alyse','lovely12',50),(3,'aki125','akiaki1',84),(4,'bonnie','rabbit50',3),(5,'chrissi','god32',20),(6,'Dannn','dannyja55',55),(7,'Derk','derv12',0),(8,'jedzzz','jedzy1',2),(9,'johnson','johnny89',200),(10,'jake','cherry23',7);
+INSERT INTO `member` VALUES (1,'Alicia','alice123',0),(2,'alyse','lovely12',50),(3,'aki125','akiaki1',79),(4,'bonnie','rabbit50',3),(5,'chrissi','god32',20),(6,'Dannn','dannyja55',55),(7,'Derk','derv12',0),(8,'jedzzz','jedzy1',2),(9,'johnson','johnny89',200),(10,'jake','cherry23',7);
 /*!40000 ALTER TABLE `member` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -283,7 +283,7 @@ CREATE TABLE `order` (
   PRIMARY KEY (`order_id`),
   KEY `order_cus_cus_id_idx` (`cus_cus_id`),
   CONSTRAINT `order_cus_cus_id` FOREIGN KEY (`cus_cus_id`) REFERENCES `customer` (`cus_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -292,7 +292,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (1,'2018-04-21 19:08:13','wait_verify',NULL,NULL,1000.00,'102/103 ถ.เพชรบุรีตัดใหม่ มักกะสัน ราชเทวี กรุงเทพฯ 10400',20),(2,'2018-04-21 18:59:32','wait_verify',NULL,NULL,840.00,'503 ถนนลาดพร้าว บางกะปิ คลองจั่น กรุงเทพมหานคร 10240',21),(3,'2018-04-21 19:06:07','wait_verify',NULL,NULL,940.00,'503 ถนนลาดพร้าว บางกะปิ คลองจั่น  กรุงเทพมหานคร 10240',22),(4,'2018-04-21 19:23:32','wait_verify',0,25,258.00,'506 ถนนลาดพร้าว คลองจั่น บางกะปิ กรุงเทพ 10240',1),(5,'2018-04-21 19:23:32','wait_verify',0,84,840.00,'10 ลำลูกกา พืชอุดม ปทุมธานี 12150',7),(6,'2018-04-21 19:25:40','wait_verify',1,10,99.00,'405 ถนนเพชรบุรีตัดใหม่ ราชเทวี มักกะสัน กรุงเทพ 10400',3),(7,'2018-04-21 19:26:42','wait_verify',45,24,195.00,'405 ถนนเพชรบุรีตัดใหม่ ราชเทวี มักกะสัน กรุงเทพ 10400',3),(8,'2018-04-21 19:29:03','wait_verify',4,39,386.00,'405 ถนนเพชรบุรีตัดใหม่ ราชเทวี มักกะสัน กรุงเทพ 10400',3),(9,'2018-04-21 19:30:41','wait_verify',NULL,NULL,600.00,'412 ถ.เพชรเกษม ภาษีเจริญ บางหว้า กรุงเทพมหานคร 10160',23),(10,'2018-04-21 19:31:54','wait_verify',10,120,1190.00,'35 - พลับพลาชัย สะเดา บุรีรัมย์ 31250',8);
+INSERT INTO `order` VALUES (1,'2018-04-21 19:08:13','wait_verify',NULL,NULL,1000.00,'102/103 ถ.เพชรบุรีตัดใหม่ มักกะสัน ราชเทวี กรุงเทพฯ 10400',20),(2,'2018-04-21 18:59:32','wait_verify',NULL,NULL,840.00,'503 ถนนลาดพร้าว บางกะปิ คลองจั่น กรุงเทพมหานคร 10240',21),(3,'2018-04-21 19:06:07','wait_verify',NULL,NULL,940.00,'503 ถนนลาดพร้าว บางกะปิ คลองจั่น  กรุงเทพมหานคร 10240',22),(4,'2018-04-21 19:23:32','wait_verify',0,25,258.00,'506 ถนนลาดพร้าว คลองจั่น บางกะปิ กรุงเทพ 10240',1),(5,'2018-04-21 19:23:32','wait_verify',0,84,840.00,'10 ลำลูกกา พืชอุดม ปทุมธานี 12150',7),(6,'2018-04-21 19:25:40','wait_verify',1,10,99.00,'405 ถนนเพชรบุรีตัดใหม่ ราชเทวี มักกะสัน กรุงเทพ 10400',3),(7,'2018-04-21 19:26:42','wait_verify',45,24,195.00,'405 ถนนเพชรบุรีตัดใหม่ ราชเทวี มักกะสัน กรุงเทพ 10400',3),(8,'2018-04-21 19:29:03','wait_verify',4,39,386.00,'405 ถนนเพชรบุรีตัดใหม่ ราชเทวี มักกะสัน กรุงเทพ 10400',3),(9,'2018-04-21 19:30:41','wait_verify',NULL,NULL,600.00,'412 ถ.เพชรเกษม ภาษีเจริญ บางหว้า กรุงเทพมหานคร 10160',23),(10,'2018-04-21 19:31:54','wait_verify',10,120,1190.00,'35 - พลับพลาชัย สะเดา บุรีรัมย์ 31250',8),(11,'2018-04-27 15:41:39','wait_verify',5,52,515.00,'405 ถนนเพชรบุรีตัดใหม่ ราชเทวี มักกะสัน กรุงเทพ 10400',3);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -320,7 +320,7 @@ CREATE TABLE `order_item` (
 
 LOCK TABLES `order_item` WRITE;
 /*!40000 ALTER TABLE `order_item` DISABLE KEYS */;
-INSERT INTO `order_item` VALUES (100,1,1,1,3),(100,1,1,1,6),(200,5,2,1,1),(200,3,3,1,2),(200,3,3,1,3),(120,2,4,1,2),(120,2,4,1,3),(120,7,4,1,5),(120,1,4,1,8),(120,1,5,1,8),(150,1,6,1,8),(120,2,8,1,7),(120,5,8,1,9),(100,12,9,1,10),(129,2,10,1,4);
+INSERT INTO `order_item` VALUES (100,1,1,1,3),(100,1,1,1,6),(200,5,2,1,1),(200,3,3,1,2),(200,2,3,1,11),(200,3,3,2,3),(120,7,4,1,5),(120,1,4,1,8),(120,2,4,2,2),(120,2,4,3,3),(120,1,5,2,8),(120,1,5,2,11),(150,1,6,3,8),(120,2,8,1,7),(120,5,8,1,9),(100,12,9,1,10),(129,2,10,1,4);
 /*!40000 ALTER TABLE `order_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -362,4 +362,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-23 17:19:33
+-- Dump completed on 2018-04-27 17:22:54

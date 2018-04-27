@@ -3,24 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/WebPro/SellAcc/web/non_order.jsp</file>
-            <file>file:/D:/WebPro/SellAcc/web/addAddress.jsp</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/Order/addOrder.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/edit_profile/editPassword.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/edit_profile/showAddress.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/viewAcc/AccServlet.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/employee/UpdateStock.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/employee/PaymentCheck.java</file>
-            <file>file:/D:/WebPro/SellAcc/web/edit_profile.jsp</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/edit_profile/addAddress.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/employee/UpdateServlet.java</file>
-            <file>file:/D:/WebPro/SellAcc/web/selectview.jsp</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/UTF8Filter.java</file>
-            <file>file:/D:/WebPro/SellAcc/web/viewacc.jsp</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/Order/addressServlet.java</file>
-            <file>file:/D:/WebPro/SellAcc/web/payment.jsp</file>
-            <file>file:/D:/WebPro/SellAcc/web/register.jsp</file>
-            <file>file:/D:/WebPro/SellAcc/web/META-INF/context.xml</file>
+            <file>file:/D:/WebPro/SellAcc/src/java/profile/vieworder.java</file>
+            <file>file:/D:/WebPro/SellAcc/src/java/employee/OrderDetail.java</file>
         </group>
     </open-files>
 </project-private>
