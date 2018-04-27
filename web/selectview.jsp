@@ -106,7 +106,7 @@
 
                                 <li class="dropdown"><a class="dropdown-toggle" href="" data-toggle="dropdown">Hi! <%=session.getAttribute("username")%></a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="edit_profile.jsp">Profile</a></li>
+                                        <li><a href="showprofile">Profile</a></li>
                                         <li><a href="logout.jsp">Logout</a></li>
                                     </ul>
                                 </li>
@@ -235,7 +235,7 @@
         <script src="assets/lib/jquery/dist/jquery.js"></script>
         <script src="assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="assets/lib/wow/dist/wow.js"></script>
-        <script src="assets/lib/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.js"></script>
+        <script src="assets/lib/jquery.mba.ytplayer/dist/jquery.mb.YTPlayer.js"></script>
         <script src="assets/lib/isotope/dist/isotope.pkgd.js"></script>
         <script src="assets/lib/imagesloaded/imagesloaded.pkgd.js"></script>
         <script src="assets/lib/flexslider/jquery.flexslider.js"></script>
