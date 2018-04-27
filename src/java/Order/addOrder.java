@@ -181,7 +181,7 @@ public class addOrder extends HttpServlet {
                     i_item.setInt(4, item_num);
                     i_item.setInt(5, order_id);
                     i_item.executeUpdate();
-
+                    item_num += 1;
                 }
             } else {
                 //find cus_id in customer

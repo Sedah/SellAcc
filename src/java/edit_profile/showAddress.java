@@ -68,7 +68,6 @@ public class showAddress extends HttpServlet {
             PreparedStatement a = conn.prepareStatement(sql);
             a.setInt(1, cus_id);
             ResultSet rs_a = a.executeQuery();
-            ResultSetMetaData rsmd = rs_a.getMetaData();
 
             if (username != null) {
 

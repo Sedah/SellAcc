@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package employee;
+package profile;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,9 +12,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,13 +24,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
+import model.Accessory;
+import model.Order;
+import model.OrderItem;
 
 /**
  *
- * @author Administrator
+ * @author Chronical
  */
-@WebServlet(name = "OrderDetail", urlPatterns = {"/admin/OrderDetail"})
-public class OrderDetail extends HttpServlet {
+@WebServlet(name = "vieworder", urlPatterns = {"/vieworder"})
+public class vieworder extends HttpServlet {
 
     @Resource(name = "project")
     private DataSource project;
@@ -52,51 +57,43 @@ public class OrderDetail extends HttpServlet {
         }
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            String order_id = request.getParameter("view");
-            String employee_name = (String) session.getAttribute("name");
-            String sql = "select * from `order` where order_id = ?";
+            String order = request.getParameter("ord_id");
+            int order_id = Integer.parseInt(order);
+            ArrayList<OrderItem> ordlist = new ArrayList<OrderItem>();
+            ArrayList<Accessory> acclist = new ArrayList<Accessory>();
+            String sql = "select * from order_item where order_order_id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, order_id);
+            stmt.setInt(1, order_id);
             ResultSet rs = stmt.executeQuery();
-            ResultSetMetaData rsmd = rs.getMetaData();
 
             while (rs.next()) {
-
-                for (int i = 0; i < rsmd.getColumnCount(); i++) {
-                    if (rsmd.getColumnName(i + 1).equals("order_id")) {
-                        session.setAttribute("order_id", rs.getString(i + 1));
-                    }
-                    if (rsmd.getColumnName(i + 1).equals("status_order")) {
-                        session.setAttribute("old_status", rs.getString(i + 1));
-                    }
-                    if (i == 0) {
-                        out.println("<h1>" + rsmd.getColumnName(i + 1) + "  " + rs.getString(i + 1) + "</h1>");
-
-                    } else {
-                        out.println(rsmd.getColumnName(i + 1) + " : " + rs.getString(i + 1) + "<br>");
-                    }
-                }
-
+                OrderItem ord = new OrderItem(getServletContext());
+                ord.setPrice(rs.getDouble("price"));
+                ord.setQuentity(rs.getInt("quentity"));
+                ord.setAcc_id(rs.getInt("acc_acc_id"));
+                ord.setItem_num(rs.getInt("item_num"));
+                ord.setOrder_id(rs.getInt("order_order_id"));
+                ordlist.add(ord);
             }
-            String order_item = "select * from `order_item` where order_order_id = ?";
-            PreparedStatement ot = conn.prepareStatement(order_item);
-            ot.setString(1, order_id);
-            ResultSet rs_ot = ot.executeQuery();
-            while (rs_ot.next()) {
-                String acc_name = "select * from accessories where acc_id = ?";
-                PreparedStatement name = conn.prepareStatement(acc_name);
-                name.setString(1, rs_ot.getString("acc_acc_id"));
-                ResultSet rs_name = name.executeQuery();
-                rs_name.next();
-                out.println("รหัสสินค้า: "+ rs_ot.getString("acc_acc_id") + " ");
-                out.println("ชื่อสินค้า: "+ rs_name.getString("name") + " ");
-                out.println("จำนวน: "+ rs_ot.getString("quentity") + "<br>");
-            }
+            String s_order = "select * from `order` where order_id = ?";
+            PreparedStatement s_ord = conn.prepareStatement(s_order);
+            s_ord.setInt(1, order_id);
+            ResultSet rs_s = s_ord.executeQuery();
+            rs_s.next();
+            Order ord_s = new Order();
+            ord_s.setOrder_id(rs_s.getInt("order_id"));
+            ord_s.setBuy_date(rs_s.getDate("buy_date"));
+            ord_s.setStatus(rs_s.getString("status_order"));
+            ord_s.setUse_point(rs_s.getInt("use_point"));
+            ord_s.setRecieve_point(rs_s.getInt("recieve_point"));
+            ord_s.setTotal_price(rs_s.getDouble("total_price"));
+            request.setAttribute("ordlist", ordlist);
+            request.setAttribute("ord_s", ord_s);
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/orderdetail.jsp");
+            rd.forward(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(OrderDetail.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(vieworder.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         if (conn != null) {
             try {
                 conn.close();
@@ -106,7 +103,7 @@ public class OrderDetail extends HttpServlet {
         }
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
