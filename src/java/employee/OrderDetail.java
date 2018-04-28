@@ -30,6 +30,7 @@ import javax.sql.DataSource;
 @WebServlet(name = "OrderDetail", urlPatterns = {"/admin/OrderDetail"})
 public class OrderDetail extends HttpServlet {
 
+
     @Resource(name = "project")
     private DataSource project;
 
