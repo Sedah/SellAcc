@@ -52,21 +52,27 @@ public class EmLoginServlet extends HttpServlet {
         }
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+           boolean loginflagem = false;
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             String sql = "select * from employee where username = ? and password = ?";
+            
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, username);
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
+            HttpSession session = request.getSession();
+            session.setAttribute("loginflagem", loginflagem);
+            if (rs.next() == true) {
+                loginflagem = true;
 
-            HttpSession session = request.getSession(rs.next());
-            if (session != null) {
+            }
+            if (loginflagem == true) {
                 session.setAttribute("name", rs.getString("name"));
                 session.setAttribute("employee_id", rs.getString("emp_id"));
                 response.sendRedirect("admin/Accessory");
             } else {
-                out.print("<a href='EmployeeLogin.html'><h1>Invalid username or password</h1></a>");
+                response.sendRedirect("EmployeeLogin.jsp");
             }
 
         } catch (SQLException ex) {
