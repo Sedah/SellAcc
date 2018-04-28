@@ -89,10 +89,20 @@ public class OrderDetail extends HttpServlet {
                 name.setString(1, rs_ot.getString("acc_acc_id"));
                 ResultSet rs_name = name.executeQuery();
                 rs_name.next();
-                out.println("รหัสสินค้า: "+ rs_ot.getString("acc_acc_id") + " ");
-                out.println("ชื่อสินค้า: "+ rs_name.getString("name") + " ");
-                out.println("จำนวน: "+ rs_ot.getString("quentity") + "<br>");
+                out.println("รหัสสินค้า: " + rs_ot.getString("acc_acc_id") + " ");
+                out.println("ชื่อสินค้า: " + rs_name.getString("name") + " ");
+                out.println("จำนวน: " + rs_ot.getString("quentity") + "<br>");
             }
+            out.print("<h1> Change Order Status</h1>");
+            out.print("<form method='POST' action='OrderChange'  ><select class=\"form-control\" name=\"status_order\">\n"
+                    + "<option>wait_verify</option>\n"
+                    + "<option>verify_pass</option>\n"
+                    + "<option>verify_not_pass\n</option>"
+                    + "<option>send\n</option>"
+                    + "<option>cancle\n</option>"
+                    + "</select><br>"
+                    //+"<input type='hidden' value='"+rs.getString(1)+"'>"
+                    + "<br><input class=\"btn btn-b btn-round\" type='submit' value='update'></form>");
         } catch (SQLException ex) {
             Logger.getLogger(OrderDetail.class.getName()).log(Level.SEVERE, null, ex);
         }

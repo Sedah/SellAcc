@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Enumeration;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -57,17 +58,21 @@ public class LogServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
-            String employee_id = (String) session.getAttribute("employee_id");
-            String order_id = (String) session.getAttribute("order_id");
+            
+            String eid = (String) session.getAttribute("employee_id");
+            
+            int employee_id = Integer.parseInt(eid);
+            String oid = (String) session.getAttribute("order_id");
+            int order_id = Integer.parseInt(oid);
             String old_status = (String) session.getAttribute("old_status");
             String new_status = (String) session.getAttribute("new_status");
             String action = (String) session.getAttribute("action");
-            String sql = "select * from orders where order_id = ?";
+            String sql = "select * from `order` where order_id = ?";
             
             if (action.equals("status_change"))
             {
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, order_id);
+            stmt.setInt(1, order_id);
             ResultSet rs = stmt.executeQuery();
             ResultSetMetaData rsmd = rs.getMetaData();
             rs.next();
@@ -88,8 +93,8 @@ public class LogServlet extends HttpServlet {
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, date2);
             stmt.setString(2, "Change order "+order_id+" status from "+old_status+" to "+new_status);
-            stmt.setString(3, employee_id);
-            stmt.setString(4, order_id);
+            stmt.setInt(3, employee_id);
+            stmt.setInt(4, order_id);
             stmt.executeUpdate();
             
             response.sendRedirect("OrderCheck");

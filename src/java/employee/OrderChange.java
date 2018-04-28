@@ -55,7 +55,7 @@ public class OrderChange extends HttpServlet {
             String order_id = (String) session.getAttribute("order_id");
             String status_order = request.getParameter("status_order");
             session.setAttribute("new_status", status_order);
-            String sql = "update orders set status_order = ? where order_id = ?";
+            String sql = "update `order` set status_order = ? where order_id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, status_order);
             stmt.setString(2, order_id);
