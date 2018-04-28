@@ -66,10 +66,9 @@ public class commServlet extends HttpServlet {
             Timestamp date = new Timestamp(System.currentTimeMillis());
             
             //find cus_id in customer
-            String find_mem = "SELECT cus_id FROM customer WHERE  name = ? AND email = ?";
+            String find_mem = "SELECT cus_id FROM customer WHERE email = ?";
             PreparedStatement f = conn.prepareStatement(find_mem);
-            f.setString(1, name);
-            f.setString(2, email);
+            f.setString(1, email);
             ResultSet rs_f = f.executeQuery();
             
             if (rs_f.next() == false) {

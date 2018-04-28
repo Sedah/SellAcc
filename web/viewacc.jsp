@@ -180,8 +180,9 @@
                                     <div class="form-group">
                                         <button class="btn btn-block btn-round btn-b" type="submit" value="Submit">Comment</button>
                                     </div>
+                                    <input type="hidden" name="acc_id" value="${acc.acc_id}" />
                                 </form>
-                                <input type="hidden" name="acc_id" value="${acc.acc_id}" />
+                                
 
 
                                 <c:if test="${param.value == 1}">
