@@ -29,8 +29,6 @@ import javax.sql.DataSource;
 @WebServlet(name = "AccDetail", urlPatterns = {"/admin/AccDetail"})
 public class AccDetail extends HttpServlet {
 
-    @Resource(name = "test2")
-    private DataSource test2;
 
    @Resource(name = "project")
     private DataSource project;

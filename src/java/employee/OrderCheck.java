@@ -30,9 +30,6 @@ import javax.sql.DataSource;
 @WebServlet(name = "OrderCheck", urlPatterns = {"/admin/OrderCheck"})
 public class OrderCheck extends HttpServlet {
 
-    @Resource(name = "test2")
-    private DataSource test2;
-
     @Resource(name = "project")
     private DataSource project;
 

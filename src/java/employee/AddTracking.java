@@ -8,11 +8,16 @@ package employee;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,9 +31,6 @@ import javax.sql.DataSource;
  */
 @WebServlet(name = "AddTracking", urlPatterns = {"/admin/AddTracking"})
 public class AddTracking extends HttpServlet {
-
-    @Resource(name = "test2")
-    private DataSource test2;
 
     @Resource(name = "project")
     private DataSource project;
@@ -52,15 +54,26 @@ public class AddTracking extends HttpServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(AddTracking.class.getName()).log(Level.SEVERE, null, ex);
             }
+            String type = request.getParameter("type");
+            String sdate = request.getParameter("date");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd");
+            Date date = null;
+            try {
+                date = new Date(simpleDateFormat.parse(sdate).getTime());
+            } catch (ParseException ex) {
+                Logger.getLogger(AddTracking.class.getName()).log(Level.SEVERE, null, ex);
+            }
             String number = request.getParameter("number");
-            String order_id = request.getParameter("order_id");
-            String sql = "update deliverie set tracking_number = ? where order_order_id = ?";
-            out.print(number);
-            out.print(order_id);
+            String oid = request.getParameter("order_id");
+            int order_id = Integer.parseInt(oid);
+            String sql = "insert into deliverie VALUES"
+                        + " (?,?,?,?)";
             
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, number);
-            stmt.setString(2, order_id);
+            stmt.setString(1, type);
+            stmt.setDate(2, date);
+            stmt.setString(3, number);
+            stmt.setInt(4, order_id);
             stmt.executeUpdate();
             response.sendRedirect("OrderCheck");
             

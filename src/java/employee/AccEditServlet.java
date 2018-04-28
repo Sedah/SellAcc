@@ -30,8 +30,6 @@ public class AccEditServlet extends HttpServlet {
     @Resource(name = "project")
     private DataSource project;
 
-    @Resource(name = "test2")
-    private DataSource test2;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

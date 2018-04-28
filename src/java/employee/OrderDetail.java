@@ -92,7 +92,6 @@ public class OrderDetail extends HttpServlet {
                 out.println("รหัสสินค้า: " + rs_ot.getString("acc_acc_id") + " ");
                 out.println("ชื่อสินค้า: " + rs_name.getString("name") + " ");
                 out.println("จำนวน: " + rs_ot.getString("quentity") + "<br>");
-                out.print(order_id);
             }
             out.print("<h1> Change Order Status</h1>");
             out.print("<form method='POST' action='OrderChange'  ><select class=\"form-control\" name=\"status_order\">\n"
@@ -105,11 +104,25 @@ public class OrderDetail extends HttpServlet {
                     //+"<input type='hidden' value='"+rs.getString(1)+"'>"
                     + "<br><input class=\"btn btn-b btn-round\" type='submit' value='update'></form>");
 
-            out.println("<form action='AddTracking'>");
-            out.println("Tracking number: <input type='text' name='number'/>");
-            out.println("<input type='hidden' value='" + order_id + "' name='order_id'>");
-            out.println("<input type='submit' value='add' name='number'");
-            out.println("</form>");
+            String check = "select * from deliverie where order_order_id = ?";
+            PreparedStatement chk = conn.prepareStatement(check);
+            chk.setString(1, order_id);
+            ResultSet rs_chk = chk.executeQuery();
+            if (rs_chk.next() == false) {
+                out.println("<form action='AddTracking'>");
+                out.println("Type: <input type='text' name='type'/>");
+                out.println("Tracking number: <input type='text' name='number'/>");
+                out.println("Send date: <input type='text' name='date'/>");
+                out.println("Format : YYYY-MM-DD ex. 2018-01-23");
+                out.println("<input type='hidden' value='" + order_id + "' name='order_id'>");
+                out.println("<input type='submit' value='add' name='number'");
+                out.println("</form>");
+            }
+            else {
+                out.println("Type: " + rs_chk.getString("type")+"<br>");
+                out.println("Tracking Number: " + rs_chk.getString("tracking_number")+"<br>");
+                out.println("Send Date "+rs_chk.getDate("send_date"));
+            }
 
         } catch (SQLException ex) {
             Logger.getLogger(OrderDetail.class.getName()).log(Level.SEVERE, null, ex);

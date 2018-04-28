@@ -32,9 +32,7 @@ public class EditServlet extends HttpServlet {
 
 @Resource(name = "project")
     private DataSource project;
-    
-    private Connection conn;
-    private Connection con;
+
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -66,7 +64,7 @@ public class EditServlet extends HttpServlet {
             if (request.getParameter("num").equals(null))
                 out.print("Please enter valid number");
             String sql = "update accessories set quantity = quantity"+action+num+" where acc_id = "+acc_id;
-            Statement stmt = con.createStatement();
+            Statement stmt = conn.createStatement();
             if (employee_name != null)
                 stmt.executeUpdate(sql);
            
