@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -181,7 +182,7 @@ public class Accessory extends HttpServlet {
                             out.print("<td> &emsp;" + rs.getString(i + 1) + " &emsp;</td>");
                     }
                     out.print("<form action='AccDetail'>");
-                    out.print("<td><button type='submit' name='view' value='"+rs.getString(1)+"'>view</button></td>");
+                    out.print("<td><button class=\"btn btn-b btn-round\" type='submit' name='view' value='"+rs.getString(1)+"'>view</button></td>");
                     out.print("</form>");
                     out.print("</tr>");
                     count += 1;
@@ -206,11 +207,13 @@ public class Accessory extends HttpServlet {
                         + "    <script src=\"assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js\"></script>\n"
                         + "    <script src=\"assets/js/plugins.js\"></script>\n"
                         + "    <script src=\"assets/js/main.js\"></script>\n"
-                        + "  </body>\n"
-                        + "</html>");
+                        );
             } else {
-                out.print("<a href='/EmployeeLogin.html'> Please Login </a>");
+                out.print("<alert>Please login</alert>");
+                RequestDispatcher rp = request.getRequestDispatcher("EmployeesLogin.html");
+                rp.forward(request, response);
             }
+            out.println("</body></html>");
         } catch (SQLException ex) {
             Logger.getLogger(Accessory.class.getName()).log(Level.SEVERE, null, ex);
         }

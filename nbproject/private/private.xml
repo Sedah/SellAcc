@@ -3,14 +3,37 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/WebPro/SellAcc/src/java/employee/EmLoginServlet.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/profile/vieworder.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/Login/logoutServlet.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/employee/OrderDetail.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/employee/LogServlet.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/employee/EmLogoutServlet.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/UTF8Filter.java</file>
-            <file>file:/D:/WebPro/SellAcc/src/java/employee/OrderChange.java</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/EmployeeLogin.html</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/login_register.jsp</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/src/java/payment/creditServlet.java</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/src/java/employee/CategoryCheck.java</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/non_order.jsp</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/regis_comp.html</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/META-INF/context.xml</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/orderdetail.jsp</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/viewCart.jsp</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/index.html</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/viewacc.jsp</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/src/java/employee/OrderDetail.java</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/register_comp.jsp</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/EmployeeRegister.html</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/mem_order.jsp</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/profile.jsp</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/edit_profile.jsp</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/src/java/Login/loginServlet.java</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/index.jsp</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/src/java/employee/Accessory.java</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/pay_comp.jsp</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/payment.jsp</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/login_comp.jsp</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/src/java/Login/logoutServlet.java</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/order_comp.jsp</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/src/java/employee/EmLoginServlet.java</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/addAddress.jsp</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/selectview.jsp</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/nbproject/build-impl.xml</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/src/java/employee/AccDetail.java</file>
+            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/edit_comp.jsp</file>
         </group>
     </open-files>
 </project-private>

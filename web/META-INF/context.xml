@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context path="/SellAcc">
   <Resource auth="Container" driverClassName="com.mysql.jdbc.Driver" maxActive="20" maxIdle="10" maxWait="-1" name="project" password="Piam_Jennis_51" type="javax.sql.DataSource" url="jdbc:mysql://tomcat.it.kmitl.ac.th:3306/webpro_15_prod?useUnicode=true&amp;characterEncoding=utf-8&amp;characterSetResults=utf8&amp;connectionCollation=utf8_general_ci" username="webpro-15"/>
+  <!--Resource auth="Container" driverClassName="com.mysql.jdbc.Driver" maxActive="20" maxIdle="10" maxWait="-1" name="project" password="root" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/practice?zeroDateTimeBehavior=convertToNull" username="root"/-->
 </Context>

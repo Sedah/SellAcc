@@ -107,7 +107,7 @@
                                 <li class="dropdown"><a class="dropdown-toggle" href="" data-toggle="dropdown">Hi! <%=session.getAttribute("username")%></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="showprofile">Profile</a></li>
-                                        <li><a href="logout.jsp">Logout</a></li>
+                                        <li><a href="logoutServlet">Logout</a></li>
                                     </ul>
                                 </li>
                             </ul>
