@@ -5,15 +5,18 @@
  */
 package payment;
 
+import co.omise.Client;
+import co.omise.ClientException;
+import co.omise.models.Charge;
+import co.omise.models.OmiseException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.sql.*;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,8 +33,8 @@ import javax.sql.DataSource;
  *
  * @author Chronical
  */
-@WebServlet(name = "paymentServlet", urlPatterns = {"/paymentServlet"})
-public class paymentServlet extends HttpServlet {
+@WebServlet(name = "creditServlet", urlPatterns = {"/creditServlet"})
+public class creditServlet extends HttpServlet {
 
     @Resource(name = "project")
     private DataSource project;
@@ -55,64 +58,65 @@ public class paymentServlet extends HttpServlet {
         }
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            Client client = new Client("pkey_test_5br77ofbj0xi13v5xqz", "skey_test_5br77ofc1db6vlm3fxc");
             String oid = request.getParameter("order_id");
-            String s_date = request.getParameter("date");
-            String s_time = request.getParameter("time");
-            String s_amount = request.getParameter("amount");
-            String url = request.getParameter("image");
-            String timestamp = s_date.concat(' ' + s_time);
-
+            String omiseToken = request.getParameter("omiseToken");
             int order_id = Integer.parseInt(oid);
-            double amount = Double.parseDouble(s_amount);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm");
-            Date date = null;
-            try {
-                date = simpleDateFormat.parse(timestamp);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            if (date == null){
-                int fail = 2;
-                request.setAttribute("payment", fail);
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/payment.jsp");
-                rd.forward(request, response);
-                return;
-            }
-            Timestamp time = new Timestamp(date.getTime());
-            System.out.println(time);
-
-            //check order_id
-            String find_id = "SELECT order_id FROM `order` WHERE order_id = ?";
-            PreparedStatement fo = conn.prepareStatement(find_id);
+            String find_order = "SELECT * FROM `order` WHERE order_id = ?";
+            PreparedStatement fo = conn.prepareStatement(find_order);
             fo.setInt(1, order_id);
             ResultSet rs_fo = fo.executeQuery();
-            if (!rs_fo.next()) {
-                int fail = 1;
-                request.setAttribute("payment", fail);
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/payment.jsp");
+            rs_fo.next();
+            double price = rs_fo.getDouble("total_price");
+            double sprice = rs_fo.getDouble("total_price") * 100;
+            int total_price = (int) sprice;
+
+            try {
+                Charge charge = client.charges().create(new Charge.Create()
+                        .amount(total_price) // THB 1,000.00
+                        .currency("THB")
+                        .card(omiseToken));
+                System.out.println("created charge: " + charge.getId());
+                
+                
+            Timestamp time = new Timestamp(System.currentTimeMillis());
+                //insert payment
+                String insert_payment = "INSERT INTO payment"
+                        + "(date, amount,type, image, order_order_id) VALUES"
+                        + "(?, ?, ?, ?, ?)";
+
+                PreparedStatement c = conn.prepareStatement(insert_payment);
+                c.setTimestamp(1, time);
+                c.setDouble(2, price);
+                c.setString(3, "credit");
+                c.setString(4, " ");
+                c.setInt(5, order_id);
+                c.executeUpdate();
+                
+                //update status
+                String update_status = "UPDATE `order` SET status_order = ? where order_id = ?";
+                        
+
+                PreparedStatement u = conn.prepareStatement(update_status);
+                u.setString(1, "verify_pass");
+                u.setInt(2, order_id);
+                u.executeUpdate();
+
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/pay_comp.jsp");
                 rd.forward(request, response);
                 return;
+            } catch (IOException e) {
+                Logger.getLogger(creditServlet.class.getName()).log(Level.SEVERE, null, e);
+            } catch (OmiseException ex) {
+                Logger.getLogger(creditServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            //insert payment
-            String insert_payment = "INSERT INTO payment"
-                    + "(date, amount,type, image, order_order_id) VALUES"
-                    + "(?, ?, ?, ?, ?)";
-
-            PreparedStatement c = conn.prepareStatement(insert_payment);
-            c.setTimestamp(1, time);
-            c.setDouble(2, amount);
-            c.setString(3, "money-trans");
-            c.setString(4, url);
-            c.setInt(5, order_id);
-            c.executeUpdate();
-            //forward to order comp
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/pay_comp.jsp");
-            rd.forward(request, response);
+        } catch (ClientException ex) {
+            Logger.getLogger(creditServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(paymentServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(creditServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if(conn != null){
+
+        if (conn != null) {
             try {
                 conn.close();
             } catch (SQLException ex) {

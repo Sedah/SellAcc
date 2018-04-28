@@ -38,7 +38,6 @@ public class addOrder extends HttpServlet {
     @Resource(name = "project")
     private DataSource project;
 
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -51,7 +50,7 @@ public class addOrder extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Connection conn = null;
-               try {
+        try {
             conn = project.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger("connection-error").log(Level.SEVERE, null, ex);
@@ -87,8 +86,8 @@ public class addOrder extends HttpServlet {
                 a.setInt(1, add_id);
                 ResultSet rs_a = a.executeQuery();
                 rs_a.next();
-                String address = rs_a.getString("house_num") +" "+ rs_a.getString("street")+" " + rs_a.getString("area")
-                        + " "+rs_a.getString("district") + " "+rs_a.getString("province") + " "+rs_a.getString("postcode");
+                String address = rs_a.getString("house_num") + " " + rs_a.getString("street") + " " + rs_a.getString("area")
+                        + " " + rs_a.getString("district") + " " + rs_a.getString("province") + " " + rs_a.getString("postcode");
 
                 //select point
                 String find_point = "SELECT point FROM member WHERE cus_cus_id = ?";
@@ -145,7 +144,7 @@ public class addOrder extends HttpServlet {
                         + "(buy_date, use_point,recieve_point, total_price, cus_cus_id, address) VALUES"
                         + "(?, ?, ?, ?, ?,?)";
 
-                PreparedStatement c = conn.prepareStatement(insert_order);
+                PreparedStatement c = conn.prepareStatement(insert_order, PreparedStatement.RETURN_GENERATED_KEYS);
                 Timestamp date = new Timestamp(System.currentTimeMillis());
                 c.setTimestamp(1, date);
                 c.setInt(2, use_point);
@@ -154,6 +153,10 @@ public class addOrder extends HttpServlet {
                 c.setInt(5, cus_id);
                 c.setString(6, address);
                 c.executeUpdate();
+                ResultSet rs_number = c.getGeneratedKeys();
+                rs_number.next();
+                int auto_id = rs_number.getInt(1);
+                session.setAttribute("order_num", auto_id);
 
                 //find order_id
                 String find_order = "SELECT MAX(order_id) as 'order_id' FROM `order` WHERE  cus_cus_id = ?";
@@ -218,20 +221,24 @@ public class addOrder extends HttpServlet {
                     String street = request.getParameter("street");
                     String area = request.getParameter("area");
                     String postcode = request.getParameter("postcode");
-                    String address = house_n +" " +street+" " + area+" " + district+ " " + province + " "+postcode;
+                    String address = house_n + " " + street + " " + area + " " + district + " " + province + " " + postcode;
 
                     //insert order
                     String insert_order = "INSERT INTO `order`"
                             + "(buy_date, total_price, cus_cus_id, address) VALUES"
                             + "(?, ?, ?, ?)";
 
-                    PreparedStatement i = conn.prepareStatement(insert_order);
+                    PreparedStatement i = conn.prepareStatement(insert_order,PreparedStatement.RETURN_GENERATED_KEYS);
                     Timestamp date = new Timestamp(System.currentTimeMillis());
                     i.setTimestamp(1, date);
                     i.setDouble(2, total);
                     i.setInt(3, cus_id);
                     i.setString(4, address);
                     i.executeUpdate();
+                    ResultSet rs_number = i.getGeneratedKeys();
+                    rs_number.next();
+                    int auto_id = rs_number.getInt(1);
+                    session.setAttribute("order_num", auto_id);
 
                     //find order_id
                     String find_order = "SELECT MAX(order_id) as 'order_id' FROM `order` WHERE  cus_cus_id = ?";
@@ -270,7 +277,7 @@ public class addOrder extends HttpServlet {
                     String street = request.getParameter("street");
                     String area = request.getParameter("area");
                     String postcode = request.getParameter("postcode");
-                    String address = house_n +' ' +street+' ' + area+' ' + district+ ' ' + province + ' '+postcode;
+                    String address = house_n + ' ' + street + ' ' + area + ' ' + district + ' ' + province + ' ' + postcode;
 
                     //insert order
                     String insert_order = "INSERT INTO `order`"
@@ -322,7 +329,7 @@ public class addOrder extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(addOrder.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if(conn != null){
+        if (conn != null) {
             try {
                 conn.close();
             } catch (SQLException ex) {

@@ -138,13 +138,26 @@
                 <hr class="divider-w mb-10">
                 <form class="form" action="/SellAcc/AccServlet" method="POST">
                 <H1>Order Complete</H1>
-                Your Order NO. is  &emsp;<font size="4">OrderNumber</font> .  &emsp; Please don't forget it! <br><br>
+                Your Order NO. is  &emsp;<font size="4">${order_num}</font> .  &emsp; Please don't forget it! <br><br>
                  <div class="form-group">
                     <button class="btn btn-block btn-round btn-b" type="submit" value="regis">Next</button>
-                  </div>
+                 </div></form>
               </div>
               <div class="col-sm-5">
-               
+                  <form action="creditServlet" method="POST">
+                      <script type="text/javascript" src="https://cdn.omise.co/omise.js"
+                                        data-key="pkey_test_5br77ofbj0xi13v5xqz"
+                                        data-image="http://bit.ly/customer_image"
+                                        data-frame-label="Accessories Shop"
+                                        data-button-label="Pay now"
+                                        data-submit-label="Submit"
+                                        data-location="no"
+                                        data-amount="${cart.total*100}"
+                                        data-currency="thb"
+                                        >
+                                </script>
+                                <input type="hidden" name="order_id" value="${order_num}" />
+                  </form>
             </div>
           </div>
         </section>
@@ -209,5 +222,6 @@
     <script src="assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js"></script>
     <script src="assets/js/plugins.js"></script>
     <script src="assets/js/main.js"></script>
+    
   </body>
 </html>

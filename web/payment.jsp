@@ -63,7 +63,7 @@
             <div class="page-loader">
                 <div class="loader">Loading...</div>
             </div>
-             <c:if test="${sessionScope.username == null}">
+            <c:if test="${sessionScope.username == null}">
                 <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
                     <div class="container">
                         <div class="navbar-header">
@@ -78,7 +78,7 @@
 
                                 <li class="active"><a href="payment.jsp"><span class="icon-wallet" aria-hidden="true"></span>&emsp;Payment</a></li>
                                 <li class="active"><a href="login_register.jsp">Login</a></li>
-                                
+
 
 
 
@@ -139,6 +139,7 @@
                         </div>
                         <div class="row">
                             <form action="paymentServlet" method="post">
+                                
                                 <div class="col-sm-5 col-sm-offset-1 mb-sm-40">
                                     <div class="form-group">
                                         <br> <input class="form-control" id="username" type="text" name="order_id" placeholder="Order ID"/>
@@ -181,7 +182,7 @@
                     </div>
             </div>
         </section>
-       <div class="module-small bg-dark">
+        <div class="module-small bg-dark">
             <div class="container">
                 <div class="row">
 
@@ -194,7 +195,7 @@
                                 <li><a href="payment.jsp">Payment</a></li>
 
                                 <li><a href="viewCart.jsp">Cart</a></li>
-                                
+
                             </ul>
                         </div>
                     </div>
@@ -206,8 +207,8 @@
                             <p>Email: inbox@sehda.com</a></p>
                         </div>
                     </div>
- 
-                    
+
+
                 </div>
             </div>
         </div>
@@ -218,7 +219,7 @@
                     <div class="col-sm-12">
                         <p class="copyright font-alt">&copy; 2017&nbsp;<a href="index.html">Sehda</a>, All Rights Reserved</p>
                     </div>
-                   
+
                 </div>
             </div>
         </footer>
