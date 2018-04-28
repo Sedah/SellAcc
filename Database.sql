@@ -143,7 +143,7 @@ CREATE TABLE `customer` (
   `name` varchar(45) NOT NULL,
   `user_type` enum('mem','non') NOT NULL,
   PRIMARY KEY (`cus_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -152,7 +152,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (1,'alicia@gmail.com','Alice','mem'),(2,'alyssa@hotmail.com','Alyssa','mem'),(3,'aki123@gmail.com','Akira ','mem'),(4,'bonnie@gmail.com','Bonita ','mem'),(5,'gzchrise@gmail.com','Chris','mem'),(6,'danny@hotmail.com','Dan ','mem'),(7,'derekkk@hotmail.com','Derek ','mem'),(8,'jadey@hotmail.com','Jade','mem'),(9,'johnny@gmail.com','John ','mem'),(10,'jake124@gmail.com','Jake','mem'),(11,'kenttis@hotmail.com','Kent','non'),(20,'clair25@hotmail.com','Claris','non'),(21,'ploycute@hotmail.com','ploy','non'),(22,'ploywince@gmail.com','ploy','non'),(23,'alissa14@gmail.com','Alissa','non');
+INSERT INTO `customer` VALUES (1,'alicia@gmail.com','Alice','mem'),(2,'alyssa@hotmail.com','Alyssa','mem'),(3,'aki123@gmail.com','Akira ','mem'),(4,'bonnie@gmail.com','Bonita ','mem'),(5,'gzchrise@gmail.com','Chris','mem'),(6,'danny@hotmail.com','Dan ','mem'),(7,'derekkk@hotmail.com','Derek ','mem'),(8,'jadey@hotmail.com','Jade','mem'),(9,'johnny@gmail.com','John ','mem'),(10,'jake124@gmail.com','Jake','mem'),(11,'kenttis@hotmail.com','Kent','non'),(20,'clair25@hotmail.com','Claris','non'),(21,'ploycute@hotmail.com','ploy','non'),(22,'ploywince@gmail.com','ploy','non'),(23,'alissa14@gmail.com','Alissa','non'),(24,'dgdg','dsf','non'),(25,'hfghf','fghfg','non'),(26,'fgf','gfh','non'),(27,'hjkh',';jlhj','non'),(28,'fhf','ghfgh','non'),(29,'ere','etet','non');
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,8 +165,8 @@ DROP TABLE IF EXISTS `deliverie`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `deliverie` (
   `type` enum('ems','normal','register') NOT NULL,
-  `send-date` date NOT NULL,
-  `tracking-number` char(13) DEFAULT NULL,
+  `send_date` date NOT NULL,
+  `tracking_number` char(13) DEFAULT NULL,
   `order_order_id` int(11) NOT NULL,
   PRIMARY KEY (`order_order_id`),
   CONSTRAINT `deliverie_order_order_id` FOREIGN KEY (`order_order_id`) REFERENCES `order` (`order_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -179,6 +179,7 @@ CREATE TABLE `deliverie` (
 
 LOCK TABLES `deliverie` WRITE;
 /*!40000 ALTER TABLE `deliverie` DISABLE KEYS */;
+INSERT INTO `deliverie` VALUES ('ems','2017-12-31','1234567890123',1),('normal','2012-12-30','165161611',2);
 /*!40000 ALTER TABLE `deliverie` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -234,6 +235,7 @@ CREATE TABLE `employee_order` (
 
 LOCK TABLES `employee_order` WRITE;
 /*!40000 ALTER TABLE `employee_order` DISABLE KEYS */;
+INSERT INTO `employee_order` VALUES ('2018-04-28','Change order 1 status from wait_verify to verify_pass',3,1);
 /*!40000 ALTER TABLE `employee_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -283,7 +285,7 @@ CREATE TABLE `order` (
   PRIMARY KEY (`order_id`),
   KEY `order_cus_cus_id_idx` (`cus_cus_id`),
   CONSTRAINT `order_cus_cus_id` FOREIGN KEY (`cus_cus_id`) REFERENCES `customer` (`cus_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -292,7 +294,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (1,'2018-04-21 19:08:13','wait_verify',NULL,NULL,1000.00,'102/103 ถ.เพชรบุรีตัดใหม่ มักกะสัน ราชเทวี กรุงเทพฯ 10400',20),(2,'2018-04-21 18:59:32','wait_verify',NULL,NULL,840.00,'503 ถนนลาดพร้าว บางกะปิ คลองจั่น กรุงเทพมหานคร 10240',21),(3,'2018-04-21 19:06:07','wait_verify',NULL,NULL,940.00,'503 ถนนลาดพร้าว บางกะปิ คลองจั่น  กรุงเทพมหานคร 10240',22),(4,'2018-04-21 19:23:32','wait_verify',0,25,258.00,'506 ถนนลาดพร้าว คลองจั่น บางกะปิ กรุงเทพ 10240',1),(5,'2018-04-21 19:23:32','wait_verify',0,84,840.00,'10 ลำลูกกา พืชอุดม ปทุมธานี 12150',7),(6,'2018-04-21 19:25:40','wait_verify',1,10,99.00,'405 ถนนเพชรบุรีตัดใหม่ ราชเทวี มักกะสัน กรุงเทพ 10400',3),(7,'2018-04-21 19:26:42','wait_verify',45,24,195.00,'405 ถนนเพชรบุรีตัดใหม่ ราชเทวี มักกะสัน กรุงเทพ 10400',3),(8,'2018-04-21 19:29:03','wait_verify',4,39,386.00,'405 ถนนเพชรบุรีตัดใหม่ ราชเทวี มักกะสัน กรุงเทพ 10400',3),(9,'2018-04-21 19:30:41','wait_verify',NULL,NULL,600.00,'412 ถ.เพชรเกษม ภาษีเจริญ บางหว้า กรุงเทพมหานคร 10160',23),(10,'2018-04-21 19:31:54','wait_verify',10,120,1190.00,'35 - พลับพลาชัย สะเดา บุรีรัมย์ 31250',8),(11,'2018-04-27 15:41:39','wait_verify',5,52,515.00,'405 ถนนเพชรบุรีตัดใหม่ ราชเทวี มักกะสัน กรุงเทพ 10400',3);
+INSERT INTO `order` VALUES (1,'2018-04-28 12:26:09','verify_pass',NULL,NULL,1000.00,'102/103 ถ.เพชรบุรีตัดใหม่ มักกะสัน ราชเทวี กรุงเทพฯ 10400',20),(2,'2018-04-21 18:59:32','wait_verify',NULL,NULL,840.00,'503 ถนนลาดพร้าว บางกะปิ คลองจั่น กรุงเทพมหานคร 10240',21),(3,'2018-04-21 19:06:07','wait_verify',NULL,NULL,940.00,'503 ถนนลาดพร้าว บางกะปิ คลองจั่น  กรุงเทพมหานคร 10240',22),(4,'2018-04-21 19:23:32','wait_verify',0,25,258.00,'506 ถนนลาดพร้าว คลองจั่น บางกะปิ กรุงเทพ 10240',1),(5,'2018-04-21 19:23:32','wait_verify',0,84,840.00,'10 ลำลูกกา พืชอุดม ปทุมธานี 12150',7),(6,'2018-04-21 19:25:40','wait_verify',1,10,99.00,'405 ถนนเพชรบุรีตัดใหม่ ราชเทวี มักกะสัน กรุงเทพ 10400',3),(7,'2018-04-21 19:26:42','wait_verify',45,24,195.00,'405 ถนนเพชรบุรีตัดใหม่ ราชเทวี มักกะสัน กรุงเทพ 10400',3),(8,'2018-04-21 19:29:03','wait_verify',4,39,386.00,'405 ถนนเพชรบุรีตัดใหม่ ราชเทวี มักกะสัน กรุงเทพ 10400',3),(9,'2018-04-21 19:30:41','wait_verify',NULL,NULL,600.00,'412 ถ.เพชรเกษม ภาษีเจริญ บางหว้า กรุงเทพมหานคร 10160',23),(10,'2018-04-21 19:31:54','wait_verify',10,120,1190.00,'35 - พลับพลาชัย สะเดา บุรีรัมย์ 31250',8),(11,'2018-04-27 15:41:39','wait_verify',5,52,515.00,'405 ถนนเพชรบุรีตัดใหม่ ราชเทวี มักกะสัน กรุงเทพ 10400',3),(12,'2018-04-28 14:07:47','wait_verify',NULL,NULL,200.00,'dgdg fhfg hgdgd vdg wrwe 12142',24),(18,'2018-04-28 14:21:08','wait_verify',NULL,NULL,600.00,'hkhk jhjkh khjj jkhjkhj kkh gfghf',27),(19,'2018-04-28 14:23:40','wait_verify',NULL,NULL,600.00,'hkhk jhjkh khjj jkhjkhj kkh gfghf',27),(20,'2018-04-28 14:24:11','wait_verify',NULL,NULL,600.00,'hkhk jhjkh khjj jkhjkhj kkh gfghf',27),(21,'2018-04-28 14:26:18','wait_verify',NULL,NULL,600.00,'hkhk jhjkh khjj jkhjkhj kkh gfghf',27),(22,'2018-04-28 14:27:42','wait_verify',NULL,NULL,600.00,'hkhk jhjkh khjj jkhjkhj kkh gfghf',27),(23,'2018-04-28 14:27:58','wait_verify',NULL,NULL,600.00,'hkhk jhjkh khjj jkhjkhj kkh gfghf',27),(24,'2018-04-28 14:28:26','wait_verify',NULL,NULL,600.00,'hkhk jhjkh khjj jkhjkhj kkh gfghf',27),(25,'2018-04-28 14:49:44','wait_verify',NULL,NULL,516.00,'hfh g ghfghf fghfhgf ghfgh ghfghf',28),(26,'2018-04-28 15:02:07','verify_pass',NULL,NULL,350.00,'trerte rtetert ertet eter tert eterte',29);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -320,7 +322,7 @@ CREATE TABLE `order_item` (
 
 LOCK TABLES `order_item` WRITE;
 /*!40000 ALTER TABLE `order_item` DISABLE KEYS */;
-INSERT INTO `order_item` VALUES (100,1,1,1,3),(100,1,1,1,6),(200,5,2,1,1),(200,3,3,1,2),(200,2,3,1,11),(200,3,3,2,3),(120,7,4,1,5),(120,1,4,1,8),(120,2,4,2,2),(120,2,4,3,3),(120,1,5,2,8),(120,1,5,2,11),(150,1,6,3,8),(120,2,8,1,7),(120,5,8,1,9),(100,12,9,1,10),(129,2,10,1,4);
+INSERT INTO `order_item` VALUES (100,1,1,1,3),(100,1,1,1,6),(200,5,2,1,1),(200,2,2,1,13),(200,2,2,1,14),(200,2,2,1,15),(200,2,2,1,16),(200,2,2,1,17),(200,1,2,1,26),(200,3,3,1,2),(200,2,3,1,11),(200,1,3,1,12),(200,3,3,2,3),(120,7,4,1,5),(120,1,4,1,8),(120,5,4,1,18),(120,5,4,1,19),(120,5,4,1,20),(120,5,4,1,21),(120,5,4,1,22),(120,5,4,1,23),(120,5,4,1,24),(120,2,4,2,2),(120,2,4,3,3),(120,1,5,2,8),(120,1,5,2,11),(150,1,6,3,8),(150,1,7,1,26),(120,2,8,1,7),(120,5,8,1,9),(100,12,9,1,10),(129,2,10,1,4),(129,4,10,1,25);
 /*!40000 ALTER TABLE `order_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -341,7 +343,7 @@ CREATE TABLE `payment` (
   PRIMARY KEY (`payment_id`),
   KEY `payment_order_order_id_idx` (`order_order_id`),
   CONSTRAINT `payment_order_order_id` FOREIGN KEY (`order_order_id`) REFERENCES `order` (`order_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -350,6 +352,7 @@ CREATE TABLE `payment` (
 
 LOCK TABLES `payment` WRITE;
 /*!40000 ALTER TABLE `payment` DISABLE KEYS */;
+INSERT INTO `payment` VALUES (1,'2018-04-28 15:02:08',350,'credit',' ',26);
 /*!40000 ALTER TABLE `payment` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -362,4 +365,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-27 17:22:54
+-- Dump completed on 2018-04-28 15:15:50
