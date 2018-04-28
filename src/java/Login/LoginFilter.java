@@ -25,7 +25,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Chronical
  */
-@WebFilter(filterName = "LoginFilter", urlPatterns = {"/login_comp.jsp"})
+@WebFilter(filterName = "LoginFilter", urlPatterns = {"/login_comp.jsp","/edit_profile.jsp","/profile.jsp"})
 public class LoginFilter implements Filter {
     
     private static final boolean debug = true;
