@@ -1,4 +1,4 @@
-/*
+﻿/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -29,6 +29,9 @@ import javax.sql.DataSource;
  */
 @WebServlet(name = "OrderDetail", urlPatterns = {"/admin/OrderDetail"})
 public class OrderDetail extends HttpServlet {
+
+    @Resource(name = "test2")
+    private DataSource test2;
 
     @Resource(name = "project")
     private DataSource project;
@@ -89,28 +92,28 @@ public class OrderDetail extends HttpServlet {
                 name.setString(1, rs_ot.getString("acc_acc_id"));
                 ResultSet rs_name = name.executeQuery();
                 rs_name.next();
-                out.println("รหัสสินค้า: " + rs_ot.getString("acc_acc_id") + " ");
-                out.println("ชื่อสินค้า: " + rs_name.getString("name") + " ");
-                out.println("จำนวน: " + rs_ot.getString("quentity") + "<br>");
+                out.println("รหัสสินค้า: "+ rs_ot.getString("acc_acc_id") + " ");
+                out.println("ชื่อสินค้า: "+ rs_name.getString("name") + " ");
+                out.println("จำนวน: "+ rs_ot.getString("quentity") + "<br>");
                 out.print(order_id);
+                
             }
-            out.print("<h1> Change Order Status</h1>");
-            out.print("<form method='POST' action='OrderChange'  ><select class=\"form-control\" name=\"status_order\">\n"
-                    + "<option>wait_verify</option>\n"
-                    + "<option>verify_pass</option>\n"
-                    + "<option>verify_not_pass\n</option>"
-                    + "<option>send\n</option>"
-                    + "<option>cancle\n</option>"
-                    + "</select><br>"
-                    //+"<input type='hidden' value='"+rs.getString(1)+"'>"
-                    + "<br><input class=\"btn btn-b btn-round\" type='submit' value='update'></form>");
-
             out.println("<form action='AddTracking'>");
-            out.println("Tracking number: <input type='text' name='number'/>");
-            out.println("<input type='hidden' value='" + order_id + "' name='order_id'>");
-            out.println("<input type='submit' value='add' name='number'");
-            out.println("</form>");
-
+                out.println("Tracking number: <input type='text' name='number'/>");
+                out.println("<input type='hidden' value='"+order_id+"' name='order_id'>");
+                out.println("<input type='submit' value='add' name='number'");
+                out.println("</form>");
+                
+                out.print("<h1> Change Order Status</h1>");
+            out.print("<form method='POST' action='OrderChange'><select name=\"status_order\">\n" +
+                "<option>wait_verify</option>\n" +
+                "<option>verify_pass</option>\n" +
+                "<option>verify_not_pass\n</option>" +
+                "<option>send\n</option>" +
+                "<option>cancle\n</option>"+
+                "</select><br>"
+                    //+"<input type='hidden' value='"+rs.getString(1)+"'>"
+                    + "<input type='submit' value='update'></form>");
         } catch (SQLException ex) {
             Logger.getLogger(OrderDetail.class.getName()).log(Level.SEVERE, null, ex);
         }
