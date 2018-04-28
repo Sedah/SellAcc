@@ -30,6 +30,9 @@ import javax.sql.DataSource;
 @WebServlet(name = "Accessory", urlPatterns = {"/admin/Accessory"})
 public class Accessory extends HttpServlet {
 
+    @Resource(name = "test2")
+    private DataSource test2;
+
     @Resource(name = "project")
     private DataSource project;
 
@@ -54,7 +57,7 @@ public class Accessory extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
             String employee_name = (String) session.getAttribute("name");
-            String sql = "select * from accessories";
+            String sql = "select accessories.*, category.`name` from accessories, category where accessories.cate_cate_id = category.cate_id";
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             ResultSetMetaData rsmd = rs.getMetaData();
@@ -159,13 +162,15 @@ public class Accessory extends HttpServlet {
                     if (count == 0) {
                         out.print("<tr>");
                         for (int i = 0; i < rsmd.getColumnCount(); i++) {
-                            if (rsmd.getColumnName(i + 1).equals("cate_cate_id")) {
-                                out.print("<td>cate_name</td>");
-                            } 
-                            else if (rsmd.getColumnName(i + 1).equals("acc_id")) {
+                            if (rsmd.getColumnName(i+1).equals("name") && i != 1)
+                                out.print("<td>cate_name</td>"); 
+                            else if (!(rsmd.getColumnName(i+1).equals("cate_cate_id")))
+                            {
+                                if (rsmd.getColumnName(i + 1).equals("acc_id")) {
                                 out.print("<td>ID</td>");
                             } else {
                                 out.print("<td> &emsp;" + rsmd.getColumnName(i + 1) + " &emsp;</td>");
+                            }
                             }
                         }
 
@@ -174,10 +179,11 @@ public class Accessory extends HttpServlet {
 
                     out.print("<tr>");
                     for (int i = 0; i < rsmd.getColumnCount(); i++) {
-                        out.print("<td> &emsp;" + rs.getString(i + 1) + " &emsp;</td>");
+                        if (!(rsmd.getColumnName(i+1).equals("cate_cate_id")))
+                            out.print("<td> &emsp;" + rs.getString(i + 1) + " &emsp;</td>");
                     }
                     out.print("<form action='AccDetail'>");
-                    out.print("<td><button class=\"btn btn-b btn-round\" type='submit' name='view' value=''>view</button></td>");
+                    out.print("<td><button type='submit' name='view' value='"+rs.getString(1)+"'>view</button></td>");
                     out.print("</form>");
                     out.print("</tr>");
                     count += 1;

@@ -9,8 +9,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,15 +24,15 @@ import javax.sql.DataSource;
  *
  * @author Administrator
  */
-@WebServlet(name = "AccDetail", urlPatterns = {"/admin/AccDetail"})
-public class AccDetail extends HttpServlet {
+@WebServlet(name = "AccEditServlet", urlPatterns = {"/admin/AccEditServlet"})
+public class AccEditServlet extends HttpServlet {
+
+    @Resource(name = "project")
+    private DataSource project;
 
     @Resource(name = "test2")
     private DataSource test2;
 
-   @Resource(name = "project")
-    private DataSource project;
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -48,56 +46,48 @@ public class AccDetail extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         Connection conn = null;
-               try {
+        try{
             conn = project.getConnection();
         } catch (SQLException ex) {
-            Logger.getLogger("connection-error").log(Level.SEVERE, null, ex);
+            Logger.getLogger(AccEditServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            int acc_id = Integer.parseInt(request.getParameter("view"));
-            out.print(acc_id);
-            String sql = "select * from accessories where acc_id = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, acc_id);
-            ResultSet detail = stmt.executeQuery();
-            ResultSetMetaData rsmd = detail.getMetaData();
-            out.print("<form method='GET' action='AccEditServlet'>");
-            while (detail.next())
+            String action = request.getParameter("action");
+            
+            if (action.equals("update"))
             {
-                for (int i=0;i<rsmd.getColumnCount();i++)
-                {
-                    out.print("<input type='hidden' name = 'acc_id' value='"+detail.getString(1)+"'/><br>");
-                    if (rsmd.getColumnName(i+1).equals("description"))
-                    {
-                        out.print("<br>"+rsmd.getColumnName(i+1)+" <br>");
-                        out.print("<textarea name='description' rows='4' cols='20'>"+detail.getString(i+1)+"</textarea>");
-                    }
-                    else if (i!=0)
-                    {
-                    out.print(rsmd.getColumnName(i+1)+": ");
-                    out.print("<input type='text' name='"+rsmd.getColumnName(i+1)+"' value='"+detail.getString(i+1)+"'/>");
-                    }
-                    
-                    
-                    out.print("<br>");
-                }
+                
+                String name = request.getParameter("name");
+            int acc_id = Integer.parseInt(request.getParameter("acc_id"));
+            String description = request.getParameter("description");
+            float price = Float.parseFloat(request.getParameter("price"));
+            String image = request.getParameter("image");
+            int cate_cate_id = Integer.parseInt(request.getParameter("cate_cate_id"));
+            String sql = "update accessories set `name` = ?, description= ?,price= ?, image= ?, cate_cate_id = ? where acc_id = ?;";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            
+            stmt.setString(1, name);
+            stmt.setString(2, description);
+            stmt.setFloat(3, price);
+            stmt.setString(4, image);
+            stmt.setInt(5, cate_cate_id);
+            stmt.setInt(6, acc_id);
+            stmt.executeUpdate();
+            
+            
+            out.print("<br><a href='Accessory'><h1>Update Complete!</h1></a>");
             }
             
-            out.print("<button type='submit' name='action' value='update'>update</button>");
-            //out.print("<input type='submit' name = 'action' value='update'>");
-            //out.print("<input type='submit' name = 'action' value='delete'>");
-            out.print("</form>");
-            
-           
         } catch (SQLException ex) {
-            Logger.getLogger(AccDetail.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AccEditServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if(conn != null){
-            try {
+        if (conn != null)
+        {
+            try{
                 conn.close();
             } catch (SQLException ex) {
-                Logger.getLogger("connection-close").log(Level.SEVERE, null, ex);
+                Logger.getLogger(AccEditServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

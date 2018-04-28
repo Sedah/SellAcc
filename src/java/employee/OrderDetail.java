@@ -92,6 +92,7 @@ public class OrderDetail extends HttpServlet {
                 out.println("รหัสสินค้า: " + rs_ot.getString("acc_acc_id") + " ");
                 out.println("ชื่อสินค้า: " + rs_name.getString("name") + " ");
                 out.println("จำนวน: " + rs_ot.getString("quentity") + "<br>");
+                out.print(order_id);
             }
             out.print("<h1> Change Order Status</h1>");
             out.print("<form method='POST' action='OrderChange'  ><select class=\"form-control\" name=\"status_order\">\n"
@@ -103,6 +104,13 @@ public class OrderDetail extends HttpServlet {
                     + "</select><br>"
                     //+"<input type='hidden' value='"+rs.getString(1)+"'>"
                     + "<br><input class=\"btn btn-b btn-round\" type='submit' value='update'></form>");
+
+            out.println("<form action='AddTracking'>");
+            out.println("Tracking number: <input type='text' name='number'/>");
+            out.println("<input type='hidden' value='" + order_id + "' name='order_id'>");
+            out.println("<input type='submit' value='add' name='number'");
+            out.println("</form>");
+
         } catch (SQLException ex) {
             Logger.getLogger(OrderDetail.class.getName()).log(Level.SEVERE, null, ex);
         }
