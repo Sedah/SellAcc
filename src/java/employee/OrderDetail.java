@@ -134,6 +134,7 @@ public class OrderDetail extends HttpServlet {
                     + "                                <li class=\"active\"><a href=\"CategoryCheck\">Category</a></li>\n"
                     + "\n"
                     + "                                <li class=\"active\"><a href=\"UpdateStock\">Add Product</a></li>\n"
+                    + "<li class=\"active\"><a href=\"EmployeeRegister.jsp\">Add Employee</a></li>>"
                     + "                                <li class=\"active\"><a href=\"EmLogoutServlet\">Logout</a></li>"
                     + "                                <li class=\"active\"><a href=\"Accessory\">Hi! " + employee_name + "</a></li>"
             );
@@ -184,7 +185,7 @@ public class OrderDetail extends HttpServlet {
             }
             out.print("<br><hr class=\"divider-w mb-10\">\n");
             out.print("<h2> Change Order Status</h2>");
-            
+
             out.print("<form method='POST' action='OrderChange' style=\"width:50%\"  ><select class=\"form-control\" name=\"status_order\">\n"
                     + "<option>wait_verify</option>\n"
                     + "<option>verify_pass</option>\n"
@@ -195,19 +196,19 @@ public class OrderDetail extends HttpServlet {
                     //+"<input type='hidden' value='"+rs.getString(1)+"'>"
                     + "<br><input class=\"btn btn-b btn-round\" type='submit' value='update'></form>");
 
-                    out.print("<hr class=\"divider-w mb-10\">\n");
-                    out.print("<h2>Shipping Information</h2>");
+            out.print("<hr class=\"divider-w mb-10\">\n");
+            out.print("<h2>Shipping Information</h2>");
             String check = "select * from deliverie where order_order_id = ?";
             PreparedStatement chk = conn.prepareStatement(check);
             chk.setString(1, order_id);
             ResultSet rs_chk = chk.executeQuery();
             if (rs_chk.next() == false) {
-                
-                out.println("<form action='AddTracking'>"); 
+
+                out.println("<form action='AddTracking'>");
                 out.println("Type: <input class=\"form-control\"type='text' name='type' style=\"width:50%\" placeholder=\"EMS / Register\"/>");
                 out.println("Tracking number: <input class=\"form-control\" type='text' name='number' style=\"width:50%\" placeholder=\"No.\"/>");
                 out.println("Send date: <input class=\"form-control\" type='text' name='date' style=\"width:50%\" placeholder=\"YYYY-MM-DD\"/>");
-         
+
                 out.println("<input type='hidden' value='" + order_id + "' name='order_id'>");
                 out.println("<br><input class=\"btn btn-b btn-round\" type='submit' value='Submit' name='number'");
                 out.println("</form>");
@@ -217,28 +218,28 @@ public class OrderDetail extends HttpServlet {
                 out.println("Send Date " + rs_chk.getDate("send_date"));
             }
 
-        out.print("</div>\n" +
-"            </div>\n" +
-"          </div>\n" +
-"        </section>");
-                out.print("</div>");
-                out.print("</main>");
-                out.print("</table>");
-                out.print(" <script src=\"assets/lib/jquery/dist/jquery.js\"></script>\n"
-                        + "    <script src=\"assets/lib/bootstrap/dist/js/bootstrap.min.js\"></script>\n"
-                        + "    <script src=\"assets/lib/wow/dist/wow.js\"></script>\n"
-                        + "    <script src=\"assets/lib/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.js\"></script>\n"
-                        + "    <script src=\"assets/lib/isotope/dist/isotope.pkgd.js\"></script>\n"
-                        + "    <script src=\"assets/lib/imagesloaded/imagesloaded.pkgd.js\"></script>\n"
-                        + "    <script src=\"assets/lib/flexslider/jquery.flexslider.js\"></script>\n"
-                        + "    <script src=\"assets/lib/owl.carousel/dist/owl.carousel.min.js\"></script>\n"
-                        + "    <script src=\"assets/lib/smoothscroll.js\"></script>\n"
-                        + "    <script src=\"assets/lib/magnific-popup/dist/jquery.magnific-popup.js\"></script>\n"
-                        + "    <script src=\"assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js\"></script>\n"
-                        + "    <script src=\"assets/js/plugins.js\"></script>\n"
-                        + "    <script src=\"assets/js/main.js\"></script>\n"
-                        + "  </body>\n"
-                        + "</html>");
+            out.print("</div>\n"
+                    + "            </div>\n"
+                    + "          </div>\n"
+                    + "        </section>");
+            out.print("</div>");
+            out.print("</main>");
+            out.print("</table>");
+            out.print(" <script src=\"assets/lib/jquery/dist/jquery.js\"></script>\n"
+                    + "    <script src=\"assets/lib/bootstrap/dist/js/bootstrap.min.js\"></script>\n"
+                    + "    <script src=\"assets/lib/wow/dist/wow.js\"></script>\n"
+                    + "    <script src=\"assets/lib/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.js\"></script>\n"
+                    + "    <script src=\"assets/lib/isotope/dist/isotope.pkgd.js\"></script>\n"
+                    + "    <script src=\"assets/lib/imagesloaded/imagesloaded.pkgd.js\"></script>\n"
+                    + "    <script src=\"assets/lib/flexslider/jquery.flexslider.js\"></script>\n"
+                    + "    <script src=\"assets/lib/owl.carousel/dist/owl.carousel.min.js\"></script>\n"
+                    + "    <script src=\"assets/lib/smoothscroll.js\"></script>\n"
+                    + "    <script src=\"assets/lib/magnific-popup/dist/jquery.magnific-popup.js\"></script>\n"
+                    + "    <script src=\"assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js\"></script>\n"
+                    + "    <script src=\"assets/js/plugins.js\"></script>\n"
+                    + "    <script src=\"assets/js/main.js\"></script>\n"
+                    + "  </body>\n"
+                    + "</html>");
         } catch (SQLException ex) {
             Logger.getLogger(OrderDetail.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -29,7 +29,7 @@ import javax.sql.DataSource;
  */
 @WebServlet(name = "CategoryCheck", urlPatterns = {"/admin/CategoryCheck"})
 public class CategoryCheck extends HttpServlet {
-    
+
     @Resource(name = "project")
     private DataSource project;
 
@@ -58,9 +58,9 @@ public class CategoryCheck extends HttpServlet {
             ResultSet rs = stmt.executeQuery();
             ResultSetMetaData rsmd = rs.getMetaData();
             int count = 0;
-            
+
             if (employee_name != null) {
-                
+
                 out.print("<html lang=\"en-US\" dir=\"ltr\">\n"
                         + "  <head>\n"
                         + "    <meta charset=\"utf-8\">\n"
@@ -133,8 +133,10 @@ public class CategoryCheck extends HttpServlet {
                         + "                                <li class=\"active\"><a href=\"Accessory\">In-stock</a></li>\n"
                         + "                                <li class=\"active\"><a href=\"OrderCheck\">Order</a></li>\n"
                         + "                                <li class=\"active\"><a href=\"CategoryCheck\">Category</a></li>\n"
+
                         + "\n"
                         + "                                <li class=\"active\"><a href=\"UpdateStock\">Add Product</a></li>\n"
+                                                + "<li class=\"active\"><a href=\"EmployeeRegister.jsp\">Add Employee</a></li>>"
                         + "                                <li class=\"active\"><a href=\"EmLogoutServlet\">Logout</a></li>"
                         + "                                <li class=\"active\"><a href=\"Accessory\">Hi! " + employee_name + "</a></li>"
                 );
@@ -150,7 +152,7 @@ public class CategoryCheck extends HttpServlet {
                         + "              <div class=\"col-xs-6\">\n"
                         + "                <h4 class=\"font-alt\">Category</h4>\n"
                         + "                <hr class=\"divider-w mb-10\">\n");
-                
+
                 out.print("<form action='AddCateServlet'>");
                 out.print("<input class=\"form-control\" type='text' name='cate' placeholder=\"Category Name\">");
                 out.print("<BR><input class=\"btn btn-b btn-round\" type='submit' value='Add new Category'</form><br><br>");

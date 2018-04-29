@@ -31,7 +31,6 @@ import javax.sql.DataSource;
 @WebServlet(name = "Accessory", urlPatterns = {"/admin/Accessory"})
 public class Accessory extends HttpServlet {
 
-
     @Resource(name = "project")
     private DataSource project;
 
@@ -62,7 +61,7 @@ public class Accessory extends HttpServlet {
             ResultSetMetaData rsmd = rs.getMetaData();
 
             if (employee_name != null) {
-                
+
                 int count = 0;
                 out.print("<html lang=\"en-US\" dir=\"ltr\">\n"
                         + "  <head>\n"
@@ -138,10 +137,11 @@ public class Accessory extends HttpServlet {
                         + "                                <li class=\"active\"><a href=\"CategoryCheck\">Category</a></li>\n"
                         + "\n"
                         + "                                <li class=\"active\"><a href=\"UpdateStock\">Add Product</a></li>\n"
+                        + "<li class=\"active\"><a href=\"EmployeeRegister.jsp\">Add Employee</a></li>>"
                         + "                                <li class=\"active\"><a href=\"EmLogoutServlet\">Logout</a></li>"
-                        + "                                <li class=\"active\"><a href=\"Accessory\">Hi! "+employee_name+"</a></li>"
-                        );
-                out.print( "</ul>\n"
+                        + "                                <li class=\"active\"><a href=\"Accessory\">Hi! " + employee_name + "</a></li>"
+                );
+                out.print("</ul>\n"
                         + "                        </div>\n"
                         + "                    </div>\n"
                         + "                </nav>");
@@ -154,22 +154,20 @@ public class Accessory extends HttpServlet {
                         + "                <h4 class=\"font-alt\">In Stock</h4>\n"
                         + "                <hr class=\"divider-w mb-10\">\n");
 
-
                 out.print("<table border = '1' class=\"table table-striped table-border checkout-table\">");
 
                 while (rs.next()) {
                     if (count == 0) {
                         out.print("<tr>");
                         for (int i = 0; i < rsmd.getColumnCount(); i++) {
-                            if (rsmd.getColumnName(i+1).equals("name") && i != 1)
-                                out.print("<td>cate_name</td>"); 
-                            else if (!(rsmd.getColumnName(i+1).equals("cate_cate_id")))
-                            {
+                            if (rsmd.getColumnName(i + 1).equals("name") && i != 1) {
+                                out.print("<td>cate_name</td>");
+                            } else if (!(rsmd.getColumnName(i + 1).equals("cate_cate_id"))) {
                                 if (rsmd.getColumnName(i + 1).equals("acc_id")) {
-                                out.print("<td>ID</td>");
-                            } else {
-                                out.print("<td> &emsp;" + rsmd.getColumnName(i + 1) + " &emsp;</td>");
-                            }
+                                    out.print("<td>ID</td>");
+                                } else {
+                                    out.print("<td> &emsp;" + rsmd.getColumnName(i + 1) + " &emsp;</td>");
+                                }
                             }
                         }
 
@@ -178,19 +176,20 @@ public class Accessory extends HttpServlet {
 
                     out.print("<tr>");
                     for (int i = 0; i < rsmd.getColumnCount(); i++) {
-                        if (!(rsmd.getColumnName(i+1).equals("cate_cate_id")))
+                        if (!(rsmd.getColumnName(i + 1).equals("cate_cate_id"))) {
                             out.print("<td> &emsp;" + rs.getString(i + 1) + " &emsp;</td>");
+                        }
                     }
                     out.print("<form action='AccDetail'>");
-                    out.print("<td><button class=\"btn btn-b btn-round\" type='submit' name='view' value='"+rs.getString(1)+"'>view</button></td>");
+                    out.print("<td><button class=\"btn btn-b btn-round\" type='submit' name='view' value='" + rs.getString(1) + "'>view</button></td>");
                     out.print("</form>");
                     out.print("</tr>");
                     count += 1;
                 }
-                out.print("</div>\n" +
-"            </div>\n" +
-"          </div>\n" +
-"        </section>");
+                out.print("</div>\n"
+                        + "            </div>\n"
+                        + "          </div>\n"
+                        + "        </section>");
                 out.print("</div>");
                 out.print("</main>");
                 out.print("</table>");
@@ -207,7 +206,7 @@ public class Accessory extends HttpServlet {
                         + "    <script src=\"assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js\"></script>\n"
                         + "    <script src=\"assets/js/plugins.js\"></script>\n"
                         + "    <script src=\"assets/js/main.js\"></script>\n"
-                        );
+                );
             } else {
                 out.print("<alert>Please login</alert>");
                 RequestDispatcher rp = request.getRequestDispatcher("EmployeesLogin.html");

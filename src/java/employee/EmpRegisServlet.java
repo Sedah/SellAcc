@@ -64,8 +64,8 @@ public class EmpRegisServlet extends HttpServlet {
             stmt.setString(4, password);
             stmt.setString(5, position);
             stmt.executeUpdate();
-            out.print("<h1>Complete</h1>");
-            out.print("<a href='EmployeeLogin.html'> Login here </a>");
+            out.print("<aleart>Add new employee Complete<alert>");
+            response.sendRedirect("Accessory");
             
             
             

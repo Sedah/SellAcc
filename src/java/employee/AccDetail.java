@@ -138,6 +138,7 @@ public class AccDetail extends HttpServlet {
                         + "                                <li class=\"active\"><a href=\"CategoryCheck\">Category</a></li>\n"
                         + "\n"
                         + "                                <li class=\"active\"><a href=\"UpdateStock\">Add Product</a></li>\n"
+                        +                                   "<li class=\"active\"><a href=\"EmployeeRegister.jsp\">Add Employee</a></li>>"
                         + "                                <li class=\"active\"><a href=\"EmLogoutServlet\">Logout</a></li>"
                         + "                                <li class=\"active\"><a href=\"Accessory\">Hi! "+employee_name+"</a></li>"
                         );
