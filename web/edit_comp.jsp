@@ -137,7 +137,7 @@
                             <div class="col-sm-5 col-sm-offset-1 mb-sm-40">
                                 <h4 class="font-alt">Address</h4>
                                 <hr class="divider-w mb-10">
-                                <form class="form" action="/SellAcc/edit_profile.jsp" method="POST">
+                                <form class="form" action="/SellAcc/showprofile" method="POST">
                                     <H1>Add new Address Success</H1>
                                     <div class="form-group">
                                         <button class="btn btn-block btn-round btn-b" type="submit" value="regis">BACK</button>

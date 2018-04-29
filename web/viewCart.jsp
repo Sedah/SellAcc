@@ -169,7 +169,9 @@
                                 <div class="form-group">
                                     <c:if test="${sessionScope.username != null}">
                                     <input class="form-control" type="text" id="" name="use_point" placeholder="Discount Point"/>
+     
                                     <h4>Get Point ${cart.point}</h4>
+                                    
                                     </c:if>
                                 </div>
                             </div>
