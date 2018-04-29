@@ -206,7 +206,7 @@ public class OrderDetail extends HttpServlet {
 
                 out.println("<form action='AddTracking'>");
                 out.println("Type: <input class=\"form-control\"type='text' name='type' style=\"width:50%\" placeholder=\"EMS / Register\"/>");
-                out.println("Tracking number: <input class=\"form-control\" type='text' name='number' style=\"width:50%\" placeholder=\"No.\"/>");
+                out.println("Tracking number: <input class=\"form-control\" maxlength="13" type='text' name='number' style=\"width:50%\" placeholder=\"No.\"/>");
                 out.println("Send date: <input class=\"form-control\" type='text' name='date' style=\"width:50%\" placeholder=\"YYYY-MM-DD\"/>");
 
                 out.println("<input type='hidden' value='" + order_id + "' name='order_id'>");
