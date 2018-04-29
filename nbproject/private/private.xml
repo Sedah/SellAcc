@@ -3,30 +3,40 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/src/java/employee/EmpRegisServlet.java</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/profile.jsp</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/login_register.jsp</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/edit_profile.jsp</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/src/java/Login/loginServlet.java</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/src/java/employee/EmLogoutServlet.java</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/pay_comp.jsp</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/payment.jsp</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/non_order.jsp</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/login_comp.jsp</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/regis_comp.html</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/META-INF/context.xml</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/orderdetail.jsp</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/src/java/employee/EmLoginServlet.java</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/viewCart.jsp</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/viewacc.jsp</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/index.html</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/addAddress.jsp</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/selectview.jsp</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/register_comp.jsp</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/EmployeeLogin.jsp</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/EmployeeRegister.jsp</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/mem_order.jsp</file>
-            <file>file:/C:/Users/USER/Desktop/New%20folder%20(2)/New%20folder/SellAcc-master/web/edit_comp.jsp</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/src/java/employee/PaymentCheck.java</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/web/profile.jsp</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/src/java/employee/AccDetail.java</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/src/java/employee/AddCateServlet.java</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/web/mem_order.jsp</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/src/java/employee/AddTracking.java</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/src/java/employee/EditServlet.java</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/src/java/employee/OrderCheck.java</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/src/java/employee/UpdateStock.java</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/web/payment.jsp</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/src/java/employee/AccEditServlet.java</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/web/viewCart.jsp</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/web/selectview.jsp</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/web/edit_profile.jsp</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/src/java/employee/EmpRegisServlet.java</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/src/java/employee/Accessory.java</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/src/java/employee/OrderChange.java</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/src/java/employee/LogServlet.java</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/web/admin/EmployeeRegister.jsp</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/web/addAddress.jsp</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/src/java/employee/UpdateServlet.java</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/web/login_comp.jsp</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/web/EmployeeLogin.jsp</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/web/edit_comp.jsp</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/web/pay_comp.jsp</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/src/java/employee/EmLoginServlet.java</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/src/java/employee/EmLogoutServlet.java</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/web/viewacc.jsp</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/src/java/employee/CategoryCheck.java</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/web/login_register.jsp</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/web/orderdetail.jsp</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/src/java/Login/LoginFilter.java</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/src/java/employee/OrderDetail.java</file>
+            <file>file:/C:/Users/USER/Documents/GitHub/SellAcc/web/index.html</file>
         </group>
     </open-files>
 </project-private>

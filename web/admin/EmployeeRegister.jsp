@@ -99,7 +99,7 @@ and open the template in the editor.
                                             Password: <input class="form-control" type="password" name="password"><br>
                                             Employee ID: <input class="form-control" type="text" name="emp_id"><br>
                                             Position: <input class="form-control" type="text" name="position"><br>
-                                            <input class="btn btn-round btn-b" type="submit" name="confirm">
+                                            <input class="btn btn-round btn-b" onClick="myFunction()"type="submit" name="confirm">
 
                                         </form>
                                        
@@ -160,7 +160,14 @@ and open the template in the editor.
                     <div class="scroll-up"><a href="#totop"><i class="fa fa-angle-double-up"></i></a></div>
                     </div>
                     <div class="scroll-up"><a href="#totop"><i class="fa fa-angle-double-up"></i></a></div>
-                </main> 
+                </main>
+                                   <script>
+                                     <script>
+                    function myFunction() {
+                        alert("New Employee has been added");\n
+                    }
+                   </script>
+                </script>"
                 <script src="assets/lib/jquery/dist/jquery.js"></script>
                 <script src="assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
                 <script src="assets/lib/wow/dist/wow.js"></script>

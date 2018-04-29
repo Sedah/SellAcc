@@ -74,7 +74,7 @@ public class AccEditServlet extends HttpServlet {
             stmt.executeUpdate();
             
             
-            out.print("<br><a href='Accessory'><h1>Update Complete!</h1></a>");
+            response.sendRedirect("AccDetail");
             }
             
         } catch (SQLException ex) {

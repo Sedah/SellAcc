@@ -194,7 +194,7 @@ public class OrderDetail extends HttpServlet {
                     + "<option>cancle\n</option>"
                     + "</select>"
                     //+"<input type='hidden' value='"+rs.getString(1)+"'>"
-                    + "<br><input class=\"btn btn-b btn-round\" type='submit' value='update'></form>");
+                    + "<br><input class=\"btn btn-b btn-round\" onClick=\"myFunction()\" type='submit' value='update'></form>");
 
             out.print("<hr class=\"divider-w mb-10\">\n");
             out.print("<h2>Shipping Information</h2>");
@@ -210,7 +210,7 @@ public class OrderDetail extends HttpServlet {
                 out.println("Send date: <input class=\"form-control\" type='text' name='date' style=\"width:50%\" placeholder=\"YYYY-MM-DD\"/>");
 
                 out.println("<input type='hidden' value='" + order_id + "' name='order_id'>");
-                out.println("<br><input class=\"btn btn-b btn-round\" type='submit' value='Submit' name='number'");
+                out.println("<br><input class=\"btn btn-b btn-round\" onClick=\"myFunction()\" type='submit' value='Submit' name='number'");
                 out.println("</form>");
             } else {
                 out.println("Type: " + rs_chk.getString("type") + "<br>");
@@ -238,6 +238,11 @@ public class OrderDetail extends HttpServlet {
                     + "    <script src=\"assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js\"></script>\n"
                     + "    <script src=\"assets/js/plugins.js\"></script>\n"
                     + "    <script src=\"assets/js/main.js\"></script>\n"
+                    + "<script>\n"
+                    + "function myFunction() {\n"
+                    + "    alert(\"Order status updated!\");\n"
+                    + "}\n"
+                    + "</script>"
                     + "  </body>\n"
                     + "</html>");
         } catch (SQLException ex) {
