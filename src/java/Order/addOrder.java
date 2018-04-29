@@ -64,6 +64,11 @@ public class addOrder extends HttpServlet {
             double total = cart.getTotal();
             int point = (int) cart.getPoint();
 
+            if (cart == null) {
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/AccServlet");
+                rd.forward(request, response);
+                return;
+            }
             //get cus_id for mem and non and insert in order
             String username = (String) session.getAttribute("username");
             if (username != null) {
@@ -228,7 +233,7 @@ public class addOrder extends HttpServlet {
                             + "(buy_date, total_price, cus_cus_id, address) VALUES"
                             + "(?, ?, ?, ?)";
 
-                    PreparedStatement i = conn.prepareStatement(insert_order,PreparedStatement.RETURN_GENERATED_KEYS);
+                    PreparedStatement i = conn.prepareStatement(insert_order, PreparedStatement.RETURN_GENERATED_KEYS);
                     Timestamp date = new Timestamp(System.currentTimeMillis());
                     i.setTimestamp(1, date);
                     i.setDouble(2, total);
