@@ -24,7 +24,7 @@ import javax.sql.DataSource;
  *
  * @author Administrator
  */
-@WebServlet(name = "EmpRegisServlet", urlPatterns = {"/EmpRegisServlet"})
+@WebServlet(name = "EmpRegisServlet", urlPatterns = {"/admin/EmpRegisServlet"})
 public class EmpRegisServlet extends HttpServlet {
 
     @Resource(name = "project")
@@ -50,21 +50,19 @@ public class EmpRegisServlet extends HttpServlet {
             }
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            int emp_id = Integer.parseInt(request.getParameter("emp_id"));
             String name = request.getParameter("firstname");
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             String position = request.getParameter("position");
-            String sql = "insert into employee (emp_id, `name`, username, password, `position`) value (?,?,?,?,?)";
+            String sql = "insert into employee (`name`, username, password, `position`) value (?,?,?,?)";
             
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, emp_id);
-            stmt.setString(2, name);
-            stmt.setString(3, username);
-            stmt.setString(4, password);
-            stmt.setString(5, position);
+            stmt.setString(1, name);
+            stmt.setString(2, username);
+            stmt.setString(3, password);
+            stmt.setString(4, position);
             stmt.executeUpdate();
-            out.print("<aleart>Add new employee Complete<alert>");
+
             response.sendRedirect("Accessory");
             
             

@@ -97,7 +97,6 @@ and open the template in the editor.
                                             First Name: <input class="form-control" type="text" name="firstname"><br>
                                             Username: <input class="form-control" type="text" name="username"><br>
                                             Password: <input class="form-control" type="password" name="password"><br>
-                                            Employee ID: <input class="form-control" type="text" name="emp_id"><br>
                                             Position: <input class="form-control" type="text" name="position"><br>
                                             <input class="btn btn-round btn-b" onClick="myFunction()"type="submit" name="confirm">
 

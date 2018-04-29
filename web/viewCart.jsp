@@ -205,15 +205,15 @@
                     </div>
                     </form>
                     <c:if test="${e_point == 1}">
-                        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                        <script src="assets/js/sweetalert.min.js"></script>
                         <script>swal("You didn't have enough point");</script>  
                     </c:if>
                     <c:if test="${e_point == 2}">
-                        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                        <script src="assets/js/sweetalert.min.js"></script>
                         <script>swal("Point can't be negative number");</script>  
                     </c:if>
                     <c:if test="${e_point == 3}">
-                        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                        <script src="assets/js/sweetalert.min.js"></script>
                         <script>swal("Total price can't be negative number please enter use point same amount with total price");</script>  
                     </c:if>
                 </section>

@@ -171,11 +171,11 @@
                                     </div>
                             </form>
                             <c:if test="${payment == 1}">
-                                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                                <script src="assets/js/sweetalert.min.js"></script>
                                 <script>swal("ไม่พบเลข order id นี้ โปรดตรวจสอบหมายเลขและกรอกใหม่อีกครั้ง");</script>  
                             </c:if>
                             <c:if test="${payment == 1}">
-                                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                                <script src="assets/js/sweetalert.min.js"></script>
                                 <script>swal("โปรดกรอกวันและเวลาให้ถูกต้องตามตัวอย่าง");</script>  
                             </c:if>
                         </div>

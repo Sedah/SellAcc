@@ -79,13 +79,13 @@ public class registerServlet extends HttpServlet {
             if (user_rs.next() == true) {
                 int fail = 1;
                 request.setAttribute("flag", fail);
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/register.jsp");
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/login_register.jsp");
                 rd.forward(request, response);
                 return;
             } else if (email_rs.next()) {
                 int fail = 1;
                 request.setAttribute("flag", fail);
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/register.jsp");
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/login_register.jsp");
                 rd.forward(request, response);
                 return;
             }

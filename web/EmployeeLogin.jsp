@@ -92,7 +92,7 @@
 
                                 </form>
                                 <c:if test="${loginflagem == false}">
-                                    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                                    <script src="assets/js/sweetalert.min.js"></script>
                                     <script>swal("Username or Password Incorrect");</script>  
                                 </c:if>
                             </div>

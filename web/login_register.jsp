@@ -147,7 +147,7 @@
 
                                 </form>
                                 <c:if test="${loginflag == false}">
-                                    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                                    <script src="assets/js/sweetalert.min.js"></script>
                                     <script>swal("Username or Password Incorrect");</script>  
                                 </c:if>
                             </div>
@@ -193,7 +193,7 @@
                                     </div>
                                 </form>
                                 <c:if test="${flag == 1}">
-                                    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                                    <script src="assets/js/sweetalert.min.js"></script>
                                     <script>swal("Username or Email has already used");</script>  
                                 </c:if>
                             </div>

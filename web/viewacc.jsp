@@ -186,11 +186,11 @@
 
 
                                 <c:if test="${param.value == 1}">
-                                    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                                    <script src="assets/js/sweetalert.min.js"></script>
                                     <script>swal("Comment Complete");</script>  
                                 </c:if>
                                 <c:if test="${param.value == 0}">
-                                    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                                    <script src="assets/js/sweetalert.min.js"></script>
                                     <script>swal("You can not comment. Please make an order before making a comment.");</script>  
                                 </c:if>
                             </div>

@@ -186,7 +186,7 @@
                                 </table>
                                 <a href="addAddress.jsp">Add new address</a>
                                 <c:if test="${password == 1}">
-                                    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                                    <script src="assets/js/sweetalert.min.js"></script>
                                     <script>swal("Password incorrect");</script>  
                                 </c:if>
 
