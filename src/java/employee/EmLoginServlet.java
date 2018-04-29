@@ -62,14 +62,14 @@ public class EmLoginServlet extends HttpServlet {
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
             HttpSession session = request.getSession();
-            session.setAttribute("loginflagem", loginflagem);
+            
             if (rs.next() == true) {
                 loginflagem = true;
-
             }
             if (loginflagem == true) {
                 session.setAttribute("name", rs.getString("name"));
                 session.setAttribute("employee_id", rs.getString("emp_id"));
+                session.setAttribute("loginflagem", loginflagem);
                 response.sendRedirect("admin/Accessory");
             } else {
                 response.sendRedirect("EmployeeLogin.jsp");

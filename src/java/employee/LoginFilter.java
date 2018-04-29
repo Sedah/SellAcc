@@ -12,17 +12,21 @@ import java.io.StringWriter;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Administrator
+ * @author Chronical
  */
-@WebFilter(filterName = "Login", urlPatterns = {"/*"})
-public class Login implements Filter {
+@WebFilter(filterName = "NewFilter", urlPatterns = {"/admin/*","/EditServlet"})
+public class LoginFilter implements Filter {
     
     private static final boolean debug = true;
 
@@ -31,13 +35,13 @@ public class Login implements Filter {
     // configured. 
     private FilterConfig filterConfig = null;
     
-    public Login() {
+    public LoginFilter() {
     }    
     
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("Login:DoBeforeProcessing");
+            log("NewFilter:DoBeforeProcessing");
         }
 
         // Write code here to process the request and/or response before
@@ -65,7 +69,7 @@ public class Login implements Filter {
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("Login:DoAfterProcessing");
+            log("NewFilter:DoAfterProcessing");
         }
 
         // Write code here to process the request and/or response after
@@ -101,11 +105,25 @@ public class Login implements Filter {
             throws IOException, ServletException {
         
         if (debug) {
-            log("Login:doFilter()");
+            log("NewFilter:doFilter()");
         }
         
         doBeforeProcessing(request, response);
-        
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpSession session = req.getSession();
+        Boolean flag = (Boolean) session.getAttribute("loginflagem");
+        boolean loginflagem;
+        if (flag == null){
+            loginflagem = false;
+        } else {
+            loginflagem = flag;
+        }
+        log(loginflagem+":"+flag);
+        if (!loginflagem) {
+            HttpServletResponse res = (HttpServletResponse) response;
+            res.sendRedirect("/SellAcc/EmployeeLogin.jsp");
+            return;
+        }
         Throwable problem = null;
         try {
             chain.doFilter(request, response);
@@ -161,7 +179,7 @@ public class Login implements Filter {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
             if (debug) {                
-                log("Login:Initializing filter");
+                log("NewFilter:Initializing filter");
             }
         }
     }
@@ -172,9 +190,9 @@ public class Login implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("Login()");
+            return ("NewFilter()");
         }
-        StringBuffer sb = new StringBuffer("Login(");
+        StringBuffer sb = new StringBuffer("NewFilter(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());
