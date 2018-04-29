@@ -90,7 +90,7 @@ and open the template in the editor.
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm-5 col-sm-offset-1 mb-sm-40">
-                                        <h4 class="font-alt">Login</h4>
+                                        <h4 class="font-alt">Employee Register</h4>
                                         <hr class="divider-w mb-10">
                                         <form method="POST" action="EmpRegisServlet">
 

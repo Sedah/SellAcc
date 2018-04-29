@@ -87,7 +87,7 @@
                                         <input class="form-control" id="password" type="password" name="password" placeholder="Password"/>
                                     </div>
                                     <div class="form-group">
-                                        <button class="btn btn-round btn-b">Login</button>
+                                        <button class="btn btn-round btn-b">Login</button> &emsp; or &emsp; <a href="EmployeeRegister.jsp">Register</a>
                                     </div>
 
                                 </form>
