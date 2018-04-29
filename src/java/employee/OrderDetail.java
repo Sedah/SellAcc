@@ -210,7 +210,7 @@ public class OrderDetail extends HttpServlet {
                 out.println("Send date: <input class=\"form-control\" type='text' name='date' style=\"width:50%\" placeholder=\"YYYY-MM-DD\"/>");
 
                 out.println("<input type='hidden' value='" + order_id + "' name='order_id'>");
-                out.println("<br><input class=\"btn btn-b btn-round\" onClick=\"myFunction()\" type='submit' value='Submit' name='number'");
+                out.println("<br><input class=\"btn btn-b btn-round\" onClick=\"myFunction()\" type='submit' value='Submit' name='number'>");
                 out.println("</form>");
             } else {
                 out.println("Type: " + rs_chk.getString("type") + "<br>");
